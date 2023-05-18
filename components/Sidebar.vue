@@ -12,8 +12,8 @@ import {
 </script>
 
 <template>
-  <aside>
-    <div class="flex space-x-2 items-center p-3">
+  <aside class="sticky top-0 w-[16rem] p-3 h-full">
+    <div class="flex space-x-2 items-center">
       <Bars3Icon class="w-6" />
       <img
         src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r5.png"

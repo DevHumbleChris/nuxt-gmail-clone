@@ -1,5 +1,6 @@
 <template>
-    <main class="p-3">
+    <main class="flex">
         <Sidebar />
+        <Container />
     </main>
 </template>

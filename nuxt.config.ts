@@ -6,12 +6,13 @@ export default defineNuxtConfig({
   ],
   devtools: true,
   tailwindcss: {
-    cssPath: '~/assets/css/tailwind.css'
-  },
-  googleFonts: {
-    families: {
-      Roboto: true,
-      'Josefin+Sans': true,
+    cssPath: '~/assets/css/tailwind.css',
+    config: {
+      plugins: [
+        require('@tailwindcss/forms'),
+        require('@tailwindcss/aspect-ratio'),
+        require('@tailwindcss/typography')
+      ]
     }
   }
 })
