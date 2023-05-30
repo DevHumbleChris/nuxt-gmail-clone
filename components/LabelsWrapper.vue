@@ -38,4 +38,5 @@ import { InboxIcon } from "@heroicons/vue/24/outline";
       </svg>
       <p>Social</p>
     </div>
-</div></template>
+  </div>
+</template>

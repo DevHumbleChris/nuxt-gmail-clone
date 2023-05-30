@@ -17,7 +17,7 @@ import {
       <MagnifyingGlassIcon class="w-6" />
       <input
         type="text"
-        class="w-full bg-transparent border-0 outline-none"
+        class="w-full bg-transparent border-0 outline-none focus:ring-0"
         placeholder="Search mail"
       />
       <AdjustmentsHorizontalIcon class="w-6" />
