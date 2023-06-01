@@ -1,6 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ["@nuxtjs/tailwindcss", "@nuxt/devtools", "nuxt-icon"],
+  modules: [
+    "@nuxtjs/tailwindcss",
+    "@nuxt/devtools",
+    "nuxt-icon",
+    "nuxt-appwrite",
+    "@pinia/nuxt"
+  ],
   devtools: true,
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',
@@ -11,5 +17,9 @@ export default defineNuxtConfig({
         require('@tailwindcss/typography')
       ]
     }
+  },
+  appwrite: {
+    endpoint: process.env.APPWRITE_ENDPOINT,
+    project: process.env.APPWRITE_PROJECT_ID
   }
 })
