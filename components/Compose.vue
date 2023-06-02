@@ -2,7 +2,7 @@
 const isMinimize = useState("isMinize", () => false);
 const isMaximize = useState("isMaximize", () => true);
 const isFullWidth = useState("isFullWidth", () => false);
-const isComposingMail = useState('isComposingMail', () => true)
+const isComposingMail = useState('isComposingMail', () => false)
 
 const maximize = () => {
   isMaximize.value = !isMaximize.value

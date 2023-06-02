@@ -3,8 +3,6 @@
     <LabelsWrapper />
     <div>
       <Message />
-      <Message />
-      <Message />
     </div>
   </section>
 </template>

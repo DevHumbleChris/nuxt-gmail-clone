@@ -9,11 +9,11 @@ import {
 <template>
   <main class="flex">
     <Sidebar />
-    <section class="w-full p-2.5">
+    <section class="w-full p-1.5 sm:p-2.5">
       <Header />
       <div class="my-2 p-1.5 flex space-x-2">
         <div class="w-full bg-white rounded-2xl">
-          <div class="flex items-center space-x-6 p-3">
+          <div class="flex items-center justify-between p-2">
             <input type="checkbox" name="all-check" id="all-check" />
             <Icon name="material-symbols:archive-outline-rounded" class="w-5 h-auto" />
             <Icon name="ri:spam-2-line" class="w-5 h-auto" />
@@ -25,9 +25,9 @@ import {
             <Icon name="material-symbols:label-outline-rounded" class="w-5 h-auto" />
             <EllipsisVerticalIcon class="w-5" />
           </div>
-          <slot />
+          <slot/>
         </div>
-        <div class="space-y-6">
+        <div class="space-y-6 hidden md:block">
           <img
             src="https://www.gstatic.com/companion/icon_assets/calendar_2020q4_2x.png"
             class="w-8"

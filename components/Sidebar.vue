@@ -12,7 +12,7 @@ import {
 </script>
 
 <template>
-  <aside class="sticky top-0 w-[7rem] sm:w-[16rem] p-3 h-screen sm:bg-blue-700 group">
+  <aside class="sticky top-0 sm:w-[16rem] p-3 h-screen group">
     <div class="flex space-x-2 items-center">
       <Bars3Icon class="w-6" />
       <img

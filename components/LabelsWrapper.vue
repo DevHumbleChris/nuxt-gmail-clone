@@ -5,22 +5,22 @@ import { InboxIcon } from "@heroicons/vue/24/outline";
 <template>
   <div class="flex w-full justify-between">
     <div
-      class="flex w-full space-x-4 bg-[#edf3fd] p-3 items-center items-center"
+      class="flex w-full space-x-2 sm:space-x-4 bg-[#edf3fd] p-3 items-center items-center"
     >
-      <InboxIcon class="w-5" />
-      <p>Primary</p>
+      <InboxIcon class="w-5 hidden sm:block" />
+      <p class="text-sm">Primary</p>
     </div>
-    <div class="flex w-full space-x-4 p-3">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-5" viewBox="0 0 24 24">
+    <div class="flex w-full space-x-2 sm:space-x-4 p-3">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 hidden sm:block" viewBox="0 0 24 24">
         <path
           fill="currentColor"
           d="m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5Z"
         />
       </svg>
-      <p>Promotions</p>
+      <p class="text-sm">Promotions</p>
     </div>
-    <div class="flex w-full space-x-4 p-3">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6" viewBox="0 0 24 24">
+    <div class="flex w-full space-x-2 sm:space-x-4 p-3">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 hidden sm:block" viewBox="0 0 24 24">
         <g
           id="feUsers0"
           fill="none"
@@ -36,7 +36,7 @@ import { InboxIcon } from "@heroicons/vue/24/outline";
           </g>
         </g>
       </svg>
-      <p>Social</p>
+      <p class="text-sm">Social</p>
     </div>
   </div>
 </template>
