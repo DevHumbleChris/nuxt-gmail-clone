@@ -21,5 +21,10 @@ export default defineNuxtConfig({
   appwrite: {
     endpoint: process.env.APPWRITE_ENDPOINT,
     project: process.env.APPWRITE_PROJECT_ID
+  },
+  pinia: {
+    autoImports: [
+      'defineStore'
+    ]
   }
 })
