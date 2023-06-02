@@ -9,7 +9,7 @@ import {
 <template>
   <main class="flex">
     <Sidebar />
-    <section class="w-full p-1.5 sm:p-2.5">
+    <section class="w-full p-1.5 lg:p-2.5">
       <Header />
       <div class="my-2 p-1.5 flex space-x-2">
         <div class="w-full bg-white rounded-2xl">
@@ -27,7 +27,7 @@ import {
           </div>
           <slot/>
         </div>
-        <div class="space-y-6 hidden md:block">
+        <div class="space-y-6 hidden lg:block">
           <img
             src="https://www.gstatic.com/companion/icon_assets/calendar_2020q4_2x.png"
             class="w-8"

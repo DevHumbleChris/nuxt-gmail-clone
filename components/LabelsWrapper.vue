@@ -5,12 +5,12 @@ import { InboxIcon } from "@heroicons/vue/24/outline";
 <template>
   <div class="flex w-full justify-between">
     <div
-      class="flex w-full space-x-2 sm:space-x-4 bg-[#edf3fd] p-3 items-center items-center"
+      class="flex w-full space-x-2 xl:space-x-4 bg-[#edf3fd] p-3 items-center items-center"
     >
       <InboxIcon class="w-5 hidden sm:block" />
       <p class="text-sm">Primary</p>
     </div>
-    <div class="flex w-full space-x-2 sm:space-x-4 p-3">
+    <div class="flex w-full space-x-2 xl:space-x-4 p-3">
       <svg xmlns="http://www.w3.org/2000/svg" class="w-5 hidden sm:block" viewBox="0 0 24 24">
         <path
           fill="currentColor"
@@ -19,7 +19,7 @@ import { InboxIcon } from "@heroicons/vue/24/outline";
       </svg>
       <p class="text-sm">Promotions</p>
     </div>
-    <div class="flex w-full space-x-2 sm:space-x-4 p-3">
+    <div class="flex w-full space-x-2 xl:space-x-4 p-3">
       <svg xmlns="http://www.w3.org/2000/svg" class="w-6 hidden sm:block" viewBox="0 0 24 24">
         <g
           id="feUsers0"

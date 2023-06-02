@@ -4,7 +4,7 @@ import { StarIcon, ClockIcon } from "@heroicons/vue/24/outline";
 
 <template>
   <div
-    class="w-full flex flex-col lg:items-center sm:flex-row justify-between space-y-1 bg-[#f2f5fc] px-4 py-3 hover:drop-shadow-xl group border text-sm cursor-pointer"
+    class="w-full flex flex-col xl:flex-row xl:items-center justify-between space-y-1 bg-[#f2f5fc] px-4 py-3 hover:drop-shadow-xl group border text-sm cursor-pointer"
   >
     <div class="flex space-x-3 items-center">
       <input
@@ -23,14 +23,14 @@ import { StarIcon, ClockIcon } from "@heroicons/vue/24/outline";
     </div>
     <p>Christopher</p>
     <div
-      class="w-full sm:max-w-[42rem] group-hover:max-w-[37rem] text-gray-500"
+      class="w-full xl:max-w-[42rem] group-hover:max-w-[37rem] text-gray-500"
     >
-      <p class="truncate max-w-[12rem] sm:max-w-full">
+      <p class="truncate max-w-[12rem] sm:max-w-[25rem] xl:max-w-full">
         Payment Defaulter for obligation Income Tax - Resident Individual and
         period 01/01/2021 to 31/12/2021
       </p>
     </div>
-    <div class="flex items-center justify-between mt-3">
+    <div class="flex items-center justify-between space-x-3">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="w-5 group-hover:block hidden"
