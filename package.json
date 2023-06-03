@@ -14,6 +14,7 @@
     "@nuxtjs/google-fonts": "^3.0.0",
     "@nuxtjs/tailwindcss": "^6.6.8",
     "@types/node": "^18",
+    "node-appwrite": "^9.0.0",
     "nuxt": "^3.4.3",
     "nuxt-icon": "^0.4.1"
   },
@@ -24,6 +25,7 @@
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.9",
+    "appwrite": "^11.0.0",
     "nuxt-appwrite": "^1.0.4"
   }
 }
