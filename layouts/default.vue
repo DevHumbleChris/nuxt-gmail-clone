@@ -4,6 +4,12 @@ import {
   EnvelopeIcon,
   EllipsisVerticalIcon,
 } from "@heroicons/vue/24/outline";
+const route = useRoute()
+
+useHead({
+  meta: [{ property: 'og:title', content: `Nuxt Gmail - ${route.meta.title}` }],
+  title: `Nuxt Gmail - ${route.meta.title}`
+})
 </script>
 
 <template>
@@ -20,34 +26,20 @@ import {
             <Icon name="ion:trash-outline" class="w-5 h-auto" />
             <ClockIcon class="w-5" />
             <EnvelopeIcon class="w-5" />
-            <Icon name="ic:outline-add-task" class="w-5 h-auto"/>
+            <Icon name="ic:outline-add-task" class="w-5 h-auto" />
             <Icon name="mdi:folder-move-outline" class="w-5 h-auto" />
             <Icon name="material-symbols:label-outline-rounded" class="w-5 h-auto" />
             <EllipsisVerticalIcon class="w-5" />
           </div>
-          <slot/>
+          <slot />
         </div>
         <div class="space-y-6 hidden lg:block">
-          <img
-            src="https://www.gstatic.com/companion/icon_assets/calendar_2020q4_2x.png"
-            class="w-8"
-            alt="google_calendar"
-          />
-          <img
-            src="https://www.gstatic.com/companion/icon_assets/keep_2020q4v3_2x.png"
-            class="w-8"
-            alt="google_keep"
-          />
-          <img
-            src="https://www.gstatic.com/companion/icon_assets/tasks_2021_2x.png"
-            class="w-8"
-            alt="google_tasks"
-          />
-          <img
-            src="https://www.gstatic.com/companion/icon_assets/contacts_2022_2x.png"
-            class="w-8"
-            alt="google_contacts"
-          />
+          <img src="https://www.gstatic.com/companion/icon_assets/calendar_2020q4_2x.png" class="w-8"
+            alt="google_calendar" />
+          <img src="https://www.gstatic.com/companion/icon_assets/keep_2020q4v3_2x.png" class="w-8" alt="google_keep" />
+          <img src="https://www.gstatic.com/companion/icon_assets/tasks_2021_2x.png" class="w-8" alt="google_tasks" />
+          <img src="https://www.gstatic.com/companion/icon_assets/contacts_2022_2x.png" class="w-8"
+            alt="google_contacts" />
         </div>
       </div>
       <Compose />

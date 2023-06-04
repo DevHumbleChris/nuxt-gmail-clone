@@ -1,6 +1,16 @@
 <script setup>
 definePageMeta({
-    layout: 'custom'
+    layout: 'custom',
+    title: 'Signin'
+})
+const client = useSupabaseAuthClient()
+const user = useSupabaseUser()
+const router = useRouter()
+
+watchEffect(() => {
+    if (user.value) {
+        router.push('/')
+    }
 })
 </script>
 
@@ -8,7 +18,7 @@ definePageMeta({
     <section class="mx-2">
         <div class="mx-auto max-w-lg text-center space-y-3 mt-20 lg:mt-36">
             <Icon name="logos:google-gmail" class="w-44 h-auto" />
-            <button
+            <button @click="client.auth.signInWithOAuth({ provider: 'google'})"
                 class="m-auto group text-center relative flex h-11 items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-white before:border before:border-gray-200 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95">
                 <span class="w-full relative flex justify-center items-center gap-3 text-sm sm:text-base font-medium text-gray-600">
                     <Icon name="logos:google-icon" class="w-5" />
