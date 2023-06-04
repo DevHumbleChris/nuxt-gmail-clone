@@ -4,8 +4,8 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "@nuxt/devtools",
     "nuxt-icon",
-    "nuxt-appwrite",
-    "@pinia/nuxt"
+    "@pinia/nuxt",
+    "@nuxtjs/supabase"
   ],
   devtools: true,
   tailwindcss: {
@@ -18,13 +18,14 @@ export default defineNuxtConfig({
       ]
     }
   },
-  appwrite: {
-    endpoint: process.env.APPWRITE_ENDPOINT,
-    project: process.env.APPWRITE_PROJECT_ID
-  },
   pinia: {
     autoImports: [
       'defineStore'
     ]
+  },
+  supabase: {
+    url: process.env.SUPABASE_URL,
+    key: process.env.SUPABASE_KEY,
+    serviceKey: process.env.SUPABASE_SERVICE_KEY,
   }
 })
