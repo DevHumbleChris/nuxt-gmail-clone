@@ -17,7 +17,7 @@ import {
       <MagnifyingGlassIcon class="w-6" />
       <input
         type="text"
-        class="w-full bg-transparent border-0 outline-none focus:ring-0"
+        class="w-[8.5rem] sm:w-full bg-transparent border-0 outline-none focus:ring-0"
         placeholder="Search mail"
       />
       <AdjustmentsHorizontalIcon class="w-6" />
@@ -32,11 +32,7 @@ import {
           d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"
         />
       </svg>
-      <img
-        src="https://lh3.googleusercontent.com/ogw/AOLn63FDwvpMYoohxMTsrPnCh-5UanYRmFplX0A9ld-H=s32-c-mo"
-        alt="the-coding-montana"
-        class="w-6 h-6 object-fit rounded-full"
-      />
+      <PopoverMenu />
     </div>
   </div>
 </template>

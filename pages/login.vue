@@ -16,7 +16,7 @@ watchEffect(() => {
 
 <template>
     <section class="mx-2">
-        <div class="mx-auto max-w-lg text-center space-y-3 mt-20 lg:mt-36">
+        <div class="mx-auto max-w-lg text-center space-y-3 mt-32 lg:mt-40">
             <Icon name="logos:google-gmail" class="w-44 h-auto" />
             <button @click="client.auth.signInWithOAuth({ provider: 'google'})"
                 class="m-auto group text-center relative flex h-11 items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-white before:border before:border-gray-200 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95">
