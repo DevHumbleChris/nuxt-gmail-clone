@@ -1,5 +1,21 @@
+<script setup>
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+
+const user = useSupabaseUser()
+const client = useSupabaseAuthClient()
+const router = useRouter()
+
+const logOut = async () => {
+    const { error } = await client.auth.signOut()
+    if (error) {
+        return alert(error.message)
+    }
+    router.push('/login')
+}
+</script>
+
 <template>
-    <div class="text-right">
+    <div>
         <Menu as="div" class="relative">
             <div>
                 <MenuButton class="mt-1.5">
@@ -13,52 +29,23 @@
                 leave-active-class="transition duration-75 ease-in" leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0">
                 <MenuItems
-                    class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <div class="px-1 py-1">
+                    class="absolute right-0 mt-2 z-30 w-60 origin-top-right divide-y divide-gray-100 rounded-xl p-1 bg-[#f7f8fc] shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div class="relative flex items-center">
                         <MenuItem v-slot="{ active }">
-                        <button :class="[
-                            active ? 'bg-violet-500 text-white' : 'text-gray-900',
-                            'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                        ]">
-                            Edit
-                        </button>
-                        </MenuItem>
-                        <MenuItem v-slot="{ active }">
-                        <button :class="[
-                            active ? 'bg-violet-500 text-white' : 'text-gray-900',
-                            'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                        ]">
-                            Duplicate
-                        </button>
-                        </MenuItem>
-                    </div>
-                    <div class="px-1 py-1">
-                        <MenuItem v-slot="{ active }">
-                        <button :class="[
-                            active ? 'bg-violet-500 text-white' : 'text-gray-900',
-                            'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                        ]">
-                            Archive
-                        </button>
-                        </MenuItem>
-                        <MenuItem v-slot="{ active }">
-                        <button :class="[
-                            active ? 'bg-violet-500 text-white' : 'text-gray-900',
-                            'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                        ]">
-                            Move
-                        </button>
-                        </MenuItem>
-                    </div>
-
-                    <div class="px-1 py-1">
-                        <MenuItem v-slot="{ active }">
-                        <button :class="[
-                            active ? 'bg-violet-500 text-white' : 'text-gray-900',
-                            'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                        ]">
-                            Delete
-                        </button>
+                            <div>
+                                <div class='bg-white p-3 text-sm group flex w-full items-center rounded-xl space-x-2'>
+                                    <img :src="user?.user_metadata?.avatar_url" :alt="user?.user_metadata?.full_name"
+                                        class="w-12 h-12 rounded-full">
+                                        <div class="text-left w-full">
+                                            <p>{{ user?.user_metadata?.full_name }}</p>
+                                            <p class="text-[9px]">{{ user?.user_metadata?.email}}</p>
+                                        </div>
+                                </div>
+                                <button @click="logOut" class="p-3 w-full hover:bg-[#eaf1fb] block mt-2 flex items-center space-x-4">
+                                    <Icon name="material-symbols:logout" class="w-5 h-auto" />
+                                    <span class="block">Sign out</span>
+                                </button>
+                            </div>
                         </MenuItem>
                     </div>
                 </MenuItems>
@@ -67,6 +54,3 @@
     </div>
 </template>
 
-<script setup>
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-</script>

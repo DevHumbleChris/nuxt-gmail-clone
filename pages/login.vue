@@ -27,7 +27,7 @@ watchEffect(() => {
             </button>
             <img src="~/assets/images/google_workspace.png" alt="google_workspace" class="mx-auto object-fit">
             <p class="flex items-center justify-center text-sm text-gray-500">
-                Made with <Icon name="tabler:heart-filled" class="text-red-600 w-4 h-auto ml-1" />, <NuxtLink href="/" class="hover:underline" >The Coding Montana</NuxtLink>.
+                Made with <Icon name="tabler:heart-filled" class="text-red-600 w-4 h-auto ml-1" />, <NuxtLink href="https://the-coding-montana.vercel.app" class="hover:underline" >The Coding Montana</NuxtLink>.
             </p>
         </div>
     </section>
