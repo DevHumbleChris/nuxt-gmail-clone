@@ -4,7 +4,10 @@ import {
   EnvelopeIcon,
   EllipsisVerticalIcon,
 } from "@heroicons/vue/24/outline";
+import { useMailboxesStore } from "~/stores/mailboxes";
 const route = useRoute()
+const client = useSupabaseClient()
+const mailboxesStore = useMailboxesStore()
 
 useHead({
   meta: [
@@ -17,6 +20,14 @@ useHead({
     { name: 'twitter:site', content: 'https://nuxt-gmail-clone.vercel.app' }
   ],
   title: `Nuxt Gmail Clone - ${route.meta.title}`,
+})
+
+watchEffect(async () => {
+  const { data } = await useAsyncData('mails', async () => {
+    const { data } = await client.from('mailbox').select('*')
+    return data
+  })
+  mailboxesStore.setMailboxes(data?.value)
 })
 </script>
 

@@ -2,6 +2,12 @@
 import { useComposeStore } from "~/stores/compose";
 
 const composeStore = useComposeStore();
+const isSetCarbonCopy = computed(() => {
+  return composeStore.isSetCarbonCopy;
+});
+const isSetBlindCarbonCopy = computed(() => {
+  return composeStore.isSetBlindCarbonCopy;
+});
 
 const isMinimize = computed(() => {
   return composeStore.isMinimize;
@@ -34,18 +40,24 @@ const composeMail = () => {
 const fullWidth = () => {
   composeStore.fullWidth();
 };
+
+const setCarbonCopy = () => {
+  composeStore.setCarbonCopy()
+}
+
+const setBlindCarbonCopy = () => {
+  composeStore.setBlindCarbonCopy()
+}
 </script>
 
 <template>
-  <div
-    v-if="isComposingMail"
+  <div v-if="isComposingMail"
     class="fixed right-0 w-full sm:w-[30rem] h-[30rem] drop-shadow-2xl sm:right-16 text-sm shadow-lg shadow-cyan-500/200 rounded-t-lg z-30 overflow-hidden"
     :class="{
       'w-[17rem] bottom-0 h-[2.5rem]': isMinimize,
       'w-[30rem] h-[30rem]': isMaximize,
       'bottom-28 sm:right-48 sm:w-[52rem]': isFullWidth,
-    }"
-  >
+    }">
     <div class="bg-[#f2f5fc] p-3 flex items-center justify-between">
       <p class="text-[#172846]">New Message</p>
       <div class="flex items-center space-x-2">
@@ -60,39 +72,28 @@ const fullWidth = () => {
         </button>
       </div>
     </div>
-    <div
-      :class="{
-        'bg-white h-full w-full px-3': !isMinimize,
-        'hidden': isMinimize,
-      }"
-    >
+    <div :class="{
+      'bg-white h-full w-full px-3': !isMinimize,
+      'hidden': isMinimize,
+    }">
       <div class="flex items-center justify-between border-b border-gray-200">
         <p>To</p>
-        <input
-          type="text"
-          class="w-full outline-none border-0 focus:ring-0 bg-transparent"
-        />
+        <input type="text" class="w-full outline-none border-0 focus:ring-0 bg-transparent" />
         <div class="flex items-center space-x-2">
-          <button class="hover:underline">Cc</button>
-          <button class="hover:underline">Bcc</button>
+          <button v-if="!isSetCarbonCopy" @click="setCarbonCopy" class="hover:underline">Cc</button>
+          <button v-if="!isSetBlindCarbonCopy" @click="setBlindCarbonCopy" class="hover:underline">Bcc</button>
         </div>
       </div>
-      <div class="flex items-center justify-between border-b border-gray-200">
+      <div v-if="isSetCarbonCopy" class="flex items-center justify-between border-b border-gray-200">
         <p>Cc</p>
-        <input
-          type="text"
-          class="w-full outline-none border-0 focus:ring-0 bg-transparent"
-        />
+        <input type="text" class="w-full outline-none border-0 focus:ring-0 bg-transparent" />
         <div class="flex items-center space-x-2">
-          <button class="hover:underline">Bcc</button>
+          <button v-if="!isSetBlindCarbonCopy" @click="setBlindCarbonCopy" class="hover:underline">Bcc</button>
         </div>
       </div>
-      <div class="flex items-center justify-between border-b border-gray-200">
+      <div v-if="isSetBlindCarbonCopy" class="flex items-center justify-between border-b border-gray-200">
         <p>Bcc</p>
-        <input
-          type="text"
-          class="w-full outline-none border-0 focus:ring-0 bg-transparent"
-        />
+        <input type="text" class="w-full outline-none border-0 focus:ring-0 bg-transparent" />
       </div>
     </div>
   </div>

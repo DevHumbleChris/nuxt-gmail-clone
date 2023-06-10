@@ -3,6 +3,8 @@ export const useComposeStore = defineStore("compose", () => {
   const isMinimize = useState("isMinize", () => false);
   const isMaximize = useState("isMaximize", () => false);
   const isFullWidth = useState("isFullWidth", () => false);
+  const isSetCarbonCopy = useState("carbonCopy", () => false);
+  const isSetBlindCarbonCopy = useState("blindCarbonCopy", () => false);
 
   const maximize = () => {
     isMaximize.value = !isMaximize.value;
@@ -18,12 +20,22 @@ export const useComposeStore = defineStore("compose", () => {
       isMaximize.value = false;
       isMinimize.value = false;
       isFullWidth.value = false;
+      isSetCarbonCopy.value = false;
+      isSetBlindCarbonCopy.value = false;
     }
   };
 
   const fullWidth = () => {
     isFullWidth.value = !isFullWidth.value;
     isMaximize.value = !isMaximize.value;
+  };
+
+  const setCarbonCopy = () => {
+    isSetCarbonCopy.value = true;
+  };
+
+  const setBlindCarbonCopy = () => {
+    isSetBlindCarbonCopy.value = true;
   };
 
   return {
@@ -35,5 +47,9 @@ export const useComposeStore = defineStore("compose", () => {
     minimize,
     composeMail,
     fullWidth,
+    isSetCarbonCopy,
+    isSetBlindCarbonCopy,
+    setCarbonCopy,
+    setBlindCarbonCopy,
   };
 });
