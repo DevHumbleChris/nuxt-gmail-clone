@@ -32,6 +32,7 @@ export const useComposeStore = defineStore("compose", () => {
 
   const setCarbonCopy = () => {
     isSetCarbonCopy.value = true;
+    console.log(isSetCarbonCopy.value)
   };
 
   const setBlindCarbonCopy = () => {

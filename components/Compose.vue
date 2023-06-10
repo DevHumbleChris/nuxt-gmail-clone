@@ -3,34 +3,34 @@ import { useComposeStore } from "~/stores/compose";
 
 const composeStore = useComposeStore();
 const isSetCarbonCopy = computed(() => {
-  return composeStore.isSetCarbonCopy;
+  return composeStore?.isSetCarbonCopy;
 });
 const isSetBlindCarbonCopy = computed(() => {
-  return composeStore.isSetBlindCarbonCopy;
+  return composeStore?.isSetBlindCarbonCopy;
 });
 
 const isMinimize = computed(() => {
-  return composeStore.isMinimize;
+  return composeStore?.isMinimize;
 });
 
 const isMaximize = computed(() => {
-  return composeStore.isMaximize;
+  return composeStore?.isMaximize;
 });
 
 const isFullWidth = computed(() => {
-  return composeStore.isFullWidth;
+  return composeStore?.isFullWidth;
 });
 
 const isComposingMail = computed(() => {
-  return composeStore.isComposingMail;
+  return composeStore?.isComposingMail;
 });
 
 const maximize = () => {
-  composeStore.maximize();
+  composeStore?.maximize();
 };
 
 const minimize = () => {
-  composeStore.minimize();
+  composeStore?.minimize();
 };
 
 const composeMail = () => {
@@ -38,15 +38,19 @@ const composeMail = () => {
 };
 
 const fullWidth = () => {
-  composeStore.fullWidth();
+  composeStore?.fullWidth();
 };
 
 const setCarbonCopy = () => {
-  composeStore.setCarbonCopy()
+  composeStore?.setCarbonCopy()
 }
 
 const setBlindCarbonCopy = () => {
-  composeStore.setBlindCarbonCopy()
+  composeStore?.setBlindCarbonCopy()
+}
+
+const handleComposeMail = async () => {
+
 }
 </script>
 
@@ -72,29 +76,34 @@ const setBlindCarbonCopy = () => {
         </button>
       </div>
     </div>
-    <div :class="{
+    <form @submit.prevent="handleComposeMail" :class="{
       'bg-white h-full w-full px-3': !isMinimize,
       'hidden': isMinimize,
     }">
-      <div class="flex items-center justify-between border-b border-gray-200">
-        <p>To</p>
-        <input type="text" class="w-full outline-none border-0 focus:ring-0 bg-transparent" />
-        <div class="flex items-center space-x-2">
+      <div class="flex items-center justify-between border-b border-gray-200 group">
+        <p class="group-hover:block hidden">To</p>
+        <input type="text" class="w-full text-sm outline-none border-0 focus:ring-0 bg-transparent group-hover:ml-0 -ml-2 group-hover:placeholder:text-transparent" placeholder="Recipient" />
+        <div v-if="!isSetCarbonCopy" class="group-hover:flex hidden flex items-center space-x-2">
           <button v-if="!isSetCarbonCopy" @click="setCarbonCopy" class="hover:underline">Cc</button>
           <button v-if="!isSetBlindCarbonCopy" @click="setBlindCarbonCopy" class="hover:underline">Bcc</button>
         </div>
       </div>
-      <div v-if="isSetCarbonCopy" class="flex items-center justify-between border-b border-gray-200">
-        <p>Cc</p>
-        <input type="text" class="w-full outline-none border-0 focus:ring-0 bg-transparent" />
-        <div class="flex items-center space-x-2">
-          <button v-if="!isSetBlindCarbonCopy" @click="setBlindCarbonCopy" class="hover:underline">Bcc</button>
+      <div>
+        <div v-if="isSetCarbonCopy" class="flex items-center justify-between border-b border-gray-200">
+          <p>Cc</p>
+          <input type="text" class="w-full outline-none border-0 focus:ring-0 bg-transparent" />
+          <div v-if="isSetCarbonCopy" class="flex items-center space-x-2">
+            <button v-if="!isSetBlindCarbonCopy" @click="setBlindCarbonCopy" class="hover:underline">Bcc</button>
+          </div>
+        </div>
+        <div v-if="isSetBlindCarbonCopy" class="flex items-center justify-between border-b border-gray-200">
+          <p>Bcc</p>
+          <input type="text" class="w-full outline-none border-0 focus:ring-0 bg-transparent" />
         </div>
       </div>
-      <div v-if="isSetBlindCarbonCopy" class="flex items-center justify-between border-b border-gray-200">
-        <p>Bcc</p>
-        <input type="text" class="w-full outline-none border-0 focus:ring-0 bg-transparent" />
+      <div class="flex items-center justify-between border-b border-gray-200">
+        <input type="text" class="-ml-2 w-full outline-none border-0 focus:ring-0 bg-transparent" placeholder="Subject" />
       </div>
-    </div>
+    </form>
   </div>
 </template>
