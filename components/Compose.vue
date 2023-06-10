@@ -1,5 +1,25 @@
 <script setup>
 import { useComposeStore } from "~/stores/compose";
+import { Editor, EditorContent } from '@tiptap/vue-3'
+import StarterKit from '@tiptap/starter-kit'
+
+const editor = useState('editor', () => null)
+
+onMounted(() => {
+  editor.value = new Editor({
+    content: '<p>I’m running Tiptap with Vue.js. 🎉</p>',
+    extensions: [
+      StarterKit,
+    ],
+  })
+})
+
+onBeforeUnmount(() => {
+  editor.destroy()
+})
+
+const client = useSupabaseClient()
+const user = useSupabaseUser()
 
 const composeStore = useComposeStore();
 const isSetCarbonCopy = computed(() => {
@@ -76,13 +96,15 @@ const handleComposeMail = async () => {
         </button>
       </div>
     </div>
-    <form @submit.prevent="handleComposeMail" :class="{
+    <form @submit.prevent="handleComposeMail" class="relative" :class="{
       'bg-white h-full w-full px-3': !isMinimize,
       'hidden': isMinimize,
     }">
       <div class="flex items-center justify-between border-b border-gray-200 group">
         <p class="group-hover:block hidden">To</p>
-        <input type="text" class="w-full text-sm outline-none border-0 focus:ring-0 bg-transparent group-hover:ml-0 -ml-2 group-hover:placeholder:text-transparent" placeholder="Recipient" />
+        <input type="text"
+          class="w-full text-sm outline-none border-0 focus:ring-0 bg-transparent group-hover:ml-0 -ml-2 group-hover:placeholder:text-transparent"
+          placeholder="Recipient" />
         <div v-if="!isSetCarbonCopy" class="group-hover:flex hidden flex items-center space-x-2">
           <button v-if="!isSetCarbonCopy" @click="setCarbonCopy" class="hover:underline">Cc</button>
           <button v-if="!isSetBlindCarbonCopy" @click="setBlindCarbonCopy" class="hover:underline">Bcc</button>
@@ -104,6 +126,34 @@ const handleComposeMail = async () => {
       <div class="flex items-center justify-between border-b border-gray-200">
         <input type="text" class="-ml-2 w-full outline-none border-0 focus:ring-0 bg-transparent" placeholder="Subject" />
       </div>
+      <EditorContent :editor="editor" class="border-transparent ring-0" />
+
+      <!-- Compose Buttons -->
+      <div class="absolute bottom-12 py-2 flex items-center">
+        <button class="block bg-[#0b57cf] px-3 py-2 rounded-full px-6 text-white">
+          Send
+        </button>
+        <div>
+          <button>
+            <Icon name="mdi:paperclip" class="w-5 h-auto" />
+          </button>
+          <button>
+            <Icon name="ic:outline-insert-link" class="w-5 h-auto" />
+          </button>
+          <button>
+            <Icon name="material-symbols:image-outline-rounded" class="w-5 h-auto" />
+          </button>
+        </div>
+        <button>
+          <Icon name="basil:trash-outline" class="w-5 h-auto" />
+        </button>
+      </div>
     </form>
   </div>
 </template>
+
+<style scoped>
+.ProseMirror {
+  outline: none;
+}
+</style>
