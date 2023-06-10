@@ -7,15 +7,11 @@ const editor = useState('editor', () => null)
 
 onMounted(() => {
   editor.value = new Editor({
-    content: '<p>I’m running Tiptap with Vue.js. 🎉</p>',
+    content: '',
     extensions: [
       StarterKit,
     ],
   })
-})
-
-onBeforeUnmount(() => {
-  editor.destroy()
 })
 
 const client = useSupabaseClient()
@@ -126,26 +122,30 @@ const handleComposeMail = async () => {
       <div class="flex items-center justify-between border-b border-gray-200">
         <input type="text" class="-ml-2 w-full outline-none border-0 focus:ring-0 bg-transparent" placeholder="Subject" />
       </div>
-      <EditorContent :editor="editor" class="border-transparent ring-0" />
+      <div class="w-full h-[19rem] overflow-hidden overflow-y-scroll scrollbar-hide">
+        <EditorContent :editor="editor" class="border-transparent ring-0" />
+      </div>
 
       <!-- Compose Buttons -->
-      <div class="absolute bottom-12 py-2 flex items-center">
-        <button class="block bg-[#0b57cf] px-3 py-2 rounded-full px-6 text-white">
-          Send
-        </button>
-        <div>
-          <button>
-            <Icon name="mdi:paperclip" class="w-5 h-auto" />
+      <div class="absolute w-[20rem] sm:w-[29rem] bottom-12 py-2 flex items-center justify-between space-x-2">
+        <div class="flex items-center space-x-3">
+          <button class="block bg-[#0b57cf] px-3 py-2 rounded-full px-6 text-white">
+            Send
           </button>
-          <button>
-            <Icon name="ic:outline-insert-link" class="w-5 h-auto" />
-          </button>
-          <button>
-            <Icon name="material-symbols:image-outline-rounded" class="w-5 h-auto" />
-          </button>
+          <div class="space-x-2">
+            <button>
+              <Icon name="mdi:paperclip" class="w-5 h-auto" />
+            </button>
+            <button>
+              <Icon name="ic:outline-insert-link" class="w-5 h-auto" />
+            </button>
+            <button>
+              <Icon name="material-symbols:image-outline-rounded" class="w-5 h-auto" />
+            </button>
+          </div>
         </div>
-        <button>
-          <Icon name="basil:trash-outline" class="w-5 h-auto" />
+        <button class="block">
+          <Icon name="basil:trash-outline" class="w-5 h-auto text-red-600" />
         </button>
       </div>
     </form>

@@ -11,7 +11,7 @@ onBeforeMount(() => {
     client.auth.onAuthStateChange((_, session) => {
         if (session && session.user) {
             isCheckingAuthentication.value = !isCheckingAuthentication.value
-            router.push({ path: '/', replace: true })
+            router.push({ path: '/' })
         }
     })
 })
