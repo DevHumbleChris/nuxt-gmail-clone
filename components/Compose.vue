@@ -106,7 +106,7 @@ const handleComposeMail = async () => {};
         />
         <div
           v-if="!isSetCarbonCopy"
-          class="group-hover:flex hidden flex items-center space-x-2"
+          class="group-hover:flex flex items-center space-x-2"
         >
           <button
             v-if="!isSetCarbonCopy"
@@ -174,7 +174,7 @@ const handleComposeMail = async () => {};
       >
         <div class="flex items-center space-x-3">
           <button
-            class="block bg-[#0b57cf] px-3 py-2 rounded-full px-6 text-white"
+            class="block bg-[#0b57cf] px-3 py-2 rounded-full sm:px-6 text-white"
           >
             Send
           </button>

@@ -46,7 +46,7 @@ const logOut = async () => {};
                 </div>
                 <button
                   @click="logOut"
-                  class="p-3 w-full hover:bg-[#eaf1fb] block mt-2 flex items-center space-x-4"
+                  class="p-3 w-full hover:bg-[#eaf1fb] block mt-2 sm:flex items-center space-x-4"
                 >
                   <Icon name="material-symbols:logout" class="w-5 h-auto" />
                   <span class="block">Sign out</span>
