@@ -79,5 +79,8 @@ module.exports = {
       },
     },
   },
-  plugins: [animate],
+  plugins: [animate, require('@tailwindcss/forms'),
+  require('@tailwindcss/aspect-ratio'),
+  require('@tailwindcss/typography'),
+  require('tailwind-scrollbar-hide')],
 }
