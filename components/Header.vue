@@ -23,15 +23,15 @@ const toggleMode = useToggle(isDark);
 <template>
   <div class="flex justify-between w-full">
     <div
-      class="xl:w-[43rem] flex items-center space-x-2 bg-[#eaf1fb] py-1 px-3 rounded-lg"
+      class="xl:w-[43rem] bg-[#eaf1fb] dark:bg-green-dark-light flex items-center space-x-2 py-1 px-3 rounded-full"
     >
-      <MagnifyingGlassIcon class="w-6" />
+      <MagnifyingGlassIcon class="w-6 dark:text-green-real" />
       <input
         type="text"
         class="w-[8.5rem] sm:w-full bg-transparent border-0 outline-none focus:ring-0"
         placeholder="Search mail"
       />
-      <AdjustmentsHorizontalIcon class="w-6" />
+      <AdjustmentsHorizontalIcon class="w-6 dark:text-green-real" />
     </div>
 
     <div class="flex items-center space-x-4">
@@ -40,7 +40,7 @@ const toggleMode = useToggle(isDark);
           <Button class="bg-transparent border-0" variant="outline" size="icon">
             <Icon
               name="material-symbols:wb-sunny-outline-rounded"
-              class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
+              class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 dark:text-green-real"
             />
             <Icon
               name="ph:moon-stars-bold"

@@ -35,7 +35,7 @@ useHead({
 </script>
 
 <template>
-  <main class="flex">
+  <main class="flex bg-[#f7f8fc] dark:bg-green-dark">
     <Sidebar />
     <section class="w-full p-1.5 lg:p-2.5">
       <Header />
