@@ -45,21 +45,23 @@ const composeMail = () => {
     <div class="px-3">
       <button
         @click="composeMail"
-        class="flex items-center space-x-2 bg-[#c3e7ff]"
+        class="flex items-center space-x-2 bg-[#c3e7ff] dark:text-white dark:bg-green-real"
         :class="{
           'p-4 rounded-2xl': isSidebarOpen,
           'p-2 sm:p-4 sm:rounded-2xl rounded-md': !isSidebarOpen,
         }"
       >
-        <PencilIcon class="w-6 text-[#061d47]" />
-        <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
+        <PencilIcon class="w-6 text-[#061d47] dark:text-white" />
+        <span :class="isSidebarOpen ? 'block ' : 'hidden sm:block'"
           >Compose</span
         >
       </button>
     </div>
     <ul class="my-4 space-y-1 text-center">
-      <li class="bg-[#d3e3fd] px-5 rounded-r-full">
-        <button class="flex items-center space-x-3 py-[0.1rem]">
+      <li class="bg-[#d3e3fd] px-5 rounded-r-full dark:bg-[#e5fbf2]">
+        <button
+          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        >
           <InboxIcon :class="isSidebarOpen ? 'w-6' : 'w-6 sm:w-4'" />
           <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
             >Inbox</span
@@ -67,7 +69,9 @@ const composeMail = () => {
         </button>
       </li>
       <li class="px-5 rounded-r-full">
-        <button class="flex items-center space-x-3 py-[0.1rem]">
+        <button
+          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        >
           <StarIcon :class="isSidebarOpen ? 'w-6' : 'w-6 sm:w-4'" />
           <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
             >Starred</span
@@ -75,7 +79,9 @@ const composeMail = () => {
         </button>
       </li>
       <li class="px-5 rounded-r-full">
-        <button class="flex items-center space-x-3 py-[0.1rem]">
+        <button
+          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        >
           <ClockIcon :class="isSidebarOpen ? 'w-6' : 'w-6 sm:w-4'" />
           <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
             >Snoozed</span
@@ -83,7 +89,9 @@ const composeMail = () => {
         </button>
       </li>
       <li class="px-5 rounded-r-full">
-        <button class="flex items-center space-x-3 py-[0.1rem]">
+        <button
+          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        >
           <Icon
             name="ic:round-send"
             :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4 h-auto'"
@@ -92,7 +100,9 @@ const composeMail = () => {
         </button>
       </li>
       <li class="px-5 rounded-r-full">
-        <button class="flex items-center space-x-3 py-[0.1rem]">
+        <button
+          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        >
           <DocumentIcon :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4'" />
           <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
             >Drafts</span
@@ -100,13 +110,17 @@ const composeMail = () => {
         </button>
       </li>
       <li class="px-5 rounded-r-full">
-        <button class="flex items-center space-x-3 py-[0.1rem]">
+        <button
+          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        >
           <ChevronUpIcon :class="isSidebarOpen ? 'w-6' : 'w-6 sm:w-4'" />
           <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'">Less</span>
         </button>
       </li>
       <li class="px-5 rounded-r-full">
-        <button class="flex items-center space-x-3 py-[0.1rem]">
+        <button
+          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        >
           <Icon
             name="material-symbols:label-important-outline"
             :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4 h-auto'"
@@ -117,7 +131,9 @@ const composeMail = () => {
         </button>
       </li>
       <li class="px-5 rounded-r-full">
-        <button class="flex items-center space-x-3 py-[0.1rem]">
+        <button
+          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        >
           <Icon
             name="ic:outline-chat"
             :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4 h-auto'"
@@ -128,7 +144,9 @@ const composeMail = () => {
         </button>
       </li>
       <li class="px-5 rounded-r-full">
-        <button class="flex items-center space-x-3 py-[0.1rem]">
+        <button
+          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        >
           <Icon
             name="material-symbols:schedule-send-outline"
             :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4 h-auto'"
@@ -139,7 +157,9 @@ const composeMail = () => {
         </button>
       </li>
       <li class="px-5 rounded-r-full">
-        <button class="flex items-center space-x-3 py-[0.1rem]">
+        <button
+          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        >
           <Icon
             name="mdi:email-multiple-outline"
             :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4 h-auto'"
@@ -150,7 +170,9 @@ const composeMail = () => {
         </button>
       </li>
       <li class="px-5 rounded-r-full">
-        <button class="flex items-center space-x-3 py-[0.1rem]">
+        <button
+          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        >
           <Icon
             name="ri:spam-2-line"
             :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4 h-auto'"
@@ -159,7 +181,9 @@ const composeMail = () => {
         </button>
       </li>
       <li class="px-5 rounded-r-full">
-        <button class="flex items-center space-x-3 py-[0.1rem]">
+        <button
+          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        >
           <Icon
             name="material-symbols:delete-outline-rounded"
             :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4 h-auto'"
@@ -170,7 +194,9 @@ const composeMail = () => {
         </button>
       </li>
       <li class="px-5 rounded-r-full">
-        <button class="flex items-center space-x-3 py-[0.1rem]">
+        <button
+          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        >
           <Icon
             name="material-symbols:label-outline-rounded"
             :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4 h-auto'"
@@ -181,7 +207,9 @@ const composeMail = () => {
         </button>
       </li>
       <li class="px-5 rounded-r-full">
-        <button class="flex items-center space-x-3 py-[0.1rem]">
+        <button
+          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        >
           <Cog6ToothIcon :class="isSidebarOpen ? 'w-6' : 'w-6 sm:w-4'" />
           <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
             >Manage labels</span

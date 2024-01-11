@@ -40,7 +40,7 @@ useHead({
     <section class="w-full p-1.5 lg:p-2.5">
       <Header />
       <div class="my-2 p-1.5 flex space-x-2">
-        <div class="w-full bg-white rounded-2xl">
+        <div class="w-full bg-white dark:bg-green-dark-light rounded-2xl">
           <div class="flex items-center justify-between p-2">
             <input type="checkbox" name="all-check" id="all-check" />
             <Icon
