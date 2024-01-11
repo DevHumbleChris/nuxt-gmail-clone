@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "nuxt-icon",
     "nuxt-og-image",
     "@pinia/nuxt",
+    "@vueuse/nuxt",
   ],
   shadcn: {
     /**
