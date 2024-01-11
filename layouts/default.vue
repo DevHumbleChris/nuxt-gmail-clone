@@ -35,14 +35,21 @@ useHead({
 </script>
 
 <template>
-  <main class="flex bg-[#f7f8fc] dark:bg-green-dark">
+  <main class="flex bg-[#f7f8fc] dark:bg-green-dark relative">
     <Sidebar />
     <section class="w-full p-1.5 lg:p-2.5">
       <Header />
       <div class="my-2 p-1.5 flex space-x-2">
         <div class="w-full bg-white dark:bg-green-dark-light rounded-2xl">
-          <div class="flex items-center justify-between p-2">
-            <input type="checkbox" name="all-check" id="all-check" />
+          <div
+            class="flex items-center justify-between p-2 dark:text-green-real"
+          >
+            <input
+              type="checkbox"
+              name="all-check"
+              id="all-check"
+              class="dark:bg-green-real rounded cursor-pointer"
+            />
             <Icon
               name="material-symbols:archive-outline-rounded"
               class="w-5 h-auto"
@@ -84,7 +91,7 @@ useHead({
           />
         </div>
       </div>
-      <Compose />
     </section>
+    <Compose />
   </main>
 </template>

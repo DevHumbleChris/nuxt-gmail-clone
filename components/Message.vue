@@ -4,28 +4,34 @@ import { StarIcon, ClockIcon } from "@heroicons/vue/24/outline";
 
 <template>
   <div
-    class="w-full flex flex-col xl:flex-row xl:items-center justify-between space-y-1 bg-[#f2f5fc] px-4 py-3 hover:drop-shadow-xl group border text-sm cursor-pointer"
+    class="w-full flex flex-col xl:flex-row xl:items-center justify-between space-y-1 bg-[#f2f5fc] dark:bg-green-dark-light dark:hover:shadow-green-real px-4 py-3 hover:drop-shadow-xl group border text-sm cursor-pointer dark:border-gray-700/50"
   >
     <div class="flex space-x-3 items-center">
       <input
-        class="rounded cursor-pointer"
+        class="rounded cursor-pointer dark:bg-green-real"
         type="checkbox"
         name="message-check"
         id="message-check"
       />
-      <StarIcon class="w-5" />
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-5" viewBox="0 0 24 24">
+      <StarIcon class="w-5 dark:text-green-real" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-5 dark:text-green-real"
+        viewBox="0 0 24 24"
+      >
         <path
           fill="currentColor"
           d="m3 19l4.5-7L3 5h13.05L21 12l-4.95 7H3Zm3.65-2H15l3.55-5L15 7H6.65l3.25 5l-3.25 5Zm3.25-5L6.65 7l3.25 5l-3.25 5l3.25-5Z"
         ></path>
       </svg>
     </div>
-    <p>Christopher</p>
+    <p class="dark:text-green-real">Christopher</p>
     <div
       class="w-full xl:max-w-[42rem] group-hover:max-w-[37rem] text-gray-500"
     >
-      <p class="truncate max-w-[12rem] sm:max-w-[25rem] xl:max-w-full">
+      <p
+        class="truncate max-w-[12rem] sm:max-w-[25rem] xl:max-w-full dark:text-green-real"
+      >
         Payment Defaulter for obligation Income Tax - Resident Individual and
         period 01/01/2021 to 31/12/2021
       </p>
@@ -33,7 +39,7 @@ import { StarIcon, ClockIcon } from "@heroicons/vue/24/outline";
     <div class="flex items-center justify-between space-x-3">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="w-5 group-hover:block hidden"
+        class="w-5 group-hover:block hidden dark:text-green-real"
         viewBox="0 0 24 24"
       >
         <path
@@ -43,7 +49,7 @@ import { StarIcon, ClockIcon } from "@heroicons/vue/24/outline";
       </svg>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="w-5 group-hover:block hidden"
+        class="w-5 group-hover:block hidden dark:text-green-real"
         viewBox="0 0 24 24"
       >
         <path
@@ -53,7 +59,7 @@ import { StarIcon, ClockIcon } from "@heroicons/vue/24/outline";
       </svg>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="w-5 group-hover:block hidden"
+        class="w-5 group-hover:block hidden dark:text-green-real"
         viewBox="0 0 24 24"
       >
         <path
@@ -61,8 +67,8 @@ import { StarIcon, ClockIcon } from "@heroicons/vue/24/outline";
           d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5l8-5v10zm-8-7L4 6h16l-8 5z"
         ></path>
       </svg>
-      <ClockIcon class="w-5 group-hover:block hidden" />
+      <ClockIcon class="w-5 group-hover:block hidden dark:text-green-real" />
     </div>
-    <p class="group-hover:hidden">May 9</p>
+    <p class="group-hover:hidden dark:text-green-real">May 9</p>
   </div>
 </template>

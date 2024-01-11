@@ -36,7 +36,10 @@ const composeMail = () => {
     "
   >
     <div class="flex space-x-2 items-center p-3">
-      <Bars3Icon @click="openSidebar" class="w-6 cursor-pointer" />
+      <Bars3Icon
+        @click="openSidebar"
+        class="w-6 cursor-pointer dark:text-green-real"
+      />
       <img
         src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r5.png"
         :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
@@ -58,7 +61,9 @@ const composeMail = () => {
       </button>
     </div>
     <ul class="my-4 space-y-1 text-center">
-      <li class="bg-[#d3e3fd] px-5 rounded-r-full dark:bg-[#e5fbf2]">
+      <li
+        class="bg-[#d3e3fd] px-5 rounded-r-full dark:bg-green-dark-light dark:hover:bg-green-dark-light"
+      >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
@@ -68,7 +73,7 @@ const composeMail = () => {
           >
         </button>
       </li>
-      <li class="px-5 rounded-r-full">
+      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
@@ -78,7 +83,7 @@ const composeMail = () => {
           >
         </button>
       </li>
-      <li class="px-5 rounded-r-full">
+      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
@@ -88,7 +93,7 @@ const composeMail = () => {
           >
         </button>
       </li>
-      <li class="px-5 rounded-r-full">
+      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
@@ -99,7 +104,7 @@ const composeMail = () => {
           <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'">Sent</span>
         </button>
       </li>
-      <li class="px-5 rounded-r-full">
+      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
@@ -109,7 +114,7 @@ const composeMail = () => {
           >
         </button>
       </li>
-      <li class="px-5 rounded-r-full">
+      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
@@ -117,7 +122,7 @@ const composeMail = () => {
           <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'">Less</span>
         </button>
       </li>
-      <li class="px-5 rounded-r-full">
+      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
@@ -130,7 +135,7 @@ const composeMail = () => {
           >
         </button>
       </li>
-      <li class="px-5 rounded-r-full">
+      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
@@ -143,7 +148,7 @@ const composeMail = () => {
           >
         </button>
       </li>
-      <li class="px-5 rounded-r-full">
+      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
@@ -156,7 +161,7 @@ const composeMail = () => {
           >
         </button>
       </li>
-      <li class="px-5 rounded-r-full">
+      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
@@ -169,7 +174,7 @@ const composeMail = () => {
           >
         </button>
       </li>
-      <li class="px-5 rounded-r-full">
+      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
@@ -180,7 +185,7 @@ const composeMail = () => {
           <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'">Spam</span>
         </button>
       </li>
-      <li class="px-5 rounded-r-full">
+      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
@@ -193,7 +198,7 @@ const composeMail = () => {
           >
         </button>
       </li>
-      <li class="px-5 rounded-r-full">
+      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
@@ -206,7 +211,7 @@ const composeMail = () => {
           >
         </button>
       </li>
-      <li class="px-5 rounded-r-full">
+      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
