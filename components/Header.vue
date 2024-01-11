@@ -35,7 +35,6 @@ const toggleMode = useToggle(isDark);
     </div>
 
     <div class="flex items-center space-x-4">
-      <span>{{ isDark ? "Dark" : "Light" }}</span>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button class="bg-transparent border-0" variant="outline" size="icon">

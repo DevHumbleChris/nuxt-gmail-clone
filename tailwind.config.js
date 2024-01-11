@@ -1,9 +1,9 @@
-const animate = require("tailwindcss-animate")
+const animate = require("tailwindcss-animate");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  
+
   theme: {
     container: {
       center: true,
@@ -47,6 +47,7 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        "green-dark": "#020621",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -64,10 +65,10 @@ module.exports = {
         },
         "collapsible-down": {
           from: { height: 0 },
-          to: { height: 'var(--radix-collapsible-content-height)' },
+          to: { height: "var(--radix-collapsible-content-height)" },
         },
         "collapsible-up": {
-          from: { height: 'var(--radix-collapsible-content-height)' },
+          from: { height: "var(--radix-collapsible-content-height)" },
           to: { height: 0 },
         },
       },
@@ -79,8 +80,11 @@ module.exports = {
       },
     },
   },
-  plugins: [animate, require('@tailwindcss/forms'),
-  require('@tailwindcss/aspect-ratio'),
-  require('@tailwindcss/typography'),
-  require('tailwind-scrollbar-hide')],
-}
+  plugins: [
+    animate,
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/aspect-ratio"),
+    require("@tailwindcss/typography"),
+    require("tailwind-scrollbar-hide"),
+  ],
+};
