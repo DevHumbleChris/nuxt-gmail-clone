@@ -1,16 +1,6 @@
 <script setup>
 import { useComposeStore } from "~/stores/compose";
-import { Editor, EditorContent } from "@tiptap/vue-3";
-import StarterKit from "@tiptap/starter-kit";
-
-const editor = useState("editor", () => null);
-
-onMounted(() => {
-  editor.value = new Editor({
-    content: "",
-    extensions: [StarterKit],
-  });
-});
+import Editor from "@/components/Editor.vue";
 
 const composeStore = useComposeStore();
 const isSetCarbonCopy = computed(() => {
@@ -176,7 +166,7 @@ const handleComposeMail = async () => {};
         <div
           class="w-full overflow-hidden overflow-y-scroll scrollbar-hide px-3"
         >
-          <EditorContent :editor="editor" class="border-transparent ring-0" />
+          <Editor />
         </div>
 
         <!-- Compose Buttons -->
