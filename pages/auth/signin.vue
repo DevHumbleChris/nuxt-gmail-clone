@@ -3,6 +3,16 @@ definePageMeta({
   layout: "custom",
   title: "Signin",
 });
+
+const { signinWith } = useFirebaseAuth();
+
+const signInWithGoogle = async () => {
+  const { message, error } = await signinWith("google");
+  if (error) {
+    console.log(error);
+  }
+  // await navigateTo({ path: "/protected" });
+};
 </script>
 
 <template>
@@ -10,6 +20,7 @@ definePageMeta({
     <div class="mx-auto max-w-lg text-center space-y-3 mt-32 lg:mt-40">
       <Icon name="logos:google-gmail" class="w-44 h-auto" />
       <button
+        @click="signInWithGoogle"
         class="m-auto group text-center relative flex h-11 items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-white before:border before:border-gray-200 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95"
       >
         <span
