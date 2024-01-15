@@ -13,7 +13,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <EditorContent :editor="editor" class="border-transparent ring-0" />
+  <EditorContent :editor="editor" data-hs-editor-field />
 </template>
 
 <style scope>
