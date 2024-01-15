@@ -1,4 +1,6 @@
 <script setup>
+import { toast } from "vue-sonner";
+
 definePageMeta({
   layout: "custom",
   title: "Signin",
@@ -9,8 +11,9 @@ const { signinWith } = useFirebaseAuth();
 const signInWithGoogle = async () => {
   const { message, error } = await signinWith("google");
   if (error) {
-    console.log(error);
+    return toast.error(error);
   }
+  toast.success(message);
   // await navigateTo({ path: "/protected" });
 };
 </script>

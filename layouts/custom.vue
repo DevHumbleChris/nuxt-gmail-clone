@@ -28,5 +28,8 @@ useHead({
 </script>
 
 <template>
-  <slot />
+  <main class="max-w-[85rem] mx-auto overflow-hidden">
+    <slot />
+    <Toaster position="top-right" richColors closeButton />
+  </main>
 </template>

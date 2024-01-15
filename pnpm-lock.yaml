@@ -68,6 +68,9 @@ dependencies:
   tailwindcss-animate:
     specifier: ^1.0.7
     version: 1.0.7(tailwindcss@3.4.1)
+  vue-sonner:
+    specifier: ^1.0.2
+    version: 1.0.2
 
 devDependencies:
   '@nuxtjs/tailwindcss':
@@ -9625,6 +9628,10 @@ packages:
       '@vue/devtools-api': 6.5.1
       vue: 3.4.8(typescript@5.3.3)
     dev: true
+
+  /vue-sonner@1.0.2:
+    resolution: {integrity: sha512-BXIyb9lGSMUjTpOukISp7oV9nrczgbfYz+TnDeoap3io3ayGXiWv+/3eQ9UKnmofwUlC4nh/H5jzBOO89lRItQ==}
+    dev: false
 
   /vue@3.4.8(typescript@5.3.3):
     resolution: {integrity: sha512-vJffFOe6DqWsAI10v3tDhb1nJrj7CF3CbdQwOznywAsFNoyvrQ1AWQdcIWJpmRpRnw7NFzstzh6fh4w7n1PNdg==}

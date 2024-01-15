@@ -34,4 +34,7 @@ export default defineNuxtConfig({
       FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
     },
   },
+  build: {
+    transpile: ["vue-sonner"],
+  },
 });
