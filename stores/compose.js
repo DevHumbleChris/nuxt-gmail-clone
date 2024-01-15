@@ -13,6 +13,8 @@ export const useComposeStore = defineStore("compose", () => {
 
   const minimize = () => {
     isMinimize.value = !isMinimize.value;
+    isFullWidth.value = false;
+    isMaximize.value = false;
   };
   const composeMail = () => {
     isComposingMail.value = !isComposingMail.value;
@@ -28,11 +30,12 @@ export const useComposeStore = defineStore("compose", () => {
   const fullWidth = () => {
     isFullWidth.value = !isFullWidth.value;
     isMaximize.value = !isMaximize.value;
+    isMinimize.value = false;
   };
 
   const setCarbonCopy = () => {
     isSetCarbonCopy.value = true;
-    console.log(isSetCarbonCopy.value)
+    console.log(isSetCarbonCopy.value);
   };
 
   const setBlindCarbonCopy = () => {

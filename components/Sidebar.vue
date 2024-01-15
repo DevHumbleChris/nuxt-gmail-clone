@@ -20,7 +20,6 @@ const isSidebarOpen = computed(() => {
 
 const openSidebar = () => {
   sidebarStore.openSidebar();
-  console.log(isSidebarOpen.value);
 };
 
 const composeMail = () => {
@@ -30,195 +29,188 @@ const composeMail = () => {
 
 <template>
   <aside
-    class="top-0 h-screen group"
-    :class="
-      isSidebarOpen ? 'fixed z-20  drop-shadow-xl' : 'sticky sm:w-[16rem]'
-    "
+    class="top-0 h-screen group sticky hidden sm:block"
+    :class="isSidebarOpen ? 'w-[4rem]' : 'sm:w-[16rem]'"
   >
-    <div class="flex space-x-2 items-center p-3">
+    <div class="flex space-x-2 items-center p-4">
       <Bars3Icon
         @click="openSidebar"
         class="w-6 cursor-pointer dark:text-green-real"
       />
       <img
+        v-if="!isSidebarOpen"
         src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r5.png"
-        :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
       />
     </div>
     <div class="px-3">
       <button
         @click="composeMail"
-        class="flex items-center space-x-2 bg-[#c3e7ff] dark:text-white dark:bg-green-real"
-        :class="{
-          'p-4 rounded-2xl': isSidebarOpen,
-          'p-2 sm:p-4 sm:rounded-2xl rounded-md': !isSidebarOpen,
-        }"
+        class="flex items-center space-x-2 bg-[#c3e7ff] dark:text-white dark:bg-green-real p-2 sm:p-4 sm:rounded-2xl rounded-md"
       >
-        <PencilIcon class="w-6 text-[#061d47] dark:text-white" />
-        <span :class="isSidebarOpen ? 'block ' : 'hidden sm:block'"
-          >Compose</span
-        >
+        <PencilIcon
+          class="text-[#061d47] dark:text-white"
+          :class="isSidebarOpen ? 'w-4' : 'w-6'"
+        />
+        <span :class="{ hidden: isSidebarOpen }">Compose</span>
       </button>
     </div>
-    <ul class="my-4 space-y-1 text-center">
+    <ul
+      class="my-4 text-center"
+      :class="isSidebarOpen ? 'space-y-2' : 'space-y-1'"
+    >
       <li
-        class="bg-[#d3e3fd] px-5 rounded-r-full dark:bg-green-dark-light dark:hover:bg-green-dark-light"
+        class="bg-[#d3e3fd] px-5 rounded-r-full dark:bg-green-dark-light dark:hover:bg-green-dark-light hover:bg-[#e9ebef] cursor-pointer"
       >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <InboxIcon :class="isSidebarOpen ? 'w-6' : 'w-6 sm:w-4'" />
-          <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
-            >Inbox</span
-          >
+          <InboxIcon class="h-auto text-[#444746] w-5" />
+          <span :class="{ hidden: isSidebarOpen }">Inbox</span>
         </button>
       </li>
-      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
+      <li
+        class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+      >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <StarIcon :class="isSidebarOpen ? 'w-6' : 'w-6 sm:w-4'" />
-          <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
-            >Starred</span
-          >
+          <StarIcon class="h-auto text-[#444746] w-5" />
+          <span :class="{ hidden: isSidebarOpen }">Starred</span>
         </button>
       </li>
-      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
+      <li
+        class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+      >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <ClockIcon :class="isSidebarOpen ? 'w-6' : 'w-6 sm:w-4'" />
-          <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
-            >Snoozed</span
-          >
+          <ClockIcon class="h-auto text-[#444746] w-5" />
+          <span :class="{ hidden: isSidebarOpen }">Snoozed</span>
         </button>
       </li>
-      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
+      <li
+        class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+      >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <Icon
-            name="ic:round-send"
-            :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4 h-auto'"
-          />
-          <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'">Sent</span>
+          <Icon name="ic:round-send" class="h-auto text-[#444746] w-5" />
+          <span :class="{ hidden: isSidebarOpen }">Sent</span>
         </button>
       </li>
-      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
+      <li
+        class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+      >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <DocumentIcon :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4'" />
-          <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
-            >Drafts</span
-          >
+          <DocumentIcon class="h-auto text-[#444746] w-5" />
+          <span :class="{ hidden: isSidebarOpen }">Drafts</span>
         </button>
       </li>
-      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
+      <li
+        class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+      >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <ChevronUpIcon :class="isSidebarOpen ? 'w-6' : 'w-6 sm:w-4'" />
-          <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'">Less</span>
+          <ChevronUpIcon class="h-auto text-[#444746] w-5" />
+          <span :class="{ hidden: isSidebarOpen }">Less</span>
         </button>
       </li>
-      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
+      <li
+        class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+      >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
           <Icon
             name="material-symbols:label-important-outline"
-            :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4 h-auto'"
+            class="h-auto text-[#444746] w-5"
           />
-          <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
-            >Important</span
-          >
+          <span :class="{ hidden: isSidebarOpen }">Important</span>
         </button>
       </li>
-      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
+      <li
+        class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+      >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <Icon
-            name="ic:outline-chat"
-            :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4 h-auto'"
-          />
-          <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
-            >Chats</span
-          >
+          <Icon name="ic:outline-chat" class="h-auto text-[#444746] w-5" />
+          <span :class="{ hidden: isSidebarOpen }">Chats</span>
         </button>
       </li>
-      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
+      <li
+        class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+      >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
           <Icon
             name="material-symbols:schedule-send-outline"
-            :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4 h-auto'"
+            class="h-auto text-[#444746] w-5"
           />
-          <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
-            >Scheduled</span
-          >
+          <span :class="{ hidden: isSidebarOpen }">Scheduled</span>
         </button>
       </li>
-      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
+      <li
+        class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+      >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
           <Icon
             name="mdi:email-multiple-outline"
-            :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4 h-auto'"
+            class="h-auto text-[#444746] w-5"
           />
-          <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
-            >All Mail</span
-          >
+          <span :class="{ hidden: isSidebarOpen }">All Mail</span>
         </button>
       </li>
-      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
+      <li
+        class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+      >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <Icon
-            name="ri:spam-2-line"
-            :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4 h-auto'"
-          />
-          <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'">Spam</span>
+          <Icon name="ri:spam-2-line" class="h-auto text-[#444746] w-5" />
+          <span :class="{ hidden: isSidebarOpen }">Spam</span>
         </button>
       </li>
-      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
+      <li
+        class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+      >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
           <Icon
             name="material-symbols:delete-outline-rounded"
-            :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4 h-auto'"
+            class="h-auto text-[#444746] w-5"
           />
-          <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
-            >Trash</span
-          >
+          <span :class="{ hidden: isSidebarOpen }">Trash</span>
         </button>
       </li>
-      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
+      <li
+        class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+      >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
           <Icon
             name="material-symbols:label-outline-rounded"
-            :class="isSidebarOpen ? 'w-6 h-auto' : 'w-6 sm:w-4 h-auto'"
+            class="h-auto text-[#444746] w-5"
           />
-          <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
-            >Categories</span
-          >
+          <span :class="{ hidden: isSidebarOpen }">Categories</span>
         </button>
       </li>
-      <li class="px-5 rounded-r-full dark:hover:bg-green-dark-light">
+      <li
+        class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+      >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <Cog6ToothIcon :class="isSidebarOpen ? 'w-6' : 'w-6 sm:w-4'" />
-          <span :class="isSidebarOpen ? 'block' : 'hidden sm:block'"
-            >Manage labels</span
-          >
+          <Cog6ToothIcon class="h-auto text-[#444746] w-5" />
+          <span :class="{ hidden: isSidebarOpen }">Manage labels</span>
         </button>
       </li>
     </ul>

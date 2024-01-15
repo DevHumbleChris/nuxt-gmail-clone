@@ -37,10 +37,6 @@ const isComposingMail = computed(() => {
   return composeStore?.isComposingMail;
 });
 
-const maximize = () => {
-  composeStore?.maximize();
-};
-
 const minimize = () => {
   composeStore?.minimize();
 };
@@ -66,13 +62,17 @@ const handleComposeMail = async () => {};
 
 <template>
   <div v-if="isComposingMail">
-    <div class="fixed inset-0 bg-background/10 backdrop-blur-sm" />
     <div
-      class="fixed bottom-0 right-0 w-full sm:w-[30rem] h-[30rem] drop-shadow-2xl sm:right-16 text-sm shadow-lg shadow-cyan-500/200 rounded-t-lg z-30 overflow-hidden"
+      v-if="!isMinimize"
+      class="fixed inset-0 bg-background/10 backdrop-blur-sm"
+    />
+    <div
+      class="fixed bottom-0 right-0 drop-shadow-2xl sm:right-16 text-sm shadow-lg shadow-cyan-500/200 rounded-t-lg z-30 overflow-hidden"
       :class="{
-        'w-[17rem] bottom-0 h-[2.5rem]': isMinimize,
-        'w-[30rem] h-[30rem]': isMaximize,
+        'sm:w-[17rem] w-full bottom-0 h-[2.5rem]': isMinimize,
+        'w-full sm:w-[30rem] h-[30rem]': isMaximize,
         'bottom-28 sm:right-48 sm:w-[52rem]': isFullWidth,
+        'w-full sm:w-[30rem] h-[30rem]': !isMinimize,
       }"
     >
       <div
@@ -174,7 +174,9 @@ const handleComposeMail = async () => {};
             placeholder="Subject"
           />
         </div>
-        <div class="overflow-hidden overflow-y-scroll scrollbar-hide px-3">
+        <div
+          class="h-[16rem] overflow-hidden px-3 max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300"
+        >
           <EditorContent :editor="editor" data-hs-editor-field />
         </div>
 
@@ -457,8 +459,21 @@ const handleComposeMail = async () => {};
   </div>
 </template>
 
-<style scoped>
-.ProseMirror {
+<style scope>
+.ProseMirror:focus {
   outline: none;
+}
+
+.tiptap ul p,
+.tiptap ol p {
+  display: inline;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  font-size: 14px;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
 }
 </style>

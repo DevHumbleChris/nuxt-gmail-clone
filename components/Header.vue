@@ -2,6 +2,7 @@
 import {
   QuestionMarkCircleIcon,
   Cog6ToothIcon,
+  Bars3Icon,
 } from "@heroicons/vue/24/outline";
 import {
   MagnifyingGlassIcon,
@@ -16,16 +17,21 @@ const toggleMode = useToggle(isDark);
 
 <template>
   <div class="flex justify-between w-full">
-    <div
-      class="xl:w-[43rem] bg-[#eaf1fb] dark:bg-green-dark-light flex items-center space-x-2 py-1 px-3 rounded-full"
-    >
-      <MagnifyingGlassIcon class="w-6 dark:text-green-real" />
-      <input
-        type="text"
-        class="w-[8.5rem] sm:w-full bg-transparent border-0 outline-none focus:ring-0"
-        placeholder="Search mail"
+    <div class="flex items-center gap-2">
+      <Bars3Icon
+        class="w-6 block sm:hidden cursor-pointer dark:text-green-real"
       />
-      <AdjustmentsHorizontalIcon class="w-6 dark:text-green-real" />
+      <div
+        class="xl:w-[43rem] bg-[#eaf1fb] dark:bg-green-dark-light flex items-center space-x-2 py-1 px-3 rounded-full"
+      >
+        <MagnifyingGlassIcon class="w-6 dark:text-green-real" />
+        <input
+          type="text"
+          class="w-[8.5rem] sm:w-full bg-transparent border-0 outline-none focus:ring-0"
+          placeholder="Search mail"
+        />
+        <AdjustmentsHorizontalIcon class="w-6 dark:text-green-real" />
+      </div>
     </div>
 
     <div class="flex items-center space-x-4 dark:text-green-real">
