@@ -88,5 +88,7 @@ module.exports = {
     require("@tailwindcss/aspect-ratio"),
     require("@tailwindcss/typography"),
     require("tailwind-scrollbar-hide"),
+    require("preline/plugin"),
   ],
+  content: ["./node_modules/preline/preline.js"],
 };
