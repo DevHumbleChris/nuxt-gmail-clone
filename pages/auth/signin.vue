@@ -1,21 +1,12 @@
 <script setup>
 import { toast } from "vue-sonner";
-
 definePageMeta({
   layout: "custom",
   title: "Signin",
 });
+const isAuthenticating = useState("isAuthenticating", () => false);
 
-const { signinWith } = useFirebaseAuth();
-
-const signInWithGoogle = async () => {
-  const { message, error } = await signinWith("google");
-  if (error) {
-    return toast.error(error);
-  }
-  toast.success(message);
-  // await navigateTo({ path: "/protected" });
-};
+const signInWithGoogle = async () => {};
 </script>
 
 <template>
@@ -25,12 +16,20 @@ const signInWithGoogle = async () => {
       <button
         @click="signInWithGoogle"
         class="m-auto group text-center relative flex h-11 items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-white before:border before:border-gray-200 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95"
+        :disabled="isAuthenticating"
       >
         <span
           class="w-full relative flex justify-center items-center gap-3 text-sm sm:text-base font-medium text-gray-600"
         >
-          <Icon name="logos:google-icon" class="w-5" />
-          <span>Continue with Google</span>
+          <div
+            v-if="isAuthenticating"
+            class="w-5 h-5 rounded-full border-2 animate-spin border-dashed border-indigo-600"
+          ></div>
+          <Icon v-else name="logos:google-icon" class="w-5" />
+
+          <span :class="{ 'animate-pulse': isAuthenticating }"
+            >{{ isAuthenticating ? "Authenticating" : "Continue with Google" }}
+          </span>
         </span>
       </button>
       <img
