@@ -96,5 +96,6 @@ useHead({
     </section>
     <Compose />
     <Toaster position="top-right" richColors closeButton />
+    <SidebarMobile />
   </main>
 </template>

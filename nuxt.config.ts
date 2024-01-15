@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@vueuse/nuxt",
     "nuxt-vuefire",
+    "@vueuse/motion/nuxt",
   ],
   shadcn: {
     /**

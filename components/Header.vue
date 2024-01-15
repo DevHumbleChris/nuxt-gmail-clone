@@ -11,14 +11,21 @@ import {
 import { Button } from "~/components/ui/button";
 import { useDark, useToggle } from "@vueuse/core";
 
+const sidebarStore = useSidebarStore();
+
 const isDark = useDark();
 const toggleMode = useToggle(isDark);
+
+const openSidebarMobile = () => {
+  sidebarStore?.openLeftSidebarMenu();
+};
 </script>
 
 <template>
   <div class="flex justify-between w-full">
     <div class="flex items-center gap-2">
       <Bars3Icon
+        @click="openSidebarMobile"
         class="w-6 block sm:hidden cursor-pointer dark:text-green-real"
       />
       <div

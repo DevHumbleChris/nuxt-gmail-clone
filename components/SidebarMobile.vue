@@ -1,76 +1,63 @@
-<script setup>
-import {
-  Bars3Icon,
-  PencilIcon,
-  InboxIcon,
-  StarIcon,
-  ClockIcon,
-  DocumentIcon,
-  ChevronUpIcon,
-  Cog6ToothIcon,
-} from "@heroicons/vue/24/outline";
-import { useSidebarStore } from "~/stores/sidebar";
-import { useComposeStore } from "~/stores/compose";
-
+<script setup lang="ts">
 const composeStore = useComposeStore();
 const sidebarStore = useSidebarStore();
-const isSidebarOpen = computed(() => {
-  return sidebarStore.isSidebarOpen;
-});
-
-const openSidebar = () => {
-  sidebarStore.openSidebar();
-};
-
 const composeMail = () => {
   composeStore.composeMail();
+};
+
+const isLeftSidebarMenuOpen = computed(() => {
+  return sidebarStore?.isLeftSidebarMenuOpen;
+});
+
+const closeLeftSidebarMenu = () => {
+  sidebarStore?.openLeftSidebarMenu();
 };
 </script>
 
 <template>
   <aside
-    class="top-0 h-screen group sticky hidden sm:block"
-    :class="isSidebarOpen ? 'w-[4rem]' : 'sm:w-[16rem]'"
+    v-show="isLeftSidebarMenuOpen"
     v-motion
     :initial="{ opacity: 0, x: -100 }"
     :enter="{ opacity: 1, x: 0 }"
     :delay="200"
     :leave="{ opacity: 0, x: -100 }"
+    class="fixed shrink-0 top-0 left-0 w-[15rem] pr-3 bg-[#f7f8fc] dark:bg-green-dark h-screen py-3 rounded-r-2xl shadow-xl shadow-gray-800/10 dark:shadow-gray-300/10 group"
   >
+    <Icon
+      @click="closeLeftSidebarMenu"
+      name="heroicons:x-mark-16-solid"
+      class="absolute top-4 right-4 w-6 h-auto text-gray-600 cursor-pointer dark:text-green-real"
+    />
     <div class="flex space-x-2 items-center p-4">
-      <Bars3Icon
-        @click="openSidebar"
-        class="w-6 cursor-pointer dark:text-green-real"
-      />
       <img
-        v-if="!isSidebarOpen"
         src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r5.png"
       />
     </div>
     <div class="px-3">
       <button
         @click="composeMail"
-        class="flex items-center space-x-2 bg-[#c3e7ff] dark:text-white dark:bg-green-real p-2 sm:p-4 sm:rounded-2xl rounded-md"
+        class="flex items-center space-x-2 bg-[#c3e7ff] dark:text-white dark:bg-green-real p-4 rounded-2xl"
       >
-        <PencilIcon
-          class="text-[#061d47] dark:text-white"
-          :class="isSidebarOpen ? 'w-4' : 'w-6'"
+        <Icon
+          name="heroicons:pencil-solid"
+          class="w-6 text-[#061d47] dark:text-white"
         />
-        <span :class="{ hidden: isSidebarOpen }">Compose</span>
+        <span>Compose</span>
       </button>
     </div>
-    <ul
-      class="my-4 text-center"
-      :class="isSidebarOpen ? 'space-y-2' : 'space-y-1'"
-    >
+    <ul class="my-4 text-center space-y-1">
       <li
         class="bg-[#d3e3fd] px-5 rounded-r-full dark:bg-green-dark-light dark:hover:bg-green-dark-light hover:bg-[#e9ebef] cursor-pointer"
       >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <InboxIcon class="h-auto text-[#444746] dark:text-green-real w-5" />
-          <span :class="{ hidden: isSidebarOpen }">Inbox</span>
+          <Icon
+            name="heroicons:inbox"
+            class="h-auto text-[#444746] dark:text-green-real w-5 flex-shrink-0"
+          />
+          <span>Inbox</span>
         </button>
       </li>
       <li
@@ -79,8 +66,11 @@ const composeMail = () => {
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <StarIcon class="h-auto dark:text-green-real text-[#444746] w-5" />
-          <span :class="{ hidden: isSidebarOpen }">Starred</span>
+          <Icon
+            name="heroicons:star"
+            class="h-auto dark:text-green-real text-[#444746] w-5"
+          />
+          <span>Starred</span>
         </button>
       </li>
       <li
@@ -89,8 +79,11 @@ const composeMail = () => {
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <ClockIcon class="h-auto dark:text-green-real text-[#444746] w-5" />
-          <span :class="{ hidden: isSidebarOpen }">Snoozed</span>
+          <Icon
+            name="heroicons:clock"
+            class="h-auto dark:text-green-real text-[#444746] w-5"
+          />
+          <span>Snoozed</span>
         </button>
       </li>
       <li
@@ -103,7 +96,7 @@ const composeMail = () => {
             name="ic:round-send"
             class="h-auto dark:text-green-real text-[#444746] w-5"
           />
-          <span :class="{ hidden: isSidebarOpen }">Sent</span>
+          <span>Sent</span>
         </button>
       </li>
       <li
@@ -112,10 +105,11 @@ const composeMail = () => {
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <DocumentIcon
+          <Icon
+            name="heroicons:document"
             class="h-auto dark:text-green-real text-[#444746] w-5"
           />
-          <span :class="{ hidden: isSidebarOpen }">Drafts</span>
+          <span>Drafts</span>
         </button>
       </li>
       <li
@@ -124,10 +118,11 @@ const composeMail = () => {
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <ChevronUpIcon
+          <Icon
+            name="heroicons:chevron-up"
             class="h-auto dark:text-green-real text-[#444746] w-5"
           />
-          <span :class="{ hidden: isSidebarOpen }">Less</span>
+          <span>Less</span>
         </button>
       </li>
       <li
@@ -140,7 +135,7 @@ const composeMail = () => {
             name="material-symbols:label-important-outline"
             class="h-auto dark:text-green-real text-[#444746] w-5"
           />
-          <span :class="{ hidden: isSidebarOpen }">Important</span>
+          <span>Important</span>
         </button>
       </li>
       <li
@@ -153,7 +148,7 @@ const composeMail = () => {
             name="ic:outline-chat"
             class="h-auto dark:text-green-real text-[#444746] w-5"
           />
-          <span :class="{ hidden: isSidebarOpen }">Chats</span>
+          <span>Chats</span>
         </button>
       </li>
       <li
@@ -166,7 +161,7 @@ const composeMail = () => {
             name="material-symbols:schedule-send-outline"
             class="h-auto dark:text-green-real text-[#444746] w-5"
           />
-          <span :class="{ hidden: isSidebarOpen }">Scheduled</span>
+          <span>Scheduled</span>
         </button>
       </li>
       <li
@@ -179,7 +174,7 @@ const composeMail = () => {
             name="mdi:email-multiple-outline"
             class="h-auto dark:text-green-real text-[#444746] w-5"
           />
-          <span :class="{ hidden: isSidebarOpen }">All Mail</span>
+          <span>All Mail</span>
         </button>
       </li>
       <li
@@ -192,7 +187,7 @@ const composeMail = () => {
             name="ri:spam-2-line"
             class="h-auto dark:text-green-real text-[#444746] w-5"
           />
-          <span :class="{ hidden: isSidebarOpen }">Spam</span>
+          <span>Spam</span>
         </button>
       </li>
       <li
@@ -205,7 +200,7 @@ const composeMail = () => {
             name="material-symbols:delete-outline-rounded"
             class="h-auto dark:text-green-real text-[#444746] w-5"
           />
-          <span :class="{ hidden: isSidebarOpen }">Trash</span>
+          <span>Trash</span>
         </button>
       </li>
       <li
@@ -218,7 +213,7 @@ const composeMail = () => {
             name="material-symbols:label-outline-rounded"
             class="h-auto dark:text-green-real text-[#444746] w-5"
           />
-          <span :class="{ hidden: isSidebarOpen }">Categories</span>
+          <span>Categories</span>
         </button>
       </li>
       <li
@@ -227,10 +222,11 @@ const composeMail = () => {
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <Cog6ToothIcon
+          <Icon
+            name="heroicons:cog-6-tooth"
             class="h-auto dark:text-green-real text-[#444746] w-5"
           />
-          <span :class="{ hidden: isSidebarOpen }">Manage labels</span>
+          <span>Manage labels</span>
         </button>
       </li>
     </ul>
