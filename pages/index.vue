@@ -1,6 +1,7 @@
 <script setup>
 definePageMeta({
   title: "Inbox",
+  middleware: ["auth"],
 });
 </script>
 

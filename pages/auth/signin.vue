@@ -1,12 +1,31 @@
 <script setup>
 import { toast } from "vue-sonner";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 definePageMeta({
   layout: "custom",
   title: "Signin",
 });
+const auth = useFirebaseAuth();
+const currentUser = useCurrentUser();
+const googleProvider = new GoogleAuthProvider();
 const isAuthenticating = useState("isAuthenticating", () => false);
 
-const signInWithGoogle = async () => {};
+const signInWithGoogle = async () => {
+  isAuthenticating.value = true;
+  try {
+    const user = await signInWithPopup(auth, googleProvider);
+    if (user) {
+      isAuthenticating.value = false;
+      navigateTo({
+        path: "/",
+      });
+      return await toast.success("Signin With Google Successfully!");
+    }
+  } catch (error) {
+    isAuthenticating.value = false;
+    return await toast.error(error.message);
+  }
+};
 </script>
 
 <template>
