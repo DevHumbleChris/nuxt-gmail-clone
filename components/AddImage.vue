@@ -61,6 +61,7 @@ const uploadImg = async () => {
   selectedFile.value = null;
   imgInfo.value = null;
   composeStore?.openAddImageModal();
+  composeStore?.setUploadedImgUrl(imgData.value.logoUrl);
   return toast.success("Image Uploaded");
 };
 </script>

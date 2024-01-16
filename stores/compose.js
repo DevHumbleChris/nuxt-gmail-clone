@@ -7,6 +7,11 @@ export const useComposeStore = defineStore("compose", () => {
   const isSetBlindCarbonCopy = useState("blindCarbonCopy", () => false);
   const isAddImage = useState("isAddImage", () => false);
   const isAddLink = useState("isAddLink", () => false);
+  const uploadedImgUrl = useState("uploadedImgUrl", () => "");
+
+  const setUploadedImgUrl = (payload) => {
+    uploadedImgUrl.value = payload;
+  };
 
   const openAddLinkModal = () => {
     isAddLink.value = !isAddLink.value;
@@ -69,5 +74,7 @@ export const useComposeStore = defineStore("compose", () => {
     isAddImage,
     isAddLink,
     openAddLinkModal,
+    uploadedImgUrl,
+    setUploadedImgUrl,
   };
 });

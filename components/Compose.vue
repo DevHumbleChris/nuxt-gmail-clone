@@ -59,6 +59,11 @@ onMounted(() => {
         },
       }),
       TextAlign,
+      Image.configure({
+        HTMLAttributes: {
+          class: "max-w-[10rem] max-h-[10rem] object-cover",
+        },
+      }),
     ],
   });
 });
@@ -142,10 +147,20 @@ onBeforeUnmount(() => {
   editor.value.destroy();
 });
 
+const uploadedImgUrl = computed(() => {
+  return composeStore?.uploadedImgUrl;
+});
+
 const addImage = () => {
   composeStore?.openAddImageModal();
-  // editor.value.chain().focus().setImage({ src: url }).run();
 };
+
+watchEffect(() => {
+  if (uploadedImgUrl.value) {
+    editor.value.chain().focus().setImage({ src: uploadedImgUrl.value }).run();
+    composeStore?.setUploadedImgUrl("");
+  }
+});
 
 const addLink = () => {
   composeStore?.openAddLinkModal();
@@ -168,7 +183,7 @@ const addLink = () => {
       }"
     >
       <div
-        class="bg-[#f2f5fc] dark:bg-green-dark-light p-3 flex items-center justify-between dark:border-b dark:border-gray-600/50"
+        class="sticky bg-[#f2f5fc] dark:bg-green-dark-light p-3 flex items-center justify-between dark:border-b dark:border-gray-600/50"
       >
         <p class="text-[#172846] dark:text-green-real">New Message</p>
         <div class="flex items-center space-x-2">
