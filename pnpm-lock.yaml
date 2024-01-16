@@ -32,6 +32,9 @@ dependencies:
   '@tiptap/extension-bold':
     specifier: ^2.1.16
     version: 2.1.16(@tiptap/core@2.1.15)
+  '@tiptap/extension-italic':
+    specifier: ^2.1.16
+    version: 2.1.16(@tiptap/core@2.1.15)
   '@tiptap/extension-strike':
     specifier: ^2.1.16
     version: 2.1.16(@tiptap/core@2.1.15)
@@ -2866,8 +2869,8 @@ packages:
       '@tiptap/pm': 2.1.15
     dev: false
 
-  /@tiptap/extension-italic@2.1.15(@tiptap/core@2.1.15):
-    resolution: {integrity: sha512-8bNDAv3kvIb+bIsGq5az/rd5oIN3E3NSIx2x/FZ1LqMTVhBJ/mWRVZf8etV4O2oCRXiVPlUDXCEMWqDRxCzYgg==}
+  /@tiptap/extension-italic@2.1.16(@tiptap/core@2.1.15):
+    resolution: {integrity: sha512-6mFGPBGxd2aICJ5Q3zYxuXO8slKoOP/PsSjEQn1bjs3h8Q3mPxHX290ePVp728o5F0myM9sxKSz2V6/VeuS/Yw==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
@@ -2953,7 +2956,7 @@ packages:
       '@tiptap/extension-heading': 2.1.15(@tiptap/core@2.1.15)
       '@tiptap/extension-history': 2.1.15(@tiptap/core@2.1.15)(@tiptap/pm@2.1.15)
       '@tiptap/extension-horizontal-rule': 2.1.15(@tiptap/core@2.1.15)(@tiptap/pm@2.1.15)
-      '@tiptap/extension-italic': 2.1.15(@tiptap/core@2.1.15)
+      '@tiptap/extension-italic': 2.1.16(@tiptap/core@2.1.15)
       '@tiptap/extension-list-item': 2.1.15(@tiptap/core@2.1.15)
       '@tiptap/extension-ordered-list': 2.1.15(@tiptap/core@2.1.15)
       '@tiptap/extension-paragraph': 2.1.15(@tiptap/core@2.1.15)

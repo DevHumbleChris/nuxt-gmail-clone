@@ -68,6 +68,10 @@ const setBold = () => {
 const setStrikethrough = () => {
   editor.value.chain().focus().toggleStrike().run();
 };
+
+const toggleItalic = () => {
+  editor.value.chain().focus().toggleItalic().run();
+};
 </script>
 
 <template>
@@ -221,6 +225,7 @@ const setStrikethrough = () => {
                   </svg>
                 </button>
                 <button
+                  @click="toggleItalic"
                   class="w-8 h-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 dark:text-green-real"
                   type="button"
                   data-hs-editor-italic
