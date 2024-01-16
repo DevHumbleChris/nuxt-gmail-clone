@@ -98,5 +98,6 @@ useHead({
     <Toaster position="top-right" richColors closeButton />
     <LazySidebarMobile />
     <LazyAddImage />
+    <LazyAddLink />
   </main>
 </template>

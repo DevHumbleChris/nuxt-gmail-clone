@@ -146,6 +146,10 @@ const addImage = () => {
   composeStore?.openAddImageModal();
   // editor.value.chain().focus().setImage({ src: url }).run();
 };
+
+const addLink = () => {
+  composeStore?.openAddLinkModal();
+};
 </script>
 
 <template>
@@ -478,7 +482,7 @@ const addImage = () => {
                 <button>
                   <Icon name="mdi:paperclip" class="w-5 h-auto" />
                 </button>
-                <button>
+                <button @click="addLink">
                   <Icon name="ic:outline-insert-link" class="w-5 h-auto" />
                 </button>
                 <button @click="addImage">

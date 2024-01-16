@@ -10,11 +10,11 @@ import {
 const composeStore = useComposeStore();
 
 const isOpen = computed(() => {
-  return composeStore?.isAddImage;
+  return composeStore?.isAddLink;
 });
 
 function closeModal() {
-  composeStore?.openAddImageModal();
+  composeStore?.openAddLinkModal();
 }
 </script>
 
@@ -53,7 +53,7 @@ function closeModal() {
                 as="h3"
                 class="text-lg font-medium leading-6 text-center text-gray-900"
               >
-                Upload Image
+                Edit Link
               </DialogTitle>
               <button class="absolute top-3 right-4" @click="closeModal">
                 <Icon
@@ -63,43 +63,21 @@ function closeModal() {
               </button>
 
               <div class="mt-3">
-                <label
-                  class="mt-2 cursor-pointer flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-5"
-                >
-                  <div class="text-center">
-                    <svg
-                      class="mx-auto h-12 w-12 text-gray-300"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                    <div
-                      class="mt-4 flex items-center justify-center text-sm leading-6 text-gray-500"
-                    >
-                      <label
-                        for="file-upload"
-                        class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                      >
-                        <span>Upload a file</span>
-                        <input
-                          id="file-upload"
-                          name="file-upload"
-                          type="file"
-                          class="sr-only"
-                        />
-                      </label>
-                    </div>
-                    <p class="text-xs leading-5 text-gray-600">
-                      PNG, JPG, GIF up to 5MB
-                    </p>
+                <div class="relative">
+                  <input
+                    type="email"
+                    class="peer py-3 px-4 ps-11 block w-full border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-700 dark:border-transparent dark:text-gray-400 dark:focus:ring-gray-600"
+                    placeholder="Enter web address"
+                  />
+                  <div
+                    class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none"
+                  >
+                    <Icon
+                      name="ic:outline-insert-link"
+                      class="flex-shrink-0 w-4 h-auto text-gray-500"
+                    />
                   </div>
-                </label>
+                </div>
               </div>
 
               <div class="mt-4">
@@ -107,7 +85,7 @@ function closeModal() {
                   type="button"
                   class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 >
-                  Upload
+                  Add
                 </button>
               </div>
             </DialogPanel>

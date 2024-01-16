@@ -6,6 +6,11 @@ export const useComposeStore = defineStore("compose", () => {
   const isSetCarbonCopy = useState("carbonCopy", () => false);
   const isSetBlindCarbonCopy = useState("blindCarbonCopy", () => false);
   const isAddImage = useState("isAddImage", () => false);
+  const isAddLink = useState("isAddLink", () => false);
+
+  const openAddLinkModal = () => {
+    isAddLink.value = !isAddLink.value;
+  };
 
   const openAddImageModal = () => {
     isAddImage.value = !isAddImage.value;
@@ -62,5 +67,7 @@ export const useComposeStore = defineStore("compose", () => {
     setBlindCarbonCopy,
     openAddImageModal,
     isAddImage,
+    isAddLink,
+    openAddLinkModal,
   };
 });
