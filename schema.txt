@@ -1,0 +1,88 @@
+- email_id
+  - sender_id
+  - receiver_id
+  - cc_ids
+    - cc_id_1
+    - cc_id_2
+    - ...
+  - bcc_ids
+    - bcc_id_1
+    - bcc_id_2
+    - ...
+  - subject
+  - body
+  - timestamp
+  - status
+    - snoozed
+    - sent
+    - starred
+    - trash
+  - other_email_details
+
+
+  ChatGPT Schema:
+
+  {
+  "users": {
+    "userId1": {
+      "email": "user1@gmail.com",
+      "displayName": "User One",
+      "password": "hashedPassword1",
+      "inbox": {
+        "emailId1": {
+          "sender": "sender2@gmail.com",
+          "subject": "Meeting Tomorrow",
+          "body": "Hi, let's meet tomorrow at 2 PM.",
+          "timestamp": 1641877200000,
+          "read": false,
+          "snoozed": false,
+          "starred": true,
+          "sent": false,
+          "trashed": false,
+          "labels": {
+            "work": true,
+            "personal": false
+          }
+        },
+        // More emails...
+      },
+      "sent": {
+        "emailId2": {
+          "recipient": "recipient3@gmail.com",
+          "subject": "Project Update",
+          "body": "Here's the latest update on the project.",
+          "timestamp": 1641877300000,
+          "read": true,
+          "snoozed": false,
+          "starred": false,
+          "sent": true,
+          "trashed": false,
+          "labels": {
+            "work": false,
+            "important": true
+          }
+        },
+        // More sent emails...
+      },
+      "starred": {
+        "emailId3": {
+          // Details of starred email
+        },
+        // More starred emails...
+      },
+      "snoozed": {
+        "emailId4": {
+          // Details of snoozed email
+        },
+        // More snoozed emails...
+      },
+      "trash": {
+        "emailId5": {
+          // Details of trashed email
+        },
+        // More trashed emails...
+      }
+    },
+    // More users...
+  }
+}
