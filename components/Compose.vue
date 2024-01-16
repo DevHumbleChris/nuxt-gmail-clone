@@ -3,13 +3,14 @@ import { useComposeStore } from "~/stores/compose";
 import { Editor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
 import Bold from "@tiptap/extension-bold";
+import Strike from "@tiptap/extension-strike";
 
 const editor = useState("editor", () => null);
 
 onMounted(() => {
   editor.value = new Editor({
     content: "",
-    extensions: [StarterKit, Bold],
+    extensions: [StarterKit, Bold, Strike],
   });
 });
 
@@ -64,7 +65,9 @@ const setBold = () => {
   editor.value.chain().focus().toggleBold().run();
 };
 
-const setStrikethrough = () => {};
+const setStrikethrough = () => {
+  editor.value.chain().focus().toggleStrike().run();
+};
 </script>
 
 <template>
@@ -261,6 +264,7 @@ const setStrikethrough = () => {};
                   </svg>
                 </button>
                 <button
+                  @click="setStrikethrough"
                   class="w-8 h-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 dark:text-green-real"
                   type="button"
                   data-hs-editor-strike
