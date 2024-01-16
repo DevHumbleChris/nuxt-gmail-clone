@@ -4,13 +4,61 @@ import { Editor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
 import Bold from "@tiptap/extension-bold";
 import Strike from "@tiptap/extension-strike";
+import Underline from "@tiptap/extension-underline";
+import ListItem from "@tiptap/extension-list-item";
+import BulletList from "@tiptap/extension-bullet-list";
+import OrderedList from "@tiptap/extension-ordered-list";
+import TextAlign from "@tiptap/extension-text-align";
+import Placeholder from "@tiptap/extension-placeholder";
+import Paragraph from "@tiptap/extension-paragraph";
+import Link from "@tiptap/extension-link";
+import Blockquote from "@tiptap/extension-blockquote";
 
 const editor = useState("editor", () => null);
 
 onMounted(() => {
   editor.value = new Editor({
     content: "",
-    extensions: [StarterKit, Bold, Strike],
+    extensions: [
+      Placeholder.configure({
+        placeholder: "Add a message, if you'd like.",
+        emptyNodeClass: "text-gray-600 dark:text-gray-400",
+      }),
+      StarterKit,
+      Paragraph.configure({
+        HTMLAttributes: {
+          class: "text-gray-600 dark:text-gray-400",
+        },
+      }),
+      Bold.configure({
+        HTMLAttributes: {
+          class: "font-bold",
+        },
+      }),
+      Underline,
+      Link.configure({
+        HTMLAttributes: {
+          class:
+            "inline-flex items-center gap-x-1 text-blue-600 decoration-2 hover:underline font-medium dark:text-white",
+        },
+      }),
+      BulletList.configure({
+        HTMLAttributes: {
+          class: "list-disc list-inside text-gray-800 dark:text-white",
+        },
+      }),
+      OrderedList.configure({
+        HTMLAttributes: {
+          class: "list-decimal list-inside text-gray-800 dark:text-white",
+        },
+      }),
+      ListItem,
+      Blockquote.configure({
+        HTMLAttributes: {
+          class: "text-gray-800 sm:text-xl dark:text-white",
+        },
+      }),
+    ],
   });
 });
 
@@ -72,6 +120,26 @@ const setStrikethrough = () => {
 const toggleItalic = () => {
   editor.value.chain().focus().toggleItalic().run();
 };
+
+const toggleUnderline = () => {
+  editor.value.chain().focus().toggleUnderline().run();
+};
+
+const toggleBulletList = () => {
+  editor.value.chain().focus().toggleBulletList().run();
+};
+
+const toggleOrderedList = () => {
+  editor.value.chain().focus().toggleOrderedList().run();
+};
+
+const toggleAlignment = (alignType) => {
+  editor.value.chain().focus().setTextAlign(alignType).run();
+};
+
+onBeforeUnmount(() => {
+  editor.value.destroy();
+});
 </script>
 
 <template>
@@ -191,9 +259,7 @@ const toggleItalic = () => {
         <div
           class="h-[16rem] overflow-hidden px-3 max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300"
         >
-          <client-only>
-            <EditorContent :editor="editor" data-hs-editor-field />
-          </client-only>
+          <EditorContent :editor="editor" data-hs-editor-field />
         </div>
 
         <!-- Compose Buttons -->
@@ -205,6 +271,7 @@ const toggleItalic = () => {
               <div class="flex align-middle gap-x-0.5 p-2">
                 <button
                   @click="setBold"
+                  data-hs-editor-bold
                   class="w-8 h-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 dark:text-green-real"
                   type="button"
                 >
@@ -248,6 +315,7 @@ const toggleItalic = () => {
                   </svg>
                 </button>
                 <button
+                  @click="toggleUnderline"
                   class="w-8 h-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 dark:text-green-real"
                   type="button"
                   data-hs-editor-underline
@@ -317,6 +385,7 @@ const toggleItalic = () => {
                   </svg>
                 </button>
                 <button
+                  @click="toggleOrderedList"
                   class="w-8 h-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 dark:text-green-real"
                   type="button"
                   data-hs-editor-ol
@@ -342,6 +411,7 @@ const toggleItalic = () => {
                   </svg>
                 </button>
                 <button
+                  @click="toggleBulletList"
                   class="w-8 h-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 dark:text-green-real"
                   type="button"
                   data-hs-editor-ul
@@ -388,11 +458,10 @@ const toggleItalic = () => {
                     <path d="m14.5 4-5 16" />
                   </svg>
                 </button>
-
                 <button
+                  @click="toggleAlignment('left')"
                   class="w-8 h-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 dark:text-green-real"
                   type="button"
-                  data-hs-editor-code
                 >
                   <Icon
                     name="icon-park-outline:left-alignment"
@@ -400,9 +469,31 @@ const toggleItalic = () => {
                   />
                 </button>
                 <button
+                  @click="toggleAlignment('center')"
                   class="w-8 h-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 dark:text-green-real"
                   type="button"
-                  data-hs-editor-code
+                >
+                  <svg
+                    class="flex-shrink-0 w-4 h-4 dark:text-green-real"
+                    width="800px"
+                    height="800px"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M3 6H21M3 14H21M17 10H7M17 18H7"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+                <button
+                  @click="toggleAlignment('right')"
+                  class="w-8 h-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 dark:text-green-real"
+                  type="button"
                 >
                   <svg
                     class="flex-shrink-0 w-4 h-4 dark:text-green-real"
