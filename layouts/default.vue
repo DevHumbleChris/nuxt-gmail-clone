@@ -38,7 +38,7 @@ useHead({
   <main
     class="flex bg-[#f7f8fc] dark:bg-green-dark relative max-w-[85rem] mx-auto overflow-hidden"
   >
-    <Sidebar />
+    <LazySidebar />
     <section class="w-full p-1.5 lg:p-2.5">
       <Header />
       <div class="my-2 p-1.5 flex space-x-2">
@@ -94,8 +94,9 @@ useHead({
         </div>
       </div>
     </section>
-    <Compose />
+    <LazyCompose />
     <Toaster position="top-right" richColors closeButton />
-    <SidebarMobile />
+    <LazySidebarMobile />
+    <LazyAddImage />
   </main>
 </template>

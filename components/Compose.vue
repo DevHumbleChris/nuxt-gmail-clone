@@ -3,7 +3,7 @@ import { useComposeStore } from "~/stores/compose";
 import { Editor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
 import Bold from "@tiptap/extension-bold";
-import Strike from "@tiptap/extension-strike";
+import Image from "@tiptap/extension-image";
 import Underline from "@tiptap/extension-underline";
 import ListItem from "@tiptap/extension-list-item";
 import BulletList from "@tiptap/extension-bullet-list";
@@ -21,7 +21,7 @@ onMounted(() => {
     content: "",
     extensions: [
       Placeholder.configure({
-        placeholder: "Add a message, if you'd like.",
+        placeholder: "Write something …",
         emptyNodeClass: "text-gray-600 dark:text-gray-400",
       }),
       StarterKit,
@@ -58,6 +58,7 @@ onMounted(() => {
           class: "text-gray-800 sm:text-xl dark:text-white",
         },
       }),
+      TextAlign,
     ],
   });
 });
@@ -140,6 +141,11 @@ const toggleAlignment = (alignType) => {
 onBeforeUnmount(() => {
   editor.value.destroy();
 });
+
+const addImage = () => {
+  composeStore?.openAddImageModal();
+  // editor.value.chain().focus().setImage({ src: url }).run();
+};
 </script>
 
 <template>
@@ -257,7 +263,7 @@ onBeforeUnmount(() => {
           />
         </div>
         <div
-          class="h-[16rem] overflow-hidden px-3 max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300"
+          class="h-[15.5rem] overflow-hidden mt-1 px-3 max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300"
         >
           <EditorContent :editor="editor" data-hs-editor-field />
         </div>
@@ -458,81 +464,6 @@ onBeforeUnmount(() => {
                     <path d="m14.5 4-5 16" />
                   </svg>
                 </button>
-                <button
-                  @click="toggleAlignment('left')"
-                  class="w-8 h-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 dark:text-green-real"
-                  type="button"
-                >
-                  <Icon
-                    name="icon-park-outline:left-alignment"
-                    class="flex-shrink-0 w-4 h-4"
-                  />
-                </button>
-                <button
-                  @click="toggleAlignment('center')"
-                  class="w-8 h-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 dark:text-green-real"
-                  type="button"
-                >
-                  <svg
-                    class="flex-shrink-0 w-4 h-4 dark:text-green-real"
-                    width="800px"
-                    height="800px"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M3 6H21M3 14H21M17 10H7M17 18H7"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </button>
-                <button
-                  @click="toggleAlignment('right')"
-                  class="w-8 h-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 dark:text-green-real"
-                  type="button"
-                >
-                  <svg
-                    class="flex-shrink-0 w-4 h-4 dark:text-green-real"
-                    width="800px"
-                    height="800px"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M7 10L21 10"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M3 6H21"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M7 18L21 18"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M3 14H21"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </button>
               </div>
             </div>
           </div>
@@ -550,7 +481,7 @@ onBeforeUnmount(() => {
                 <button>
                   <Icon name="ic:outline-insert-link" class="w-5 h-auto" />
                 </button>
-                <button>
+                <button @click="addImage">
                   <Icon
                     name="material-symbols:image-outline-rounded"
                     class="w-5 h-auto"

@@ -5,6 +5,11 @@ export const useComposeStore = defineStore("compose", () => {
   const isFullWidth = useState("isFullWidth", () => false);
   const isSetCarbonCopy = useState("carbonCopy", () => false);
   const isSetBlindCarbonCopy = useState("blindCarbonCopy", () => false);
+  const isAddImage = useState("isAddImage", () => false);
+
+  const openAddImageModal = () => {
+    isAddImage.value = !isAddImage.value;
+  };
 
   const maximize = () => {
     isMaximize.value = !isMaximize.value;
@@ -55,5 +60,7 @@ export const useComposeStore = defineStore("compose", () => {
     isSetBlindCarbonCopy,
     setCarbonCopy,
     setBlindCarbonCopy,
+    openAddImageModal,
+    isAddImage,
   };
 });
