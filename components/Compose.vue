@@ -2,13 +2,14 @@
 import { useComposeStore } from "~/stores/compose";
 import { Editor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
+import Bold from "@tiptap/extension-bold";
 
 const editor = useState("editor", () => null);
 
 onMounted(() => {
   editor.value = new Editor({
     content: "",
-    extensions: [StarterKit],
+    extensions: [StarterKit, Bold],
   });
 });
 
@@ -58,6 +59,12 @@ const setBlindCarbonCopy = () => {
 };
 
 const handleComposeMail = async () => {};
+
+const setBold = () => {
+  editor.value.chain().focus().toggleBold().run();
+};
+
+const setStrikethrough = () => {};
 </script>
 
 <template>
@@ -177,7 +184,9 @@ const handleComposeMail = async () => {};
         <div
           class="h-[16rem] overflow-hidden px-3 max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300"
         >
-          <EditorContent :editor="editor" data-hs-editor-field />
+          <client-only>
+            <EditorContent :editor="editor" data-hs-editor-field />
+          </client-only>
         </div>
 
         <!-- Compose Buttons -->
@@ -188,6 +197,7 @@ const handleComposeMail = async () => {};
             <div>
               <div class="flex align-middle gap-x-0.5 p-2">
                 <button
+                  @click="setBold"
                   class="w-8 h-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 dark:text-green-real"
                   type="button"
                 >
