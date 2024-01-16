@@ -49,8 +49,8 @@ export default defineNuxtConfig({
       messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
     },
   },
-  // routeRules: {
-  //   "/": { ssr: false },
-  //   "/auth/signin": { ssr: false },
-  // },
+  routeRules: {
+    "/": { ssr: false },
+    "/auth/signin": { ssr: false },
+  },
 });
