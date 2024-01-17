@@ -13,6 +13,10 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Paragraph from "@tiptap/extension-paragraph";
 import Link from "@tiptap/extension-link";
 import Blockquote from "@tiptap/extension-blockquote";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+
+const db = useFirestore();
+const user = useCurrentUser();
 
 const editor = useState("editor", () => null);
 const content = ref("");
@@ -176,8 +180,29 @@ const addLink = () => {
   composeStore?.openAddLinkModal();
 };
 
-const sendMail = () => {
-  console.log(editor.value.getHTML());
+const recipient = useState("recipient", () => "");
+const subject = useState("subject", () => "");
+
+const sendMail = async () => {
+  try {
+    const docRef = await addDoc(
+      collection(db, "emails", user.value.uid, "sent"),
+      {
+        recipient: recipient.value,
+        subject: subject.value,
+        body: editor.value.getHTML(),
+        timestamp: serverTimestamp(),
+        read: false,
+        snoozed: false,
+        starred: false,
+        sent: true,
+        trashed: false,
+      }
+    );
+    console.log(docRef);
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 </script>
 
@@ -234,6 +259,7 @@ const sendMail = () => {
             type="text"
             class="w-full text-sm outline-none border-0 focus:ring-0 bg-transparent group-hover:ml-0 -ml-2 group-hover:placeholder:text-transparent dark:placeholder:text-green-real dark:text-white"
             placeholder="Recipient"
+            v-model="recipient"
           />
           <div
             v-if="!isSetCarbonCopy"
@@ -293,6 +319,7 @@ const sendMail = () => {
             type="text"
             class="-ml-2 w-full outline-none border-0 focus:ring-0 bg-transparent dark:placeholder:text-green-real dark:text-white"
             placeholder="Subject"
+            v-model="subject"
           />
         </div>
         <div

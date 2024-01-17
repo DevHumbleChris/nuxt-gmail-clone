@@ -1,20 +1,36 @@
 <script setup>
 import { toast } from "vue-sonner";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { addDoc, collection, doc, setDoc, where } from "firebase/firestore";
 definePageMeta({
   layout: "custom",
   title: "Signin",
 });
+const db = useFirestore();
 const auth = useFirebaseAuth();
-const currentUser = useCurrentUser();
 const googleProvider = new GoogleAuthProvider();
 const isAuthenticating = useState("isAuthenticating", () => false);
 
 const signInWithGoogle = async () => {
   isAuthenticating.value = true;
   try {
-    const user = await signInWithPopup(auth, googleProvider);
-    if (user) {
+    const loggedUser = await signInWithPopup(auth, googleProvider);
+    const users = useCollection(
+      collection(db, "users"),
+      where("email", "==", loggedUser.user.email)
+    );
+    if (loggedUser) {
+      if (users.value.length <= 0) {
+        await setDoc(doc(db, "users", loggedUser.user.uid), {
+          email: loggedUser.user.email,
+          displayName: loggedUser.user.displayName,
+          photoUrl: loggedUser.user.photoURL,
+          inbox: [],
+          sent: [],
+          starred: [],
+          drafts: [],
+        });
+      }
       isAuthenticating.value = false;
       navigateTo({
         path: "/",

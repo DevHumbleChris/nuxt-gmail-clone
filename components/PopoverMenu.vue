@@ -1,7 +1,24 @@
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
+import { signOut } from "firebase/auth";
+import { toast } from "vue-sonner";
 
-const logOut = async () => {};
+const auth = useFirebaseAuth();
+
+const logOut = () => {
+  signOut(auth)
+    .then(() => {
+      // Sign-out successful.
+      navigateTo({
+        path: "/auth/signin",
+      });
+      return toast.success("Signout Successfull!");
+    })
+    .catch((error) => {
+      // An error happened.
+      return toast.error(error.message);
+    });
+};
 </script>
 
 <template>
