@@ -1,7 +1,7 @@
 <script setup>
 import { toast } from "vue-sonner";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { addDoc, collection, doc, setDoc, where } from "firebase/firestore";
+import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 definePageMeta({
   layout: "custom",
   title: "Signin",
@@ -15,22 +15,37 @@ const signInWithGoogle = async () => {
   isAuthenticating.value = true;
   try {
     const loggedUser = await signInWithPopup(auth, googleProvider);
-    const users = useCollection(
-      collection(db, "users"),
-      where("email", "==", loggedUser.user.email)
-    );
     if (loggedUser) {
-      if (users.value.length <= 0) {
-        await setDoc(doc(db, "users", loggedUser.user.uid), {
-          email: loggedUser.user.email,
-          displayName: loggedUser.user.displayName,
-          photoUrl: loggedUser.user.photoURL,
-          inbox: [],
-          sent: [],
-          starred: [],
-          drafts: [],
+      const userData = {
+        email: loggedUser.user.email,
+        displayName: loggedUser.user.displayName,
+      };
+
+      // Check if the user already exists
+      const userDocRef = doc(db, "users", userData.email);
+
+      getDoc(userDocRef)
+        .then((docSnapshot) => {
+          if (docSnapshot.exists()) {
+            console.log("User already exists!");
+            // Handle the case where the user already exists, perhaps show an error message.
+          } else {
+            // If the user doesn't exist, create the user document
+            return setDoc(
+              userDocRef,
+              { ...userData, createdAt: serverTimestamp() },
+              { merge: true }
+            );
+          }
+        })
+        .then(() => {
+          toast.success("User created/updated successfully!");
+        })
+        .catch((error) => {
+          toast.error(
+            "Error checking/creating/updating user document:" + error
+          );
         });
-      }
       isAuthenticating.value = false;
       navigateTo({
         path: "/",

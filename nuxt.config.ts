@@ -31,6 +31,7 @@ export default defineNuxtConfig({
     public: {
       GOOGLE_APPLICATION_CREDENTIALS:
         process.env.GOOGLE_APPLICATION_CREDENTIALS,
+      secretDocKey: process.env.SECRET_DOC_KEY,
     },
   },
   build: {

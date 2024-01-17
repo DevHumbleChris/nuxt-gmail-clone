@@ -13,7 +13,15 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Paragraph from "@tiptap/extension-paragraph";
 import Link from "@tiptap/extension-link";
 import Blockquote from "@tiptap/extension-blockquote";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { toast } from "vue-sonner";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  runTransaction,
+  serverTimestamp,
+} from "firebase/firestore";
 
 const db = useFirestore();
 const user = useCurrentUser();
@@ -185,21 +193,78 @@ const subject = useState("subject", () => "");
 
 const sendMail = async () => {
   try {
-    const docRef = await addDoc(
-      collection(db, "emails", user.value.uid, "sent"),
-      {
-        recipient: recipient.value,
-        subject: subject.value,
-        body: editor.value.getHTML(),
-        timestamp: serverTimestamp(),
-        read: false,
-        snoozed: false,
-        starred: false,
-        sent: true,
-        trashed: false,
-      }
-    );
-    console.log(docRef);
+    const emailData = {
+      recipient: recipient.value,
+      subject: subject.value,
+      body: editor.value.getHTML(),
+      timestamp: serverTimestamp(),
+      sender: user.value.email,
+      read: false,
+      snoozed: false,
+      starred: false,
+      trashed: false,
+      labels: {
+        work: false,
+        personal: true,
+      },
+    };
+
+    const senderDocRef = doc(db, "users", emailData.sender);
+    const recipientDocRef = doc(db, "users", emailData.recipient);
+
+    // Check if the recipient exists before proceeding with the transaction
+    const checkRecipient = async () => {
+      const recipientDoc = await getDoc(recipientDocRef);
+      return recipientDoc.exists();
+    };
+
+    // Perform the transaction only if the recipient exists
+    checkRecipient()
+      .then((recipientExists) => {
+        if (recipientExists) {
+          // Proceed with the transaction to send the email
+          const transaction = async (transaction) => {
+            // Fetch sender's sent data
+            const senderData = await getDoc(senderDocRef);
+            const senderSent = senderData.data().sent || [];
+
+            // Fetch recipient's inbox data
+            const recipientData = await getDoc(recipientDocRef);
+            const recipientInbox = recipientData.data().inbox || [];
+
+            // Add the email to sender's 'sent' and recipient's 'inbox'
+            const sentEmailId = addDoc(collection(senderDocRef, "sent"), {
+              ...emailData,
+              timestamp: serverTimestamp(),
+            });
+
+            const inboxEmailId = addDoc(collection(recipientDocRef, "inbox"), {
+              ...emailData,
+              timestamp: serverTimestamp(),
+            });
+
+            return {
+              sentEmailId: sentEmailId.id,
+              inboxEmailId: inboxEmailId.id,
+            };
+          };
+
+          runTransaction(db, transaction)
+            .then((result) => {
+              toast.success("Email sent successfully.");
+            })
+            .catch((error) => {
+              toast.error("Error sending email: " + error.message);
+            });
+        } else {
+          toast.error("Recipient does not exist. Email not sent.");
+        }
+      })
+      .catch((error) => {
+        toast.error(
+          "Recipient does not exist. Email not sent: " + error.message
+        );
+      });
   } catch (error) {
     console.log(error.message);
   }
