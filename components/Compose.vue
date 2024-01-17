@@ -15,6 +15,9 @@ import Link from "@tiptap/extension-link";
 import Blockquote from "@tiptap/extension-blockquote";
 
 const editor = useState("editor", () => null);
+const content = ref("");
+
+const emit = defineEmits(["update:modelValue"]);
 
 onMounted(() => {
   editor.value = new Editor({
@@ -65,6 +68,13 @@ onMounted(() => {
         },
       }),
     ],
+    onUpdate: () => {
+      // HTML
+      emit("update:modelValue", editor.value.getHTML());
+
+      // JSON
+      // emit('update:modelValue', editor.getJSON())
+    },
   });
 });
 
@@ -164,6 +174,10 @@ watchEffect(() => {
 
 const addLink = () => {
   composeStore?.openAddLinkModal();
+};
+
+const sendMail = () => {
+  console.log(editor.value.getHTML());
 };
 </script>
 
@@ -284,7 +298,11 @@ const addLink = () => {
         <div
           class="h-[15.5rem] overflow-hidden mt-1 px-3 max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300"
         >
-          <EditorContent :editor="editor" data-hs-editor-field />
+          <EditorContent
+            :editor="editor"
+            v-model="content"
+            data-hs-editor-field
+          />
         </div>
 
         <!-- Compose Buttons -->
@@ -489,6 +507,7 @@ const addLink = () => {
           <div class="flex items-center px-2 justify-between">
             <div class="flex items-center">
               <button
+                @click="sendMail"
                 class="block bg-[#0b57cf] dark:bg-green-real px-3 py-2 rounded-full sm:px-6 text-white"
               >
                 Send
