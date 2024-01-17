@@ -1,5 +1,16 @@
 <script setup>
 import { StarIcon, ClockIcon } from "@heroicons/vue/24/outline";
+import { formatDistance, subDays } from "date-fns";
+
+const props = defineProps({
+  mail: Object,
+});
+
+const mail = computed(() => {
+  return props?.mail;
+});
+
+console.log(mail.value);
 </script>
 
 <template>
@@ -30,10 +41,13 @@ import { StarIcon, ClockIcon } from "@heroicons/vue/24/outline";
       class="w-full xl:max-w-[42rem] group-hover:max-w-[37rem] text-gray-500"
     >
       <p
-        class="truncate max-w-[12rem] sm:max-w-[25rem] xl:max-w-full dark:text-green-real"
+        class="truncate flex gap-3 max-w-[12rem] sm:max-w-[25rem] xl:max-w-full dark:text-green-real"
       >
-        Payment Defaulter for obligation Income Tax - Resident Individual and
-        period 01/01/2021 to 31/12/2021
+        <span class="block font-semibold text-gray-800">{{
+          mail?.subject
+        }}</span>
+        -
+        <span class="block truncate" v-html="mail.body"></span>
       </p>
     </div>
     <div class="flex items-center justify-between space-x-3">

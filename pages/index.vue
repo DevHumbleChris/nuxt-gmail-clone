@@ -1,19 +1,19 @@
 <script setup>
-import { collection } from "firebase/firestore";
+import { collection, where } from "firebase/firestore";
 definePageMeta({
   title: "Inbox",
   middleware: ["auth"],
 });
 const db = useFirestore();
-const todos = useCollection(collection(db, "todos"));
-console.log(todos);
+const user = useCurrentUser();
+const inbox = useCollection(collection(db, "users", user.value.email, "inbox"));
 </script>
 
 <template>
   <section>
     <LazyLabelsWrapper />
     <div>
-      <LazyMessage v-for="todo in todos" :key="todo.id" />
+      <LazyMessage v-for="mail in inbox" :key="mail.id" :mail="mail" />
     </div>
   </section>
 </template>
