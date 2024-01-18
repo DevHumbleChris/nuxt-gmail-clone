@@ -10,12 +10,17 @@ const mail = computed(() => {
   return props?.mail;
 });
 
-console.log(mail.value);
+const formatDateWithDateFNS = (date) => {
+  return formatDistance(date.toDate(), new Date(), {
+    addSuffix: true,
+  });
+};
 </script>
 
 <template>
   <div
-    class="w-full flex flex-col xl:flex-row xl:items-center justify-between space-y-1 bg-[#f2f5fc] dark:bg-green-dark-light dark:hover:shadow-green-real px-4 py-3 hover:drop-shadow-xl group border text-sm cursor-pointer dark:border-gray-700/50"
+    class="w-full flex flex-col xl:flex-row xl:items-center justify-between space-y-1 dark:bg-green-dark-light dark:hover:shadow-green-real px-4 py-3 hover:drop-shadow-xl group border text-sm cursor-pointer dark:border-gray-700/50"
+    :class="{ 'bg-[#f2f5fc]': mail.read }"
   >
     <div class="flex space-x-3 items-center">
       <input
@@ -36,7 +41,7 @@ console.log(mail.value);
         ></path>
       </svg>
     </div>
-    <p class="dark:text-green-real">Christopher</p>
+    <p class="dark:text-green-real">{{ mail.senderName }}</p>
     <div
       class="w-full xl:max-w-[42rem] group-hover:max-w-[37rem] text-gray-500"
     >
@@ -83,6 +88,8 @@ console.log(mail.value);
       </svg>
       <ClockIcon class="w-5 group-hover:block hidden dark:text-green-real" />
     </div>
-    <p class="group-hover:hidden dark:text-green-real">May 9</p>
+    <p class="group-hover:hidden dark:text-green-real">
+      {{ formatDateWithDateFNS(mail?.timestamp) }}
+    </p>
   </div>
 </template>

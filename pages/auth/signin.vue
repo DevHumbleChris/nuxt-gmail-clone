@@ -48,7 +48,7 @@ const signInWithGoogle = async () => {
         });
       isAuthenticating.value = false;
       navigateTo({
-        path: "/",
+        path: "/inbox",
       });
       return await toast.success("Signin With Google Successfully!");
     }

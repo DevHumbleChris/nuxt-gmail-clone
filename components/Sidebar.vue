@@ -11,11 +11,22 @@ import {
 } from "@heroicons/vue/24/outline";
 import { useSidebarStore } from "~/stores/sidebar";
 import { useComposeStore } from "~/stores/compose";
+import { collection } from "firebase/firestore";
 
 const composeStore = useComposeStore();
 const sidebarStore = useSidebarStore();
+const db = useFirestore();
+const user = useCurrentUser();
+
 const isSidebarOpen = computed(() => {
   return sidebarStore.isSidebarOpen;
+});
+
+const inbox = useCollection(collection(db, "users", user.value.email, "inbox"));
+
+const noOfInboxMessagesUnread = computed(() => {
+  const unreadMessages = inbox.value.filter((mail) => !mail.read);
+  return unreadMessages.length;
 });
 
 const openSidebar = () => {
@@ -67,10 +78,15 @@ const composeMail = () => {
         class="bg-[#d3e3fd] px-5 rounded-r-full dark:bg-green-dark-light dark:hover:bg-green-dark-light hover:bg-[#e9ebef] cursor-pointer"
       >
         <button
-          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+          class="flex items-center w-full justify-between py-[0.1rem] dark:text-green-real"
         >
-          <InboxIcon class="h-auto text-[#444746] dark:text-green-real w-5" />
-          <span :class="{ hidden: isSidebarOpen }">Inbox</span>
+          <div class="flex items-center space-x-3">
+            <InboxIcon class="h-auto text-[#444746] dark:text-green-real w-5" />
+            <span :class="{ hidden: isSidebarOpen }">Inbox</span>
+          </div>
+          <p class="text-xs" v-if="noOfInboxMessagesUnread > 0">
+            {{ noOfInboxMessagesUnread }}
+          </p>
         </button>
       </li>
       <li

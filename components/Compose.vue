@@ -199,14 +199,11 @@ const sendMail = async () => {
       body: editor.value.getHTML(),
       timestamp: serverTimestamp(),
       sender: user.value.email,
+      senderName: user.value.displayName,
       read: false,
       snoozed: false,
       starred: false,
       trashed: false,
-      labels: {
-        work: false,
-        personal: true,
-      },
     };
 
     const senderDocRef = doc(db, "users", emailData.sender);
