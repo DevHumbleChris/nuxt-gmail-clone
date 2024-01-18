@@ -161,10 +161,6 @@ const toggleOrderedList = () => {
   editor.value.chain().focus().toggleOrderedList().run();
 };
 
-const toggleAlignment = (alignType) => {
-  editor.value.chain().focus().setTextAlign(alignType).run();
-};
-
 onBeforeUnmount(() => {
   editor.value.destroy();
 });
@@ -248,6 +244,10 @@ const sendMail = async () => {
 
           runTransaction(db, transaction)
             .then((result) => {
+              recipient.value = "";
+              subject.value = "";
+              editor.value.destroy();
+              composeStore?.composeMail();
               toast.success("Email sent successfully.");
             })
             .catch((error) => {

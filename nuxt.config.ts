@@ -59,8 +59,5 @@ export default defineNuxtConfig({
       },
     },
   },
-  routeRules: {
-    "/": { ssr: false },
-    "/auth/signin": { ssr: false },
-  },
+  ssr: false,
 });

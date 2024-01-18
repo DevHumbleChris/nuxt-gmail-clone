@@ -15,10 +15,17 @@ const formatDateWithDateFNS = (date) => {
     addSuffix: true,
   });
 };
+
+const viewMail = (id) => {
+  navigateTo({
+    path: "/inbox/" + id,
+  });
+};
 </script>
 
 <template>
   <div
+    @click="viewMail(mail.id)"
     class="w-full flex flex-col xl:flex-row xl:items-center justify-between space-y-1 dark:bg-green-dark-light dark:hover:shadow-green-real px-4 py-3 hover:drop-shadow-xl group border text-sm cursor-pointer dark:border-gray-700/50"
     :class="{ 'bg-[#f2f5fc]': mail.read }"
   >
