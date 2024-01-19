@@ -29,6 +29,11 @@ const noOfInboxMessagesUnread = computed(() => {
   return unreadMessages.length;
 });
 
+const noOfStarredMessages = computed(() => {
+  const noOfStarredMsg = inbox.value.filter((mail) => mail.starred);
+  return noOfStarredMsg.length;
+});
+
 const openSidebar = () => {
   sidebarStore.openSidebar();
 };
@@ -93,10 +98,15 @@ const composeMail = () => {
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
       >
         <button
-          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+          class="flex items-center w-full justify-between space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <StarIcon class="h-auto dark:text-green-real text-[#444746] w-5" />
-          <span :class="{ hidden: isSidebarOpen }">Starred</span>
+          <div class="flex items-center space-x-3">
+            <StarIcon class="h-auto dark:text-green-real text-[#444746] w-5" />
+            <span :class="{ hidden: isSidebarOpen }">Starred</span>
+          </div>
+          <p class="text-xs" v-if="noOfStarredMessages > 0">
+            {{ noOfStarredMessages }}
+          </p>
         </button>
       </li>
       <li

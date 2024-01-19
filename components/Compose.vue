@@ -196,6 +196,7 @@ const sendMail = async () => {
       timestamp: serverTimestamp(),
       sender: user.value.email,
       senderName: user.value.displayName,
+      senderPhotoURL: user.value.photoURL,
       read: false,
       snoozed: false,
       starred: false,

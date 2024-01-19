@@ -1,5 +1,5 @@
 <script setup>
-import { collection } from "firebase/firestore";
+import { collection, where } from "firebase/firestore";
 definePageMeta({
   title: "Inbox",
   middleware: ["auth"],
