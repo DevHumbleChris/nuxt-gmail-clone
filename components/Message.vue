@@ -1,10 +1,15 @@
 <script setup>
 import { StarIcon, ClockIcon } from "@heroicons/vue/24/outline";
 import { formatDistance, subDays } from "date-fns";
+import { doc, updateDoc } from "firebase/firestore";
+
+const db = useFirestore();
 
 const props = defineProps({
   mail: Object,
 });
+
+const user = useCurrentUser();
 
 const mail = computed(() => {
   return props?.mail;
@@ -16,7 +21,12 @@ const formatDateWithDateFNS = (date) => {
   });
 };
 
-const viewMail = (id) => {
+const viewMail = async (id) => {
+  const inboxDocRef = doc(db, "users", user.value.email, "inbox", id);
+
+  await updateDoc(inboxDocRef, {
+    read: true,
+  });
   navigateTo({
     path: "/inbox/" + id,
   });
