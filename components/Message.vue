@@ -2,6 +2,7 @@
 import { StarIcon, ClockIcon } from "@heroicons/vue/24/outline";
 import { formatDistance, subDays } from "date-fns";
 import { doc, updateDoc } from "firebase/firestore";
+import { toast } from "vue-sonner";
 
 const db = useFirestore();
 
@@ -33,27 +34,70 @@ const viewMail = async (id) => {
 };
 
 const starMail = async (mail) => {
-  let mailStatus = mail.starred;
-  const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
+  try {
+    let mailStatus = mail.starred;
+    const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
 
-  await updateDoc(inboxDocRef, {
-    starred: !mailStatus,
-  });
+    await updateDoc(inboxDocRef, {
+      starred: !mailStatus,
+    });
+
+    toast.info(mailStatus ? "Mail Unstarred" : "Mail Starred.");
+  } catch (error) {
+    toast.error(error.message);
+  }
 };
 
 const markUserMail = async (mail) => {
-  let mailStatus = mail.read;
-  const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
+  try {
+    let mailStatus = mail.read;
+    const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
 
-  await updateDoc(inboxDocRef, {
-    read: !mailStatus,
-  });
+    await updateDoc(inboxDocRef, {
+      read: !mailStatus,
+    });
+    toast.info(mailStatus ? "Mail Marked As Unread." : "Mail Marked As Read.");
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
+const markUserMailImportant = async (mail) => {
+  try {
+    let mailStatus = mail.important;
+    const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
+
+    await updateDoc(inboxDocRef, {
+      read: !mailStatus,
+    });
+
+    toast.info(
+      mailStatus ? "Mail Marked As Not Important." : "Mail Marked As Important."
+    );
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
+const moveMailToTrash = async (mail) => {
+  try {
+    let mailStatus = mail.trashed;
+    const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
+
+    await updateDoc(inboxDocRef, {
+      read: !mailStatus,
+    });
+
+    toast.info("Mail Moved To Trash");
+  } catch (error) {
+    toast.error(error.message);
+  }
 };
 </script>
 
 <template>
   <div
-    class="w-full flex flex-col xl:flex-row xl:items-center space-y-1 gap-3 dark:bg-green-dark-light dark:hover:shadow-green-real px-4 py-3 hover:drop-shadow-xl group border text-sm cursor-pointer dark:border-gray-700/50"
+    class="w-full flex flex-col xl:flex-row xl:items-center space-y-1 gap-5 dark:bg-green-dark-light dark:hover:shadow-green-real px-4 py-3 hover:drop-shadow-xl group border text-sm cursor-pointer dark:border-gray-700/50"
     :class="{ 'bg-[#f2f5fc]': mail.read }"
   >
     <div class="flex space-x-3 items-center">
@@ -74,7 +118,15 @@ const markUserMail = async (mail) => {
         v-else
         class="w-5 text-gray-400 dark:text-green-real hover:text-gray-700"
       />
+      <Icon
+        v-if="mail.important"
+        @click="markUserMailImportant(mail)"
+        name="material-symbols:label-important-sharp"
+        class="w-5 h-auto text-[#f3c74a] dark:text-green-real hover:text-gray-700"
+      />
       <svg
+        v-else
+        @click="markUserMailImportant(mail)"
         xmlns="http://www.w3.org/2000/svg"
         class="w-5 text-gray-400 dark:text-green-real hover:text-gray-700"
         viewBox="0 0 24 24"
@@ -118,6 +170,11 @@ const markUserMail = async (mail) => {
             d="M5 21q-.825 0-1.413-.588T3 19V6.5q0-.375.125-.675t.325-.575l1.4-1.7q.2-.275.5-.413T6 3h12q.35 0 .65.137t.5.413l1.4 1.7q.2.275.325.575T21 6.5V19q0 .825-.588 1.413T19 21H5Zm.4-15h13.2l-.85-1H6.25L5.4 6ZM5 8v11h14V8H5Zm7 10l4-4l-1.4-1.4l-1.6 1.6V10h-2v4.2l-1.6-1.6L8 14l4 4Zm-7 1h14H5Z"
           ></path>
         </svg>
+        <Icon
+          @click="moveMailToTrash(mail)"
+          name="material-symbols:delete-outline"
+          class="w-5 h-auto"
+        />
         <Icon
           name="material-symbols:mark-email-unread"
           @click="markUserMail(mail)"
