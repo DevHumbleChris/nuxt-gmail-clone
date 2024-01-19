@@ -1,4 +1,5 @@
 <script setup>
+import { formatDistance, formatRelative } from "date-fns";
 import {
   HoverCard,
   HoverCardContent,
@@ -11,6 +12,11 @@ const props = defineProps({
 const mail = computed(() => {
   return props?.mail;
 });
+
+const formatDateWithDateFNS = (date) => {
+  let dateToConvert = date ? date.toDate() : new Date();
+  return formatRelative(dateToConvert, new Date());
+};
 </script>
 
 <template>
@@ -32,8 +38,8 @@ const mail = computed(() => {
         <div>
           <div class="text-sm flex items-center gap-1">
             <h2 class="font-semibold">{{ mail?.senderName }}</h2>
-            <p class="text-xs text-gray-600">
-              {{ mail?.sender }}
+            <p class="text-xs text-gray-600 font-medium">
+              &lt;{{ mail?.sender }}&gt;
             </p>
           </div>
           <div class="flex items-center gap-1 text-sm text-gray-500">
@@ -60,9 +66,9 @@ const mail = computed(() => {
                   </p>
                   <p class="flex gap-2">
                     <span class="block text-gray-500">date:</span>
-                    <span class="block text-gray-600 font-semibold"
-                      >May 18, 2023, 9:58 AM</span
-                    >
+                    <span class="block text-gray-600 font-semibold">{{
+                      formatDateWithDateFNS(mail?.timestamp)
+                    }}</span>
                   </p>
                   <p class="flex gap-2">
                     <span class="block text-gray-500">subject:</span>
@@ -78,7 +84,7 @@ const mail = computed(() => {
       </div>
       <div>
         <div class="text-[13px] flex items-center gap-6 text-gray-600">
-          <p>5:03 AM (7 hours ago)</p>
+          <p>{{ formatDateWithDateFNS(mail?.timestamp) }}</p>
           <Icon
             name="material-symbols:star-outline-rounded"
             class="w-5 h-auto"

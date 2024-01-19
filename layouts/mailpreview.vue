@@ -33,6 +33,10 @@ useHead({
   ],
   title: `Nuxt Gmail Clone - ${route.meta.title}`,
 });
+
+const goBack = () => {
+  router.back();
+};
 </script>
 
 <template>
@@ -46,31 +50,40 @@ useHead({
         <div class="w-full bg-white dark:bg-green-dark-light rounded-2xl">
           <div class="flex items-center gap-8 px-5 py-3 dark:text-green-real">
             <Icon
-              @click="router.back()"
+              @click="goBack()"
               name="material-symbols:arrow-left-alt-rounded"
               class="w-5 h-auto cursor-pointer"
             />
             <div class="flex items-center border-r pr-5 gap-5">
               <Icon
                 name="material-symbols:archive-outline-rounded"
-                class="w-5 h-auto"
+                class="w-5 h-auto cursor-pointer"
               />
-              <Icon name="ri:spam-2-line" class="w-5 h-auto" />
-              <Icon name="ion:trash-outline" class="w-5 h-auto" />
+              <Icon name="ri:spam-2-line" class="w-5 h-auto cursor-pointer" />
+              <Icon
+                name="ion:trash-outline"
+                class="w-5 h-auto cursor-pointer"
+              />
             </div>
             <div class="flex items-center border-r pr-5 gap-5">
               <Icon
                 name="material-symbols:mark-email-unread-outline-rounded"
-                class="w-5 h-auto"
+                class="w-5 h-auto cursor-pointer"
               />
-              <ClockIcon class="w-5" />
-              <Icon name="ic:outline-add-task" class="w-5 h-auto" />
+              <ClockIcon class="w-5 cursor-pointer" />
+              <Icon
+                name="ic:outline-add-task"
+                class="w-5 h-auto cursor-pointer"
+              />
             </div>
             <div class="flex items-center pr-5 gap-5">
-              <Icon name="clarity:inbox-line" class="w-5 h-auto" />
+              <Icon
+                name="clarity:inbox-line"
+                class="w-5 h-auto cursor-pointer"
+              />
               <Icon
                 name="material-symbols:label-outline-rounded"
-                class="w-5 h-auto"
+                class="w-5 h-auto cursor-pointer"
               />
             </div>
           </div>
@@ -79,22 +92,22 @@ useHead({
         <div class="space-y-6 hidden lg:block">
           <img
             src="https://www.gstatic.com/companion/icon_assets/calendar_2020q4_2x.png"
-            class="w-8"
+            class="w-8 cursor-pointer"
             alt="google_calendar"
           />
           <img
             src="https://www.gstatic.com/companion/icon_assets/keep_2020q4v3_2x.png"
-            class="w-8"
+            class="w-8 cursor-pointer"
             alt="google_keep"
           />
           <img
             src="https://www.gstatic.com/companion/icon_assets/tasks_2021_2x.png"
-            class="w-8"
+            class="w-8 cursor-pointer"
             alt="google_tasks"
           />
           <img
             src="https://www.gstatic.com/companion/icon_assets/contacts_2022_2x.png"
-            class="w-8"
+            class="w-8 cursor-pointer"
             alt="google_contacts"
           />
         </div>
