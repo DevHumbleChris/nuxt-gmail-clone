@@ -1,0 +1,62 @@
+<script setup>
+const props = defineProps({
+  mail: Object,
+});
+
+const mail = computed(() => {
+  return props?.mail;
+});
+</script>
+
+<template>
+  <div class="w-full">
+    <div class="px-[68px] py-4 flex items-center gap-3">
+      <h1 class="text-3xl text-gray-600 font-medium">{{ mail.subject }}</h1>
+      <Icon
+        name="material-symbols:label-important-outline"
+        class="w-5 h-auto text-gray-400"
+      />
+    </div>
+    <div class="px-5 flex items-center justify-between">
+      <div class="flex gap-3">
+        <img
+          src="https://lh3.googleusercontent.com/ogw/AOLn63FDwvpMYoohxMTsrPnCh-5UanYRmFplX0A9ld-H=s32-c-mo"
+          alt="the-coding-montana"
+          class="w-10 h-10 object-fit rounded-full"
+        />
+        <div>
+          <div class="text-sm flex items-center gap-1">
+            <h2 class="font-semibold">{{ mail.senderName }}</h2>
+            <p class="text-xs text-gray-600">
+              {{ mail.sender }}
+            </p>
+          </div>
+          <div class="flex items-center gap-1 text-sm text-gray-500">
+            <p>to me</p>
+            <Icon name="material-symbols:arrow-drop-down" class="w-5 h-auto" />
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="text-[13px] flex items-center gap-6 text-gray-600">
+          <p>5:03 AM (7 hours ago)</p>
+          <Icon
+            name="material-symbols:star-outline-rounded"
+            class="w-5 h-auto"
+          />
+          <div class="flex items-center gap-5">
+            <Icon
+              name="fluent:emoji-smile-slight-24-regular"
+              class="w-5 h-auto"
+            />
+            <Icon name="material-symbols:reply" class="w-5 h-auto" />
+            <Icon name="uil:ellipsis-v" class="w-5 h-auto" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="px-[70px] text-sm my-4">
+      <div v-html="mail.body"></div>
+    </div>
+  </div>
+</template>
