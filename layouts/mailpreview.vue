@@ -5,6 +5,7 @@ import {
   EllipsisVerticalIcon,
 } from "@heroicons/vue/24/outline";
 import { useMailboxesStore } from "~/stores/mailboxes";
+const router = useRouter();
 const route = useRoute();
 const mailboxesStore = useMailboxesStore();
 
@@ -45,8 +46,9 @@ useHead({
         <div class="w-full bg-white dark:bg-green-dark-light rounded-2xl">
           <div class="flex items-center gap-8 px-5 py-3 dark:text-green-real">
             <Icon
+              @click="router.back()"
               name="material-symbols:arrow-left-alt-rounded"
-              class="w-5 h-auto"
+              class="w-5 h-auto cursor-pointer"
             />
             <div class="flex items-center border-r pr-5 gap-5">
               <Icon

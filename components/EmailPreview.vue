@@ -1,4 +1,9 @@
 <script setup>
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "~/components/ui/hover-card";
 const props = defineProps({
   mail: Object,
 });
@@ -11,7 +16,7 @@ const mail = computed(() => {
 <template>
   <div class="w-full">
     <div class="px-[68px] py-4 flex items-center gap-3">
-      <h1 class="text-3xl text-gray-600 font-medium">{{ mail.subject }}</h1>
+      <h1 class="text-3xl text-gray-600 font-medium">{{ mail?.subject }}</h1>
       <Icon
         name="material-symbols:label-important-outline"
         class="w-5 h-auto text-gray-400"
@@ -26,14 +31,48 @@ const mail = computed(() => {
         />
         <div>
           <div class="text-sm flex items-center gap-1">
-            <h2 class="font-semibold">{{ mail.senderName }}</h2>
+            <h2 class="font-semibold">{{ mail?.senderName }}</h2>
             <p class="text-xs text-gray-600">
-              {{ mail.sender }}
+              {{ mail?.sender }}
             </p>
           </div>
           <div class="flex items-center gap-1 text-sm text-gray-500">
             <p>to me</p>
-            <Icon name="material-symbols:arrow-drop-down" class="w-5 h-auto" />
+            <HoverCard>
+              <HoverCardTrigger
+                ><Icon
+                  name="material-symbols:arrow-drop-down"
+                  class="w-5 h-auto cursor-pointer"
+              /></HoverCardTrigger>
+              <HoverCardContent class="w-[22rem] text-sm">
+                <div>
+                  <p class="flex gap-2">
+                    <span class="block text-gray-500">from:</span>
+                    <span class="block text-gray-600 font-semibold">{{
+                      mail?.sender
+                    }}</span>
+                  </p>
+                  <p class="flex gap-2">
+                    <span class="block text-gray-500">to:</span>
+                    <span class="block text-gray-600 font-semibold">{{
+                      mail?.recipient
+                    }}</span>
+                  </p>
+                  <p class="flex gap-2">
+                    <span class="block text-gray-500">date:</span>
+                    <span class="block text-gray-600 font-semibold"
+                      >May 18, 2023, 9:58 AM</span
+                    >
+                  </p>
+                  <p class="flex gap-2">
+                    <span class="block text-gray-500">subject:</span>
+                    <span class="block text-gray-600 font-semibold">{{
+                      mail?.subject
+                    }}</span>
+                  </p>
+                </div>
+              </HoverCardContent>
+            </HoverCard>
           </div>
         </div>
       </div>
@@ -56,7 +95,7 @@ const mail = computed(() => {
       </div>
     </div>
     <div class="px-[70px] text-sm my-4">
-      <div v-html="mail.body"></div>
+      <div v-html="mail?.body"></div>
     </div>
   </div>
 </template>
