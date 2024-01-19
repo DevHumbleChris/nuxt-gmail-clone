@@ -25,13 +25,23 @@ const isSidebarOpen = computed(() => {
 const inbox = useCollection(collection(db, "users", user.value.email, "inbox"));
 
 const noOfInboxMessagesUnread = computed(() => {
-  const unreadMessages = inbox.value.filter((mail) => !mail.read);
-  return unreadMessages.length;
+  const unTrashedMessages = inbox.value.filter((mail) => !mail.trashed);
+  return unTrashedMessages.length;
 });
 
 const noOfStarredMessages = computed(() => {
   const noOfStarredMsg = inbox.value.filter((mail) => mail.starred);
   return noOfStarredMsg.length;
+});
+
+const noOfTrashedMessages = computed(() => {
+  const noOfTrashesMsg = inbox.value.filter((mail) => mail.trashed);
+  return noOfTrashesMsg.length;
+});
+
+const noOfImportantMessages = computed(() => {
+  const noOfImportantMsg = inbox.value.filter((mail) => mail.important);
+  return noOfImportantMsg.length;
 });
 
 const openSidebar = () => {
@@ -160,13 +170,18 @@ const composeMail = () => {
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
       >
         <button
-          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+          class="flex items-center w-full justify-between space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <Icon
-            name="material-symbols:label-important-outline"
-            class="h-auto dark:text-green-real text-[#444746] w-5"
-          />
-          <span :class="{ hidden: isSidebarOpen }">Important</span>
+          <div class="flex items-center space-x-3">
+            <Icon
+              name="material-symbols:label-important-outline"
+              class="h-auto dark:text-green-real text-[#444746] w-5"
+            />
+            <span :class="{ hidden: isSidebarOpen }">Important</span>
+          </div>
+          <p class="text-xs" v-if="noOfImportantMessages > 0">
+            {{ noOfImportantMessages }}
+          </p>
         </button>
       </li>
       <li
@@ -225,13 +240,18 @@ const composeMail = () => {
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
       >
         <button
-          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+          class="flex items-center w-full justify-between space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <Icon
-            name="material-symbols:delete-outline-rounded"
-            class="h-auto dark:text-green-real text-[#444746] w-5"
-          />
-          <span :class="{ hidden: isSidebarOpen }">Trash</span>
+          <div class="flex items-center space-x-3">
+            <Icon
+              name="material-symbols:delete-outline-rounded"
+              class="h-auto dark:text-green-real text-[#444746] w-5"
+            />
+            <span :class="{ hidden: isSidebarOpen }">Trash</span>
+          </div>
+          <p class="text-xs" v-if="noOfTrashedMessages > 0">
+            {{ noOfTrashedMessages }}
+          </p>
         </button>
       </li>
       <li
