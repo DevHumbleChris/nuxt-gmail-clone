@@ -11,6 +11,7 @@ import {
 } from "@heroicons/vue/24/outline";
 import { useSidebarStore } from "~/stores/sidebar";
 import { useComposeStore } from "~/stores/compose";
+import { useActiveStore } from "~/stores/active";
 import { collection } from "firebase/firestore";
 
 const composeStore = useComposeStore();
@@ -98,7 +99,8 @@ const composeMail = () => {
         class="px-5 rounded-r-full dark:bg-green-dark-light dark:hover:bg-green-dark-light hover:bg-[#e9ebef] cursor-pointer"
         :class="{ 'bg-[#d3e3fd]': activeRoute === 'inbox' }"
       >
-        <button
+        <NuxtLink
+          to="/inbox"
           class="flex items-center w-full justify-between py-[0.1rem] dark:text-green-real"
         >
           <div class="flex items-center space-x-3">
@@ -108,12 +110,14 @@ const composeMail = () => {
           <p class="text-xs" v-if="noOfInboxMessagesUnread > 0">
             {{ noOfInboxMessagesUnread }}
           </p>
-        </button>
+        </NuxtLink>
       </li>
       <li
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+        :class="{ 'bg-[#d3e3fd]': activeRoute === 'starred' }"
       >
-        <button
+        <NuxtLink
+          to="/starred"
           class="flex items-center w-full justify-between space-x-3 py-[0.1rem] dark:text-green-real"
         >
           <div class="flex items-center space-x-3">
@@ -123,10 +127,11 @@ const composeMail = () => {
           <p class="text-xs" v-if="noOfStarredMessages > 0">
             {{ noOfStarredMessages }}
           </p>
-        </button>
+        </NuxtLink>
       </li>
       <li
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+        :class="{ 'bg-[#d3e3fd]': activeRoute === 'snoozed' }"
       >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
@@ -137,8 +142,10 @@ const composeMail = () => {
       </li>
       <li
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+        :class="{ 'bg-[#d3e3fd]': activeRoute === 'sent' }"
       >
-        <button
+        <NuxtLink
+          to="/sent"
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
           <Icon
@@ -146,10 +153,11 @@ const composeMail = () => {
             class="h-auto dark:text-green-real text-[#444746] w-5"
           />
           <span :class="{ hidden: isSidebarOpen }">Sent</span>
-        </button>
+        </NuxtLink>
       </li>
       <li
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+        :class="{ 'bg-[#d3e3fd]': activeRoute === 'drafts' }"
       >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
@@ -174,8 +182,10 @@ const composeMail = () => {
       </li>
       <li
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+        :class="{ 'bg-[#d3e3fd]': activeRoute === 'important' }"
       >
-        <button
+        <NuxtLink
+          to="/important"
           class="flex items-center w-full justify-between space-x-3 py-[0.1rem] dark:text-green-real"
         >
           <div class="flex items-center space-x-3">
@@ -188,7 +198,7 @@ const composeMail = () => {
           <p class="text-xs" v-if="noOfImportantMessages > 0">
             {{ noOfImportantMessages }}
           </p>
-        </button>
+        </NuxtLink>
       </li>
       <li
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
@@ -244,8 +254,10 @@ const composeMail = () => {
       </li>
       <li
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+        :class="{ 'bg-[#d3e3fd]': activeRoute === 'trashed' }"
       >
-        <button
+        <NuxtLink
+          to="/trashed"
           class="flex items-center w-full justify-between space-x-3 py-[0.1rem] dark:text-green-real"
         >
           <div class="flex items-center space-x-3">
@@ -258,7 +270,7 @@ const composeMail = () => {
           <p class="text-xs" v-if="noOfTrashedMessages > 0">
             {{ noOfTrashedMessages }}
           </p>
-        </button>
+        </NuxtLink>
       </li>
       <li
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"

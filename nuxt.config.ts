@@ -60,4 +60,5 @@ export default defineNuxtConfig({
     },
   },
   ssr: false,
+  ogImage: { enabled: false },
 });

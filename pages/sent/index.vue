@@ -1,5 +1,6 @@
 <script setup>
 import { collection } from "firebase/firestore";
+import { useActiveStore } from "~/stores/active";
 definePageMeta({
   title: "Inbox",
   middleware: ["auth"],
@@ -10,16 +11,16 @@ const db = useFirestore();
 const user = useCurrentUser();
 
 onBeforeMount(() => {
-  activeStore?.setActiveStore("sent");
+  activeStore?.setActiveRoute("sent");
 });
-const inbox = useCollection(collection(db, "users", user.value.email, "inbox"));
+const mails = useCollection(collection(db, "users", user.value.email, "sent"));
 </script>
 
 <template>
   <section>
     <LazyLabelsWrapper />
     <div>
-      <LazyMessage v-for="mail in inbox" :key="mail.id" :mail="mail" />
+      <LazyMessage v-for="mail in mails" :key="mail.id" :mail="mail" />
     </div>
   </section>
 </template>

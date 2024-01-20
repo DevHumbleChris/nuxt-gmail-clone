@@ -1,5 +1,6 @@
 <script setup>
-import { collection, where } from "firebase/firestore";
+import { collection } from "firebase/firestore";
+import { useActiveStore } from "~/stores/active";
 definePageMeta({
   title: "Inbox",
   middleware: ["auth"],
@@ -11,7 +12,7 @@ const user = useCurrentUser();
 const inbox = useCollection(collection(db, "users", user.value.email, "inbox"));
 
 onBeforeMount(() => {
-  activeStore?.setActiveStore("inbox");
+  activeStore?.setActiveRoute("inbox");
 });
 
 const userMails = computed(() => {
