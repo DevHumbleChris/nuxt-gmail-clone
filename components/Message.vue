@@ -138,8 +138,13 @@ const moveMailToTrash = async (mail) => {
         ></path>
       </svg>
     </div>
-    <div class="flex items-center justify-between w-full gap-4">
-      <div @click="viewMail(mail.id)" class="flex items-center gap-2">
+    <div
+      class="flex flex-col lg:flex-row lg:items-center justify-between w-full gap-2 lg:gap-4"
+    >
+      <div
+        @click="viewMail(mail.id)"
+        class="flex flex-col sm:flex-row items-center gap-2"
+      >
         <p class="dark:text-green-real w-full">{{ mail.senderName }}</p>
         <div
           class="w-full xl:max-w-[42rem] group-hover:max-w-[37rem] text-gray-500"
