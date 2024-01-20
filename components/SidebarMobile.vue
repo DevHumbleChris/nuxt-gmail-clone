@@ -1,8 +1,42 @@
-<script setup lang="ts">
+<script setup>
+import { InboxIcon, StarIcon, DocumentIcon } from "@heroicons/vue/24/outline";
+import { collection } from "firebase/firestore";
+
 const composeStore = useComposeStore();
 const sidebarStore = useSidebarStore();
+const activeStore = useActiveStore();
+
+const db = useFirestore();
+const user = useCurrentUser();
+const inbox = useCollection(collection(db, "users", user.value.email, "inbox"));
+
+const noOfInboxMessagesUnread = computed(() => {
+  const unTrashedMessages = inbox.value.filter((mail) => !mail.trashed);
+  return unTrashedMessages.length;
+});
+
+const noOfStarredMessages = computed(() => {
+  const noOfStarredMsg = inbox.value.filter((mail) => mail.starred);
+  return noOfStarredMsg.length;
+});
+
+const noOfTrashedMessages = computed(() => {
+  const noOfTrashesMsg = inbox.value.filter((mail) => mail.trashed);
+  return noOfTrashesMsg.length;
+});
+
+const noOfImportantMessages = computed(() => {
+  const noOfImportantMsg = inbox.value.filter((mail) => mail.important);
+  return noOfImportantMsg.length;
+});
+
+const activeRoute = computed(() => {
+  return activeStore?.activeRoute;
+});
+
 const composeMail = () => {
   composeStore.composeMail();
+  sidebarStore?.openLeftSidebarMenu();
 };
 
 const isLeftSidebarMenuOpen = computed(() => {
@@ -48,32 +82,43 @@ const closeLeftSidebarMenu = () => {
     </div>
     <ul class="my-4 text-center space-y-1">
       <li
-        class="bg-[#d3e3fd] px-5 rounded-r-full dark:bg-green-dark-light dark:hover:bg-green-dark-light hover:bg-[#e9ebef] cursor-pointer"
+        @click="closeLeftSidebarMenu"
+        class="px-5 rounded-r-full dark:bg-green-dark-light dark:hover:bg-green-dark-light hover:bg-[#e9ebef] cursor-pointer"
+        :class="{ 'bg-[#d3e3fd]': activeRoute === 'inbox' }"
       >
-        <button
-          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        <NuxtLink
+          to="/inbox"
+          class="flex items-center w-full justify-between py-[0.1rem] dark:text-green-real"
         >
-          <Icon
-            name="heroicons:inbox"
-            class="h-auto text-[#444746] dark:text-green-real w-5 flex-shrink-0"
-          />
-          <span>Inbox</span>
-        </button>
+          <div class="flex items-center space-x-3">
+            <InboxIcon class="h-auto text-[#444746] dark:text-green-real w-5" />
+            <span>Inbox</span>
+          </div>
+          <p class="text-xs" v-if="noOfInboxMessagesUnread > 0">
+            {{ noOfInboxMessagesUnread }}
+          </p>
+        </NuxtLink>
       </li>
       <li
+        @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+        :class="{ 'bg-[#d3e3fd]': activeRoute === 'starred' }"
       >
-        <button
-          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        <NuxtLink
+          to="/starred"
+          class="flex items-center w-full justify-between space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <Icon
-            name="heroicons:star"
-            class="h-auto dark:text-green-real text-[#444746] w-5"
-          />
-          <span>Starred</span>
-        </button>
+          <div class="flex items-center space-x-3">
+            <StarIcon class="h-auto dark:text-green-real text-[#444746] w-5" />
+            <span>Starred</span>
+          </div>
+          <p class="text-xs" v-if="noOfStarredMessages > 0">
+            {{ noOfStarredMessages }}
+          </p>
+        </NuxtLink>
       </li>
       <li
+        @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
       >
         <button
@@ -87,9 +132,12 @@ const closeLeftSidebarMenu = () => {
         </button>
       </li>
       <li
+        @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+        :class="{ 'bg-[#d3e3fd]': activeRoute === 'sent' }"
       >
-        <button
+        <NuxtLink
+          to="/sent"
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
           <Icon
@@ -97,22 +145,24 @@ const closeLeftSidebarMenu = () => {
             class="h-auto dark:text-green-real text-[#444746] w-5"
           />
           <span>Sent</span>
-        </button>
+        </NuxtLink>
       </li>
       <li
+        @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+        :class="{ 'bg-[#d3e3fd]': activeRoute === 'drafts' }"
       >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <Icon
-            name="heroicons:document"
+          <DocumentIcon
             class="h-auto dark:text-green-real text-[#444746] w-5"
           />
           <span>Drafts</span>
         </button>
       </li>
       <li
+        @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
       >
         <button
@@ -126,19 +176,28 @@ const closeLeftSidebarMenu = () => {
         </button>
       </li>
       <li
+        @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+        :class="{ 'bg-[#d3e3fd]': activeRoute === 'important' }"
       >
-        <button
-          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        <NuxtLink
+          to="/important"
+          class="flex items-center w-full justify-between space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <Icon
-            name="material-symbols:label-important-outline"
-            class="h-auto dark:text-green-real text-[#444746] w-5"
-          />
-          <span>Important</span>
-        </button>
+          <div class="flex items-center space-x-3">
+            <Icon
+              name="material-symbols:label-important-outline"
+              class="h-auto dark:text-green-real text-[#444746] w-5"
+            />
+            <span>Important</span>
+          </div>
+          <p class="text-xs" v-if="noOfImportantMessages > 0">
+            {{ noOfImportantMessages }}
+          </p>
+        </NuxtLink>
       </li>
       <li
+        @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
       >
         <button
@@ -152,6 +211,7 @@ const closeLeftSidebarMenu = () => {
         </button>
       </li>
       <li
+        @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
       >
         <button
@@ -165,6 +225,7 @@ const closeLeftSidebarMenu = () => {
         </button>
       </li>
       <li
+        @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
       >
         <button
@@ -178,6 +239,7 @@ const closeLeftSidebarMenu = () => {
         </button>
       </li>
       <li
+        @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
       >
         <button
@@ -191,19 +253,28 @@ const closeLeftSidebarMenu = () => {
         </button>
       </li>
       <li
+        @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
+        :class="{ 'bg-[#d3e3fd]': activeRoute === 'trashed' }"
       >
-        <button
-          class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
+        <NuxtLink
+          to="/trashed"
+          class="flex items-center w-full justify-between space-x-3 py-[0.1rem] dark:text-green-real"
         >
-          <Icon
-            name="material-symbols:delete-outline-rounded"
-            class="h-auto dark:text-green-real text-[#444746] w-5"
-          />
-          <span>Trash</span>
-        </button>
+          <div class="flex items-center space-x-3">
+            <Icon
+              name="material-symbols:delete-outline-rounded"
+              class="h-auto dark:text-green-real text-[#444746] w-5"
+            />
+            <span>Trash</span>
+          </div>
+          <p class="text-xs" v-if="noOfTrashedMessages > 0">
+            {{ noOfTrashedMessages }}
+          </p>
+        </NuxtLink>
       </li>
       <li
+        @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
       >
         <button
@@ -217,6 +288,7 @@ const closeLeftSidebarMenu = () => {
         </button>
       </li>
       <li
+        @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
       >
         <button
