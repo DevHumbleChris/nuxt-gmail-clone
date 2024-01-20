@@ -17,6 +17,11 @@ const composeStore = useComposeStore();
 const sidebarStore = useSidebarStore();
 const db = useFirestore();
 const user = useCurrentUser();
+const activeStore = useActiveStore();
+
+const activeRoute = computed(() => {
+  return activeStore?.activeRoute;
+});
 
 const isSidebarOpen = computed(() => {
   return sidebarStore.isSidebarOpen;
@@ -90,7 +95,8 @@ const composeMail = () => {
       :class="isSidebarOpen ? 'space-y-2' : 'space-y-1'"
     >
       <li
-        class="bg-[#d3e3fd] px-5 rounded-r-full dark:bg-green-dark-light dark:hover:bg-green-dark-light hover:bg-[#e9ebef] cursor-pointer"
+        class="px-5 rounded-r-full dark:bg-green-dark-light dark:hover:bg-green-dark-light hover:bg-[#e9ebef] cursor-pointer"
+        :class="{ 'bg-[#d3e3fd]': activeRoute === 'inbox' }"
       >
         <button
           class="flex items-center w-full justify-between py-[0.1rem] dark:text-green-real"

@@ -1,22 +1,16 @@
 <script setup>
-import { collection, where } from "firebase/firestore";
+import { collection } from "firebase/firestore";
 definePageMeta({
   title: "Inbox",
   middleware: ["auth"],
 });
-
-const activeStore = useActiveStore();
 const db = useFirestore();
 const user = useCurrentUser();
+const activeStore = useActiveStore();
 const inbox = useCollection(collection(db, "users", user.value.email, "inbox"));
 
 onBeforeMount(() => {
-  activeStore?.setActiveStore("inbox");
-});
-
-const userMails = computed(() => {
-  const filteredMails = inbox.value.filter((mail) => !mail.trashed);
-  return filteredMails;
+  activeStore?.setActiveStore("important");
 });
 </script>
 
@@ -24,7 +18,7 @@ const userMails = computed(() => {
   <section>
     <LazyLabelsWrapper />
     <div>
-      <LazyMessage v-for="mail in userMails" :key="mail.id" :mail="mail" />
+      <LazyMessage v-for="mail in inbox" :key="mail.id" :mail="mail" />
     </div>
   </section>
 </template>

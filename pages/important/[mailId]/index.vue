@@ -4,14 +4,8 @@ definePageMeta({
   title: "Inbox",
   middleware: ["auth"],
 });
-
-const activeStore = useActiveStore();
 const db = useFirestore();
 const user = useCurrentUser();
-
-onBeforeMount(() => {
-  activeStore?.setActiveStore("sent");
-});
 const inbox = useCollection(collection(db, "users", user.value.email, "inbox"));
 </script>
 

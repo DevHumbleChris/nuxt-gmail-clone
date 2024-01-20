@@ -6,7 +6,12 @@ definePageMeta({
 });
 const db = useFirestore();
 const user = useCurrentUser();
+const activeStore = useActiveStore();
 const inbox = useCollection(collection(db, "users", user.value.email, "inbox"));
+
+onBeforeMount(() => {
+  activeStore?.setActiveStore("starred");
+});
 </script>
 
 <template>
