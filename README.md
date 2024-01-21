@@ -1,7 +1,9 @@
-
 # Nuxt Gmail Clone
+
 Author: [The Coding Montana](https://the-coding-montana.vercel.app)
+
 ## Introduction
+
 Welcome to the Gmail Clone project! This web application replicates the core functionalities of Gmail, allowing users to send emails to existing users, star emails, mark emails as important, view sent emails, move emails to the trash, and reply to emails in the inbox. The project is built using Nuxt.js, Tailwind CSS (with Shadcn UI), Cloudinary, Pinia, and Firebase.
 
 ## Features
@@ -14,19 +16,15 @@ Welcome to the Gmail Clone project! This web application replicates the core fun
 6. `Reply to Emails`: Respond to emails directly from the inbox.
 7. `Dark And Light Mode`: Toggle and enjoy the dark and light mode.
 
+## Technologies Used
 
+- `Nuxt.js`: A Vue.js framework for building modern web applications.
+- `Tailwind CSS (with Shadcn UI)`: A utility-first CSS framework for rapid UI development.
+- `Cloudinary`: An end-to-end image and video management solution.
+- `Pinia`: A Vue.js state management library.
+- `Firebase`: A comprehensive platform for building web and mobile applications.
 
-Technologies Used
------------------
-
--   `Nuxt.js`: A Vue.js framework for building modern web applications.
--   `Tailwind CSS (with Shadcn UI)`: A utility-first CSS framework for rapid UI development.
--   `Cloudinary`: An end-to-end image and video management solution.
--   `Pinia`: A Vue.js state management library.
--   `Firebase`: A comprehensive platform for building web and mobile applications.
-
-Images:
------------------
+## Images:
 
 Light Mode:
 
@@ -36,19 +34,18 @@ Dark Mode:
 
 ![Nuxt Gmail Clone Dark Mode](./public/images/dark-mode.png)
 
-Getting Started
----------------
+## Getting Started
 
 ### Prerequisites
 
-Make sure you have Node.js and npm installed on your machine.
+Make sure you have Node.js and pnpm installed on your machine.
 
 ### Installation
 
 1.  Clone the repository:
 
     ```bash
-	git clone https://github.com/DevHumbleChris/nuxt-gmail-clone.git
+    git clone https://github.com/DevHumbleChris/nuxt-gmail-clone.git
     ```
 
 2.  Navigate to the project directory:
@@ -60,7 +57,7 @@ Make sure you have Node.js and npm installed on your machine.
 3.  Install dependencies:
 
     ```bash
-    npm install
+    pnpm install
     ```
 
 ### Configuration
@@ -69,34 +66,31 @@ Make sure you have Node.js and npm installed on your machine.
 2.  Configure Firebase in the project by replacing the placeholder values in `.env` with your Firebase configuration.
 3.  Configure Cloudinary by replacing the placeholder values in `.env` with your Cloudinary configuration.
 
-Usage
------
+## Usage
 
 1.  Start the development server:
 
     ```bash
-    npm run dev
+    pnpm run dev
     ```
 
 2.  Open your browser and visit `http://localhost:3000` to access the Gmail Clone application.
 
-Page Routes
------------
+## Page Routes
 
--   `/`: Homepage
--   `/inbox`: Inbox mails
--   `/inbox/[mailId]`: Selected inbox mail preview
--   `/starred`: Starred mails
--   `/starred/[mailId]`: Selected starred mail preview
--   `/important`: Important mails
--   `/important/[mailId]`: Selected important mail preview
--   `/sent`: Sent mails
--   `/sent/[mailId]`: Selected sent mail preview
--   `/trashed`: Trashed mails
--   `/trashed/[mailId]`: Selected trashed mail preview
+- `/`: Homepage
+- `/inbox`: Inbox mails
+- `/inbox/[mailId]`: Selected inbox mail preview
+- `/starred`: Starred mails
+- `/starred/[mailId]`: Selected starred mail preview
+- `/important`: Important mails
+- `/important/[mailId]`: Selected important mail preview
+- `/sent`: Sent mails
+- `/sent/[mailId]`: Selected sent mail preview
+- `/trashed`: Trashed mails
+- `/trashed/[mailId]`: Selected trashed mail preview
 
-Environment Variables
----------------------
+## Environment Variables
 
 Make sure to set up the following environment variables in your `.env` file:
 
@@ -113,19 +107,18 @@ CLOUDINARY_API_KEY = ""
 CLOUDINARY_API_SECRET = ""
 ```
 
-Folder Structure
-----------------
+## Folder Structure
 
 The project follows a modular folder structure for better organization:
 
--   `assets`: Static assets like images and fonts.
--   `components`: Reusable Vue components.
--   `layouts`: Layout components for the application structure.
--   `pages`: Vue components representing different pages of the application.
--   `plugins`: External plugins and configurations.
--   `store`: State management using Pinia.
--   `static`: Static files that are directly served.
+- `assets`: Static assets like images and fonts.
+- `components`: Reusable Vue components.
+- `layouts`: Layout components for the application structure.
+- `pages`: Vue components representing different pages of the application.
+- `plugins`: External plugins and configurations.
+- `store`: State management using Pinia.
+- `static`: Static files that are directly served.
 
-License
--------
+## License
+
 This project is licensed under the `MIT` License.
