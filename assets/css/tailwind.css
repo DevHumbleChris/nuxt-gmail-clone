@@ -74,6 +74,6 @@
     @apply font-open-sans;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[#f7f8fc] dark:bg-green-dark text-foreground;
   }
 }

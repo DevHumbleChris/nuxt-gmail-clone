@@ -35,9 +35,7 @@ useHead({
 </script>
 
 <template>
-  <main
-    class="flex bg-[#f7f8fc] dark:bg-green-dark relative max-w-[85rem] mx-auto overflow-hidden"
-  >
+  <main class="flex relative max-w-[85rem] mx-auto overflow-hidden">
     <LazySidebar />
     <section class="w-full p-1.5 lg:p-2.5">
       <Header />
