@@ -25,6 +25,17 @@ Technologies Used
 -   `Pinia`: A Vue.js state management library.
 -   `Firebase`: A comprehensive platform for building web and mobile applications.
 
+Images:
+-----------------
+
+Light Mode:
+
+![Nuxt Gmail Clone Light Mode](./public/images/light-mode.png)
+
+Dark Mode:
+
+![Nuxt Gmail Clone Dark Mode](./public/images/dark-mode.png)
+
 Getting Started
 ---------------
 
