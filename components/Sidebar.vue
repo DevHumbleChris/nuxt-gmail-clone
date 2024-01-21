@@ -96,8 +96,10 @@ const composeMail = () => {
       :class="isSidebarOpen ? 'space-y-2' : 'space-y-1'"
     >
       <li
-        class="px-5 rounded-r-full dark:bg-green-dark-light dark:hover:bg-green-dark-light hover:bg-[#e9ebef] cursor-pointer"
-        :class="{ 'bg-[#d3e3fd]': activeRoute === 'inbox' }"
+        class="px-5 rounded-r-full dark:hover:bg-green-dark-light hover:bg-[#e9ebef] cursor-pointer"
+        :class="{
+          'bg-[#d3e3fd] dark:bg-green-dark-light': activeRoute === 'inbox',
+        }"
       >
         <NuxtLink
           to="/inbox"
@@ -114,7 +116,9 @@ const composeMail = () => {
       </li>
       <li
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
-        :class="{ 'bg-[#d3e3fd]': activeRoute === 'starred' }"
+        :class="{
+          'bg-[#d3e3fd] dark:bg-green-dark-light': activeRoute === 'starred',
+        }"
       >
         <NuxtLink
           to="/starred"
@@ -131,7 +135,9 @@ const composeMail = () => {
       </li>
       <li
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
-        :class="{ 'bg-[#d3e3fd]': activeRoute === 'snoozed' }"
+        :class="{
+          'bg-[#d3e3fd] dark:bg-green-dark-light': activeRoute === 'snoozed',
+        }"
       >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
@@ -142,7 +148,9 @@ const composeMail = () => {
       </li>
       <li
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
-        :class="{ 'bg-[#d3e3fd]': activeRoute === 'sent' }"
+        :class="{
+          'bg-[#d3e3fd] dark:bg-green-dark-light': activeRoute === 'sent',
+        }"
       >
         <NuxtLink
           to="/sent"
@@ -157,7 +165,9 @@ const composeMail = () => {
       </li>
       <li
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
-        :class="{ 'bg-[#d3e3fd]': activeRoute === 'drafts' }"
+        :class="{
+          'bg-[#d3e3fd] dark:bg-green-dark-light': activeRoute === 'drafts',
+        }"
       >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
@@ -182,7 +192,9 @@ const composeMail = () => {
       </li>
       <li
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
-        :class="{ 'bg-[#d3e3fd]': activeRoute === 'important' }"
+        :class="{
+          'bg-[#d3e3fd] dark:bg-green-dark-light': activeRoute === 'important',
+        }"
       >
         <NuxtLink
           to="/important"
@@ -254,7 +266,9 @@ const composeMail = () => {
       </li>
       <li
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
-        :class="{ 'bg-[#d3e3fd]': activeRoute === 'trashed' }"
+        :class="{
+          'bg-[#d3e3fd] dark:bg-green-dark-light': activeRoute === 'trashed',
+        }"
       >
         <NuxtLink
           to="/trashed"

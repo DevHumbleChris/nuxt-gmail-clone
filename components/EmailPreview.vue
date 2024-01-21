@@ -1,13 +1,20 @@
 <script setup>
-import { formatDistance, formatRelative } from "date-fns";
+import { formatRelative } from "date-fns";
+import { doc, updateDoc } from "firebase/firestore";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "~/components/ui/hover-card";
+
+const db = useFirestore();
+const user = useCurrentUser();
+
 const props = defineProps({
   mail: Object,
 });
+
+const isReply = useState("isReply", () => false);
 
 const mail = computed(() => {
   return props?.mail;
@@ -17,18 +24,38 @@ const formatDateWithDateFNS = (date) => {
   let dateToConvert = date ? date.toDate() : new Date();
   return formatRelative(dateToConvert, new Date());
 };
+
+onBeforeMount(async () => {
+  const inboxDocRef = doc(
+    db,
+    "users",
+    user.value.email,
+    "inbox",
+    mail?.value?.id
+  );
+
+  await updateDoc(inboxDocRef, {
+    read: true,
+  });
+});
+
+const replyMail = () => {
+  isReply.value = !isReply.value;
+};
 </script>
 
 <template>
   <div class="w-full">
-    <div class="px-[68px] py-4 flex items-center gap-3">
+    <div class="p-5 sm:px-[68px] py-4 flex items-center gap-3">
       <h1 class="text-3xl text-gray-600 font-medium">{{ mail?.subject }}</h1>
       <Icon
         name="material-symbols:label-important-outline"
         class="w-5 h-auto text-gray-400"
       />
     </div>
-    <div class="px-5 flex items-center justify-between">
+    <div
+      class="px-5 flex flex-col gap-3 sm:gap-0 sm:flex-row sm:items-center justify-between"
+    >
       <div class="flex gap-3">
         <img
           src="https://lh3.googleusercontent.com/ogw/AOLn63FDwvpMYoohxMTsrPnCh-5UanYRmFplX0A9ld-H=s32-c-mo"
@@ -36,7 +63,7 @@ const formatDateWithDateFNS = (date) => {
           class="w-10 h-10 object-fit rounded-full"
         />
         <div>
-          <div class="text-sm flex items-center gap-1">
+          <div class="text-sm flex flex-col sm:flex-row sm:items-center gap-1">
             <h2 class="font-semibold">{{ mail?.senderName }}</h2>
             <p class="text-xs text-gray-600 font-medium">
               &lt;{{ mail?.sender }}&gt;
@@ -82,30 +109,26 @@ const formatDateWithDateFNS = (date) => {
           </div>
         </div>
       </div>
-      <div>
-        <div class="text-[13px] flex items-center gap-6 text-gray-600">
-          <p>{{ formatDateWithDateFNS(mail?.timestamp) }}</p>
+      <div class="text-[13px] flex items-center gap-6 text-gray-600">
+        <p>{{ formatDateWithDateFNS(mail?.timestamp) }}</p>
+        <Icon name="material-symbols:star-outline-rounded" class="w-5 h-auto" />
+        <div class="flex items-center gap-5">
           <Icon
-            name="material-symbols:star-outline-rounded"
+            name="fluent:emoji-smile-slight-24-regular"
             class="w-5 h-auto"
           />
-          <div class="flex items-center gap-5">
-            <Icon
-              name="fluent:emoji-smile-slight-24-regular"
-              class="w-5 h-auto"
-            />
-            <Icon name="material-symbols:reply" class="w-5 h-auto" />
-            <Icon name="uil:ellipsis-v" class="w-5 h-auto" />
-          </div>
+          <Icon name="material-symbols:reply" class="w-5 h-auto" />
+          <Icon name="uil:ellipsis-v" class="w-5 h-auto" />
         </div>
       </div>
     </div>
-    <div class="px-[70px] text-sm my-4">
+    <div class="px-5 sm:px-[70px] text-lg my-4">
       <div v-html="mail?.body"></div>
     </div>
 
-    <div class="my-5 px-5 flex items-center gap-5">
+    <div v-if="!isReply" class="my-5 px-5 flex items-center gap-5">
       <button
+        @click="replyMail"
         class="flex items-center text-sm text-gray-600 gap-3 border px-4 py-2 rounded-full border-gray-500 hover:bg-[#f8f8f8]"
       >
         <Icon name="solar:reply-outline" class="w-5 h-auto" />
@@ -119,11 +142,11 @@ const formatDateWithDateFNS = (date) => {
       </button>
     </div>
 
-    <div class="px-5 mt-10 mb-4 flex gap-2 w-full">
+    <div v-else class="px-5 mt-3 sm:mt-10 mb-4 flex sm:gap-2 w-full">
       <img
         src="https://lh3.googleusercontent.com/ogw/AOLn63FDwvpMYoohxMTsrPnCh-5UanYRmFplX0A9ld-H=s32-c-mo"
         alt="the-coding-montana"
-        class="w-10 h-10 object-fit rounded-full"
+        class="w-10 h-10 object-fit rounded-full hidden sm:block"
       />
       <div
         class="w-full bg-white px-5 py-2 border shadow rounded-xl drop-shadow-md"

@@ -22,17 +22,6 @@ const formatDateWithDateFNS = (date) => {
   });
 };
 
-const viewMail = async (id) => {
-  const inboxDocRef = doc(db, "users", user.value.email, "inbox", id);
-
-  await updateDoc(inboxDocRef, {
-    read: true,
-  });
-  navigateTo({
-    path: "/inbox/" + id,
-  });
-};
-
 const starMail = async (mail) => {
   try {
     let mailStatus = mail.starred;
@@ -141,8 +130,8 @@ const moveMailToTrash = async (mail) => {
     <div
       class="flex flex-col lg:flex-row lg:items-center justify-between w-full gap-2 lg:gap-4"
     >
-      <div
-        @click="viewMail(mail.id)"
+      <NuxtLink
+        :to="'/inbox/' + mail?.id"
         class="flex flex-col sm:flex-row items-center gap-2"
       >
         <p class="dark:text-green-real w-full">{{ mail.senderName }}</p>
@@ -150,16 +139,19 @@ const moveMailToTrash = async (mail) => {
           class="w-full xl:max-w-[42rem] group-hover:max-w-[37rem] text-gray-500"
         >
           <p
-            class="truncate flex gap-3 max-w-[12rem] sm:max-w-[25rem] xl:max-w-full dark:text-green-real"
+            class="truncate flex flex-col sm:flex-row sm:gap-3 max-w-[12rem] sm:max-w-[25rem] xl:max-w-full dark:text-green-real"
           >
             <span class="block font-semibold text-gray-800">{{
               mail?.subject
             }}</span>
-            -
-            <span class="block truncate" v-html="mail.body"></span>
+            <span class="hidden sm:block">-</span>
+            <span
+              class="block truncate -mt-4 sm:-mt-0"
+              v-html="mail.body"
+            ></span>
           </p>
         </div>
-      </div>
+      </NuxtLink>
       <p class="group-hover:hidden dark:text-green-real">
         {{ formatDateWithDateFNS(mail?.timestamp) }}
       </p>
@@ -176,18 +168,21 @@ const moveMailToTrash = async (mail) => {
             d="M5 21q-.825 0-1.413-.588T3 19V6.5q0-.375.125-.675t.325-.575l1.4-1.7q.2-.275.5-.413T6 3h12q.35 0 .65.137t.5.413l1.4 1.7q.2.275.325.575T21 6.5V19q0 .825-.588 1.413T19 21H5Zm.4-15h13.2l-.85-1H6.25L5.4 6ZM5 8v11h14V8H5Zm7 10l4-4l-1.4-1.4l-1.6 1.6V10h-2v4.2l-1.6-1.6L8 14l4 4Zm-7 1h14H5Z"
           ></path>
         </svg>
-        <button @click="moveMailToTrash(mail)" class="block">
+        <button
+          @click="moveMailToTrash(mail)"
+          class="block dark:text-green-real"
+        >
           <Icon name="material-symbols:delete-outline" class="w-5 h-auto" />
         </button>
         <Icon
           name="material-symbols:mark-email-unread"
           @click="markUserMail(mail)"
           v-if="mail?.read"
-          class="w-5 h-auto"
+          class="w-5 h-auto dark:text-green-real cursor-pointer"
         />
         <Icon
           name="mdi:email-open"
-          class="w-5 h-auto"
+          class="w-5 h-auto dark:text-green-real cursor-pointer"
           v-else
           @click="markUserMail(mail)"
         />

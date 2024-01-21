@@ -48,13 +48,15 @@ const goBack = () => {
       <Header />
       <div class="my-2 p-1.5 flex space-x-2">
         <div class="w-full bg-white dark:bg-green-dark-light rounded-2xl">
-          <div class="flex items-center gap-8 px-5 py-3 dark:text-green-real">
+          <div
+            class="flex items-center gap-4 sm:gap-8 px-5 py-3 dark:text-green-real"
+          >
             <Icon
               @click="goBack()"
               name="material-symbols:arrow-left-alt-rounded"
-              class="w-5 h-auto cursor-pointer"
+              class="w-5 shrink-0 h-auto cursor-pointer"
             />
-            <div class="flex items-center border-r pr-5 gap-5">
+            <div class="flex items-center border-r pr-3 sm:pr-5 gap-3 sm:gap-5">
               <Icon
                 name="material-symbols:archive-outline-rounded"
                 class="w-5 h-auto cursor-pointer"
@@ -65,7 +67,7 @@ const goBack = () => {
                 class="w-5 h-auto cursor-pointer"
               />
             </div>
-            <div class="flex items-center border-r pr-5 gap-5">
+            <div class="flex items-center border-r pr-3 sm:pr-5 gap-3 sm:gap-5">
               <Icon
                 name="material-symbols:mark-email-unread-outline-rounded"
                 class="w-5 h-auto cursor-pointer"
@@ -76,7 +78,7 @@ const goBack = () => {
                 class="w-5 h-auto cursor-pointer"
               />
             </div>
-            <div class="flex items-center pr-5 gap-5">
+            <div class="flex items-center pr-3 sm:pr-5 gap-3 sm:gap-5">
               <Icon
                 name="clarity:inbox-line"
                 class="w-5 h-auto cursor-pointer"

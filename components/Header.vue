@@ -22,7 +22,7 @@ const openSidebarMobile = () => {
 </script>
 
 <template>
-  <div class="flex justify-between w-full">
+  <div class="flex justify-between w-full py-2">
     <div class="flex items-center gap-2">
       <Bars3Icon
         @click="openSidebarMobile"

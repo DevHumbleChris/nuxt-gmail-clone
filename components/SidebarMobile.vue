@@ -83,8 +83,10 @@ const closeLeftSidebarMenu = () => {
     <ul class="my-4 text-center space-y-1">
       <li
         @click="closeLeftSidebarMenu"
-        class="px-5 rounded-r-full dark:bg-green-dark-light dark:hover:bg-green-dark-light hover:bg-[#e9ebef] cursor-pointer"
-        :class="{ 'bg-[#d3e3fd]': activeRoute === 'inbox' }"
+        class="px-5 rounded-r-full dark:hover:bg-green-dark-light hover:bg-[#e9ebef] cursor-pointer"
+        :class="{
+          'bg-[#d3e3fd] dark:bg-green-dark-light': activeRoute === 'inbox',
+        }"
       >
         <NuxtLink
           to="/inbox"
@@ -102,7 +104,9 @@ const closeLeftSidebarMenu = () => {
       <li
         @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
-        :class="{ 'bg-[#d3e3fd]': activeRoute === 'starred' }"
+        :class="{
+          'bg-[#d3e3fd] dark:bg-green-dark-light': activeRoute === 'starred',
+        }"
       >
         <NuxtLink
           to="/starred"
@@ -134,7 +138,9 @@ const closeLeftSidebarMenu = () => {
       <li
         @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
-        :class="{ 'bg-[#d3e3fd]': activeRoute === 'sent' }"
+        :class="{
+          'bg-[#d3e3fd] dark:bg-green-dark-light': activeRoute === 'sent',
+        }"
       >
         <NuxtLink
           to="/sent"
@@ -150,7 +156,9 @@ const closeLeftSidebarMenu = () => {
       <li
         @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
-        :class="{ 'bg-[#d3e3fd]': activeRoute === 'drafts' }"
+        :class="{
+          'bg-[#d3e3fd] dark:bg-green-dark-light': activeRoute === 'drafts',
+        }"
       >
         <button
           class="flex items-center space-x-3 py-[0.1rem] dark:text-green-real"
@@ -178,7 +186,9 @@ const closeLeftSidebarMenu = () => {
       <li
         @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
-        :class="{ 'bg-[#d3e3fd]': activeRoute === 'important' }"
+        :class="{
+          'bg-[#d3e3fd] dark:bg-green-dark-light': activeRoute === 'important',
+        }"
       >
         <NuxtLink
           to="/important"
@@ -255,7 +265,9 @@ const closeLeftSidebarMenu = () => {
       <li
         @click="closeLeftSidebarMenu"
         class="px-5 rounded-r-full hover:bg-[#e9ebef] dark:hover:bg-green-dark-light cursor-pointer"
-        :class="{ 'bg-[#d3e3fd]': activeRoute === 'trashed' }"
+        :class="{
+          'bg-[#d3e3fd] dark:bg-green-dark-light': activeRoute === 'trashed',
+        }"
       >
         <NuxtLink
           to="/trashed"
