@@ -1,16 +1,47 @@
 <script setup>
 import { StarIcon, ClockIcon } from "@heroicons/vue/24/outline";
-import { formatDistance, subDays } from "date-fns";
+import { formatDistance } from "date-fns";
 import { doc, updateDoc } from "firebase/firestore";
 import { toast } from "vue-sonner";
 
 const db = useFirestore();
+const mailboxStore = useMailboxesStore();
 
 const props = defineProps({
   mail: Object,
 });
 
 const user = useCurrentUser();
+
+const userCheckedMails = computed(() => {
+  return mailboxStore?.userCheckedMails;
+});
+
+const checkedMails = useState("checkedMails", () => {
+  return userCheckedMails?.value;
+});
+
+const reportStatus = computed(() => {
+  return mailboxStore?.reportStatus;
+});
+
+watch(checkedMails, (newMails, _) => {
+  if (newMails.length > 0) {
+    mailboxStore?.updateIsMailChecked(true);
+    mailboxStore?.updateUserCheckedMails(newMails);
+  } else {
+    mailboxStore?.updateIsMailChecked(false);
+    mailboxStore?.updateUserCheckedMails(newMails);
+  }
+});
+
+const checker = setInterval(() => {
+  if (reportStatus.value === "mails trashed") {
+    checkedMails.value = [];
+    clearInterval(checker);
+  }
+  console.log(reportStatus.value);
+}, 300);
 
 const mail = computed(() => {
   return props?.mail;
@@ -87,15 +118,20 @@ const moveMailToTrash = async (mail) => {
 
 <template>
   <div
-    class="w-full flex flex-col xl:flex-row xl:items-center space-y-1 gap-5 dark:bg-green-dark-light dark:hover:shadow-green-real px-4 py-3 hover:drop-shadow-xl group border text-sm cursor-pointer dark:border-gray-700/50"
-    :class="{ 'bg-[#f2f5fc]': mail.read }"
+    class="w-full flex flex-col xl:flex-row xl:items-center space-y-1 gap-5 dark:hover:shadow-green-real px-4 py-3 hover:drop-shadow-xl group border text-sm cursor-pointer dark:border-gray-700/50"
+    :class="{
+      'bg-[#f2f5fc] dark:bg-green-dark': mail.read,
+      'bg-white dark:bg-green-dark-light': !mail.read,
+    }"
   >
     <div class="flex space-x-3 items-center">
       <input
         class="rounded cursor-pointer dark:bg-green-real"
         type="checkbox"
-        name="message-check"
-        id="message-check"
+        :name="mail?.id"
+        :id="mail?.id"
+        :value="mail"
+        v-model="checkedMails"
       />
       <Icon
         name="material-symbols:star-rate-rounded"
@@ -141,12 +177,13 @@ const moveMailToTrash = async (mail) => {
           <p
             class="truncate flex flex-col sm:flex-row sm:gap-3 max-w-[12rem] sm:max-w-[25rem] xl:max-w-full dark:text-green-real"
           >
-            <span class="block font-semibold text-gray-800">{{
-              mail?.subject
-            }}</span>
+            <span
+              class="block font-semibold text-gray-800 dark:text-gray-300"
+              >{{ mail?.subject }}</span
+            >
             <span class="hidden sm:block">-</span>
             <span
-              class="block truncate -mt-4 sm:-mt-0"
+              class="block truncate -mt-4 sm:-mt-0 dark:text-gray-300"
               v-html="mail.body"
             ></span>
           </p>

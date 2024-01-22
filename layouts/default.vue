@@ -1,12 +1,11 @@
 <script setup>
-import {
-  ClockIcon,
-  EnvelopeIcon,
-  EllipsisVerticalIcon,
-} from "@heroicons/vue/24/outline";
-import { useMailboxesStore } from "~/stores/mailboxes";
+import { ClockIcon } from "@heroicons/vue/24/outline";
+import { doc, updateDoc } from "firebase/firestore";
+import { toast } from "vue-sonner";
+
 const route = useRoute();
-const mailboxesStore = useMailboxesStore();
+const db = useFirestore();
+const user = useCurrentUser();
 
 useHead({
   meta: [
@@ -32,6 +31,82 @@ useHead({
   ],
   title: `Nuxt Gmail Clone - ${route.meta.title}`,
 });
+
+const mailboxStore = useMailboxesStore();
+const isMailChecked = computed(() => {
+  return mailboxStore?.isMailChecked;
+});
+
+const userCheckedMails = computed(() => {
+  return mailboxStore?.userCheckedMails;
+});
+
+const starMail = async (mail) => {
+  try {
+    let mailStatus = mail.starred;
+    const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
+
+    await updateDoc(inboxDocRef, {
+      starred: !mailStatus,
+    });
+
+    toast.info(mailStatus ? "Mail Unstarred" : "Mail Starred.");
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
+const markUserMail = async (mail) => {
+  try {
+    let mailStatus = mail.read;
+    const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
+
+    await updateDoc(inboxDocRef, {
+      read: !mailStatus,
+    });
+    toast.info(mailStatus ? "Mail Marked As Unread." : "Mail Marked As Read.");
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
+const markUserMailImportant = async (mail) => {
+  try {
+    let mailStatus = mail.important;
+    const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
+
+    await updateDoc(inboxDocRef, {
+      important: !mailStatus,
+    });
+
+    toast.info(
+      mailStatus ? "Mail Marked As Not Important." : "Mail Marked As Important."
+    );
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
+const moveMailToTrash = async () => {
+  try {
+    const mailsLength = userCheckedMails.value.length;
+    await userCheckedMails.value.map((mail) => {
+      const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
+
+      updateDoc(inboxDocRef, {
+        trashed: true,
+      });
+    });
+    mailboxStore?.updateIsMailChecked(false);
+    mailboxStore?.updateUserCheckedMails([]);
+    await mailboxStore?.updateReportStatus("mails trashed");
+    toast.info(
+      `${mailsLength} ${mailsLength > 0 ? "Mails" : "Mail"} Moved To Trash`
+    );
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
 </script>
 
 <template>
@@ -42,29 +117,54 @@ useHead({
       <div class="my-2 p-1.5 flex space-x-2">
         <div class="w-full bg-white dark:bg-green-dark-light rounded-2xl">
           <div
-            class="flex items-center justify-between p-2 dark:text-green-real"
+            class="flex items-center gap-4 sm:gap-8 px-5 py-3 dark:text-green-real text-gray-600"
           >
-            <input
-              type="checkbox"
-              name="all-check"
-              id="all-check"
-              class="dark:bg-green-real rounded cursor-pointer"
-            />
-            <Icon
-              name="material-symbols:archive-outline-rounded"
-              class="w-5 h-auto"
-            />
-            <Icon name="ri:spam-2-line" class="w-5 h-auto" />
-            <Icon name="ion:trash-outline" class="w-5 h-auto" />
-            <ClockIcon class="w-5" />
-            <EnvelopeIcon class="w-5" />
-            <Icon name="ic:outline-add-task" class="w-5 h-auto" />
-            <Icon name="mdi:folder-move-outline" class="w-5 h-auto" />
-            <Icon
-              name="material-symbols:label-outline-rounded"
-              class="w-5 h-auto"
-            />
-            <EllipsisVerticalIcon class="w-5" />
+            <div v-if="!isMailChecked" class="flex gap-3">
+              <Icon name="ic:round-refresh" class="w-5 h-auto cursor-pointer" />
+              <Icon name="uil:ellipsis-v" class="w-5 h-auto cursor-pointer" />
+            </div>
+            <div
+              v-if="isMailChecked"
+              class="flex items-center border-r pr-3 sm:pr-5 gap-3 sm:gap-5"
+            >
+              <Icon
+                name="material-symbols:archive-outline-rounded"
+                class="w-5 h-auto cursor-pointer"
+              />
+              <Icon name="ri:spam-2-line" class="w-5 h-auto cursor-pointer" />
+              <Icon
+                @click="moveMailToTrash"
+                name="ion:trash-outline"
+                class="w-5 h-auto cursor-pointer"
+              />
+            </div>
+            <div
+              v-if="isMailChecked"
+              class="flex items-center border-r pr-3 sm:pr-5 gap-3 sm:gap-5"
+            >
+              <Icon
+                name="material-symbols:mark-email-unread-outline-rounded"
+                class="w-5 h-auto cursor-pointer"
+              />
+              <ClockIcon class="w-5 cursor-pointer" />
+              <Icon
+                name="ic:outline-add-task"
+                class="w-5 h-auto cursor-pointer"
+              />
+            </div>
+            <div
+              v-if="isMailChecked"
+              class="flex items-center pr-3 sm:pr-5 gap-3 sm:gap-5"
+            >
+              <Icon
+                name="clarity:inbox-line"
+                class="w-5 h-auto cursor-pointer"
+              />
+              <Icon
+                name="material-symbols:label-outline-rounded"
+                class="w-5 h-auto cursor-pointer"
+              />
+            </div>
           </div>
           <slot />
         </div>
