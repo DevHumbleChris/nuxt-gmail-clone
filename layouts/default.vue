@@ -41,53 +41,32 @@ const userCheckedMails = computed(() => {
   return mailboxStore?.userCheckedMails;
 });
 
-const starMail = async (mail) => {
+const markAllUserMailAsRead = async (mail) => {
   try {
-    let mailStatus = mail.starred;
-    const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
+    const mailsLength = userCheckedMails.value.length;
+    let mailStatus = null;
+    await userCheckedMails.value.map((mail) => {
+      mailStatus = mail.read;
+      const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
 
-    await updateDoc(inboxDocRef, {
-      starred: !mailStatus,
+      updateDoc(inboxDocRef, {
+        read: !mailStatus,
+      });
     });
-
-    toast.info(mailStatus ? "Mail Unstarred" : "Mail Starred.");
-  } catch (error) {
-    toast.error(error.message);
-  }
-};
-
-const markUserMail = async (mail) => {
-  try {
-    let mailStatus = mail.read;
-    const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
-
-    await updateDoc(inboxDocRef, {
-      read: !mailStatus,
-    });
-    toast.info(mailStatus ? "Mail Marked As Unread." : "Mail Marked As Read.");
-  } catch (error) {
-    toast.error(error.message);
-  }
-};
-
-const markUserMailImportant = async (mail) => {
-  try {
-    let mailStatus = mail.important;
-    const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
-
-    await updateDoc(inboxDocRef, {
-      important: !mailStatus,
-    });
-
+    mailboxStore?.updateIsMailChecked(false);
+    mailboxStore?.updateUserCheckedMails([]);
+    await mailboxStore?.updateReportStatus("action read/unread");
     toast.info(
-      mailStatus ? "Mail Marked As Not Important." : "Mail Marked As Important."
+      `${mailsLength} ${mailsLength > 0 ? "Mails" : "Mail"} Marked As ${
+        mailStatus ? "Unread" : "Read"
+      }`
     );
   } catch (error) {
     toast.error(error.message);
   }
 };
 
-const moveMailToTrash = async () => {
+const moveAllMailToTrash = async () => {
   try {
     const mailsLength = userCheckedMails.value.length;
     await userCheckedMails.value.map((mail) => {
@@ -134,7 +113,7 @@ const moveMailToTrash = async () => {
               />
               <Icon name="ri:spam-2-line" class="w-5 h-auto cursor-pointer" />
               <Icon
-                @click="moveMailToTrash"
+                @click="moveAllMailToTrash"
                 name="ion:trash-outline"
                 class="w-5 h-auto cursor-pointer"
               />
@@ -144,6 +123,7 @@ const moveMailToTrash = async () => {
               class="flex items-center border-r pr-3 sm:pr-5 gap-3 sm:gap-5"
             >
               <Icon
+                @click="markAllUserMailAsRead"
                 name="material-symbols:mark-email-unread-outline-rounded"
                 class="w-5 h-auto cursor-pointer"
               />

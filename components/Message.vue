@@ -25,6 +25,12 @@ const reportStatus = computed(() => {
   return mailboxStore?.reportStatus;
 });
 
+watchEffect(() => {
+  if (reportStatus.value === "action read/unread") {
+    checkedMails.value = [];
+  }
+});
+
 watch(checkedMails, (newMails, _) => {
   if (newMails.length > 0) {
     mailboxStore?.updateIsMailChecked(true);
@@ -34,14 +40,6 @@ watch(checkedMails, (newMails, _) => {
     mailboxStore?.updateUserCheckedMails(newMails);
   }
 });
-
-const checker = setInterval(() => {
-  if (reportStatus.value === "mails trashed") {
-    checkedMails.value = [];
-    clearInterval(checker);
-  }
-  console.log(reportStatus.value);
-}, 300);
 
 const mail = computed(() => {
   return props?.mail;

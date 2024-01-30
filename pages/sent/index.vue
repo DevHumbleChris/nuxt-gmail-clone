@@ -18,7 +18,6 @@ const mails = useCollection(collection(db, "users", user.value.email, "sent"));
 
 <template>
   <section>
-    <LazyLabelsWrapper />
     <div>
       <LazyMessage v-for="mail in mails" :key="mail.id" :mail="mail" />
     </div>

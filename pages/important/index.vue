@@ -22,7 +22,6 @@ const userMails = computed(() => {
 
 <template>
   <section>
-    <LazyLabelsWrapper />
     <div>
       <LazyMessage v-for="mail in userMails" :key="mail.id" :mail="mail" />
     </div>

@@ -15,14 +15,17 @@ onBeforeMount(() => {
 });
 
 const userMails = computed(() => {
-  const filteredMails = inbox.value.filter((mail) => mail.starred);
+  const filteredMails = inbox.value.filter((mail) => {
+    if (mail.starred && mail.trashed === false) {
+      return mail;
+    }
+  });
   return filteredMails;
 });
 </script>
 
 <template>
   <section>
-    <LazyLabelsWrapper />
     <div>
       <LazyMessage v-for="mail in userMails" :key="mail.id" :mail="mail" />
     </div>
