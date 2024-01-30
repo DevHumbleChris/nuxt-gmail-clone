@@ -1,5 +1,5 @@
 <script setup>
-import { collection } from "firebase/firestore";
+import { collection, deleteDoc, doc } from "firebase/firestore";
 import { useActiveStore } from "~/stores/active";
 definePageMeta({
   title: "Inbox",
@@ -18,6 +18,18 @@ const userMails = computed(() => {
   const filteredMails = inbox.value.filter((mail) => mail.trashed);
   return filteredMails;
 });
+
+const emptyTrash = async () => {
+  try {
+    await userMails.value.map(async (mail) => {
+      const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
+
+      await deleteDoc(inboxDocRef);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 </script>
 
 <template>
@@ -28,7 +40,9 @@ const userMails = computed(() => {
     >
       Messages that have been in Trash more than 30 days will be automatically
       deleted.
-      <span class="text-blue-600 cursor-pointer p-2 hover:bg-blue-100 rounded"
+      <span
+        @click="emptyTrash"
+        class="text-blue-600 cursor-pointer p-2 hover:bg-blue-100 rounded"
         >Empty Trash now</span
       >
     </div>
