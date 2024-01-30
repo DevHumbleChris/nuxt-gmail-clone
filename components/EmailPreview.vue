@@ -584,7 +584,12 @@ onBeforeUnmount(() => {
                 @click="sendMail"
                 class="block bg-[#0b57cf] dark:bg-green-real px-3 py-2 rounded-full sm:px-6 text-white"
               >
-                Send
+                <Icon
+                  v-if="isSendingMail"
+                  name="eos-icons:bubble-loading"
+                  class="mx-1"
+                />
+                <span>{{ isSendingMail ? "Sending" : "Send" }}</span>
               </button>
               <div class="space-x-2 dark:text-green-real">
                 <button>
