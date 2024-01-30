@@ -202,6 +202,7 @@ const sendMail = async () => {
       snoozed: false,
       starred: false,
       trashed: false,
+      replies: [],
     };
 
     const senderDocRef = doc(db, "users", emailData.sender);
