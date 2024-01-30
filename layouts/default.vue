@@ -91,10 +91,11 @@ const moveMailToTrash = async () => {
   try {
     const mailsLength = userCheckedMails.value.length;
     await userCheckedMails.value.map((mail) => {
+      let mailStatus = mail.trashed;
       const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
 
       updateDoc(inboxDocRef, {
-        trashed: true,
+        trashed: !mailStatus,
       });
     });
     mailboxStore?.updateIsMailChecked(false);
