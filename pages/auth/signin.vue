@@ -4,7 +4,10 @@ import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 definePageMeta({
   layout: "custom",
-  title: "Signin",
+});
+
+useHead({
+  titleTemplate: "%s - Signin",
 });
 const db = useFirestore();
 const auth = useFirebaseAuth();

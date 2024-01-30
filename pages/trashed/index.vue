@@ -3,9 +3,13 @@ import { collection, deleteDoc, doc } from "firebase/firestore";
 import { useActiveStore } from "~/stores/active";
 import { toast } from "vue-sonner";
 definePageMeta({
-  title: "Inbox",
   middleware: ["auth"],
 });
+
+useHead({
+  titleTemplate: "%s - Trashed",
+});
+
 const db = useFirestore();
 const user = useCurrentUser();
 const activeStore = useActiveStore();

@@ -4,6 +4,7 @@ const isDark = useDark();
 definePageMeta({
   layout: "custom",
 });
+
 const expanded = useState("expanded", () => false);
 </script>
 

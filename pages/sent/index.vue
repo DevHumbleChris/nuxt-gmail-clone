@@ -3,8 +3,11 @@ import { collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { useActiveStore } from "~/stores/active";
 import { toast } from "vue-sonner";
 definePageMeta({
-  title: "Inbox",
   middleware: ["auth"],
+});
+
+useHead({
+  titleTemplate: "%s - Sent",
 });
 
 const activeStore = useActiveStore();

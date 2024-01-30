@@ -2,8 +2,11 @@
 import { collection } from "firebase/firestore";
 import { useActiveStore } from "~/stores/active";
 definePageMeta({
-  title: "Inbox",
   middleware: ["auth"],
+});
+
+useHead({
+  titleTemplate: "%s - Inbox",
 });
 
 const activeStore = useActiveStore();

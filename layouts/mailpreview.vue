@@ -1,17 +1,13 @@
 <script setup>
-import {
-  ClockIcon,
-  EnvelopeIcon,
-  EllipsisVerticalIcon,
-} from "@heroicons/vue/24/outline";
-import { useMailboxesStore } from "~/stores/mailboxes";
+import { ClockIcon } from "@heroicons/vue/24/outline";
 const router = useRouter();
-const route = useRoute();
-const mailboxesStore = useMailboxesStore();
 
 useHead({
+  htmlAttrs: {
+    lang: "en",
+  },
   meta: [
-    { property: "og:title", content: `Nuxt Gmail Clone - ${route.meta.title}` },
+    { property: "og:title", content: `Nuxt Gmail Clone` },
     {
       name: "description",
       content:
@@ -31,7 +27,7 @@ useHead({
     },
     { name: "twitter:site", content: "https://nuxt-gmail-clone.vercel.app" },
   ],
-  title: `Nuxt Gmail Clone - ${route.meta.title}`,
+  title: `Nuxt Gmail Clone`,
 });
 
 const goBack = () => {

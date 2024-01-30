@@ -3,13 +3,15 @@ import { ClockIcon } from "@heroicons/vue/24/outline";
 import { doc, updateDoc } from "firebase/firestore";
 import { toast } from "vue-sonner";
 
-const route = useRoute();
 const db = useFirestore();
 const user = useCurrentUser();
 
 useHead({
+  htmlAttrs: {
+    lang: "en",
+  },
   meta: [
-    { property: "og:title", content: `Nuxt Gmail Clone - ${route.meta.title}` },
+    { property: "og:title", content: `Nuxt Gmail Clone` },
     {
       name: "description",
       content:
@@ -29,7 +31,7 @@ useHead({
     },
     { name: "twitter:site", content: "https://nuxt-gmail-clone.vercel.app" },
   ],
-  title: `Nuxt Gmail Clone - ${route.meta.title}`,
+  title: `Nuxt Gmail Clone`,
 });
 
 const mailboxStore = useMailboxesStore();
