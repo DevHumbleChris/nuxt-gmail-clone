@@ -15,11 +15,7 @@ onBeforeMount(() => {
 });
 
 const userMails = computed(() => {
-  const filteredMails = inbox.value.filter((mail) => {
-    if (mail.starred && mail.trashed === false) {
-      return mail;
-    }
-  });
+  const filteredMails = inbox.value.filter((mail) => mail.starred);
   return filteredMails;
 });
 </script>

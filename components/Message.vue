@@ -13,31 +13,27 @@ const props = defineProps({
 
 const user = useCurrentUser();
 
+const checkedMails = useState("checkedMails", () => []);
 const userCheckedMails = computed(() => {
   return mailboxStore?.userCheckedMails;
-});
-
-const checkedMails = useState("checkedMails", () => {
-  return userCheckedMails?.value;
 });
 
 const reportStatus = computed(() => {
   return mailboxStore?.reportStatus;
 });
 
-watchEffect(() => {
-  if (reportStatus.value === "action read/unread") {
-    checkedMails.value = [];
-  }
-});
-
-watch(checkedMails, (newMails, _) => {
+watch(checkedMails, (newMails, oldMails) => {
   if (newMails.length > 0) {
     mailboxStore?.updateIsMailChecked(true);
     mailboxStore?.updateUserCheckedMails(newMails);
   } else {
     mailboxStore?.updateIsMailChecked(false);
     mailboxStore?.updateUserCheckedMails(newMails);
+  }
+
+  if (oldMails.length > 0 && reportStatus.value === "action read/unread") {
+    checkedMails.value = [];
+    mailboxStore?.updateReportStatus("");
   }
 });
 
@@ -100,7 +96,6 @@ const markUserMailImportant = async (mail) => {
 const moveMailToTrash = async (mail) => {
   try {
     let mailStatus = mail.trashed;
-    console.log(mailStatus);
     const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
 
     updateDoc(inboxDocRef, {

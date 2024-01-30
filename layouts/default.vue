@@ -69,8 +69,9 @@ const markAllUserMailAsRead = async (mail) => {
 const moveAllMailToTrash = async () => {
   try {
     const mailsLength = userCheckedMails.value.length;
+    let mailStatus = null;
     await userCheckedMails.value.map((mail) => {
-      let mailStatus = mail.trashed;
+      mailStatus = mail.trashed;
       const inboxDocRef = doc(db, "users", user.value.email, "inbox", mail.id);
 
       updateDoc(inboxDocRef, {
@@ -81,7 +82,9 @@ const moveAllMailToTrash = async () => {
     mailboxStore?.updateUserCheckedMails([]);
     await mailboxStore?.updateReportStatus("mails trashed");
     toast.info(
-      `${mailsLength} ${mailsLength > 0 ? "Mails" : "Mail"} Moved To Trash`
+      `${mailsLength} ${mailsLength > 0 ? "Mails" : "Mail"} Moved ${
+        mailStatus ? "From" : "To"
+      } Trash`
     );
   } catch (error) {
     toast.error(error.message);
