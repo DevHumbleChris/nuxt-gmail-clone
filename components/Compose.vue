@@ -30,6 +30,7 @@ const editor = useState("editor", () => null);
 const content = ref("");
 
 const emit = defineEmits(["update:modelValue"]);
+const isSendingMail = useState("composeSendMail", () => false);
 
 onMounted(() => {
   editor.value = new Editor({
@@ -188,6 +189,7 @@ const recipient = useState("recipient", () => "");
 const subject = useState("subject", () => "");
 
 const sendMail = async () => {
+  isSendingMail.value = true;
   try {
     const emailData = {
       recipient: recipient.value,
@@ -251,22 +253,27 @@ const sendMail = async () => {
               subject.value = "";
               editor.value.destroy();
               composeStore?.composeMail();
+              isSendingMail.value = false;
               toast.success("Email sent successfully.");
             })
             .catch((error) => {
+              isSendingMail.value = false;
               toast.error("Error sending email: " + error.message);
             });
         } else {
+          isSendingMail.value = false;
           toast.error("Recipient does not exist. Email not sent.");
         }
       })
       .catch((error) => {
+        isSendingMail.value = false;
         toast.error(
           "Recipient does not exist. Email not sent: " + error.message
         );
       });
   } catch (error) {
-    console.log(error.message);
+    isSendingMail.value = false;
+    toast.error(error.message);
   }
 };
 </script>
@@ -602,7 +609,12 @@ const sendMail = async () => {
                 @click="sendMail"
                 class="block bg-[#0b57cf] dark:bg-green-real px-3 py-2 rounded-full sm:px-6 text-white"
               >
-                Send
+                <Icon
+                  v-if="isSendingMail"
+                  name="eos-icons:bubble-loading"
+                  class="mx-1"
+                />
+                <span>{{ isSendingMail ? "Sending" : "Send" }}</span>
               </button>
               <div class="space-x-2 dark:text-green-real">
                 <button>

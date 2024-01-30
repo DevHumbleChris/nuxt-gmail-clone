@@ -14,12 +14,7 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Link from "@tiptap/extension-link";
 import Blockquote from "@tiptap/extension-blockquote";
 import { toast } from "vue-sonner";
-import {
-  arrayUnion,
-  doc,
-  serverTimestamp,
-  updateDoc,
-} from "firebase/firestore";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import {
   HoverCard,
   HoverCardContent,
@@ -34,6 +29,7 @@ const user = useCurrentUser();
 const composeStore = useComposeStore();
 
 const editor = useState("editor", () => null);
+const isSendingMail = useState("repliesSendMail", () => false);
 const content = ref("");
 
 const emit = defineEmits(["update:modelValue"]);
@@ -174,6 +170,7 @@ const addLink = () => {
 };
 
 const sendMail = async () => {
+  isSendingMail.value = true;
   try {
     const emailData = {
       body: editor.value.getHTML(),
@@ -204,11 +201,17 @@ const sendMail = async () => {
     });
 
     replyMail();
+    isSendingMail.value = false;
     toast.success("Mail Replied Successful!");
   } catch (error) {
+    isSendingMail.value = false;
     toast.error(error.message);
   }
 };
+
+onBeforeUnmount(() => {
+  editor.value.destroy();
+});
 </script>
 
 <template>
