@@ -49,7 +49,7 @@ const emptyTrash = async () => {
   <section>
     <div
       v-if="userMails.length > 0"
-      class="bg-[#f3f4f6] p-4 text-sm text-center text-gray-600"
+      class="bg-[#f3f4f6] dark:bg-green-dark-light dark:text-green-real p-4 text-sm text-center text-gray-600"
     >
       Messages that have been in Trash more than 30 days will be automatically
       deleted.
@@ -59,7 +59,10 @@ const emptyTrash = async () => {
         >Empty Trash now</span
       >
     </div>
-    <div v-else class="bg-[#f3f4f6] p-4 text-sm text-center text-gray-600">
+    <div
+      v-else
+      class="bg-[#f3f4f6] dark:bg-green-dark-light dark:text-green-real p-4 text-sm text-center text-gray-600"
+    >
       No conversations in Trash.
     </div>
     <div>

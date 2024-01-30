@@ -26,7 +26,7 @@ const userMails = computed(() => {
     <LazyLabelsWrapper />
     <div
       v-if="userMails.length <= 0"
-      class="bg-[#f3f4f6] p-4 text-sm text-center text-gray-600"
+      class="bg-[#f3f4f6] dark:bg-green-dark-light dark:text-green-real p-4 text-sm text-center text-gray-600"
     >
       No conversations in Inbox.
     </div>

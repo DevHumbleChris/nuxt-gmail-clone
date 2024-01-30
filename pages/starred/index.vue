@@ -24,7 +24,7 @@ const userMails = computed(() => {
   <section>
     <div
       v-if="userMails.length <= 0"
-      class="bg-[#f3f4f6] p-4 text-sm text-center text-gray-600 space-y-2"
+      class="bg-[#f3f4f6] dark:bg-green-dark-light dark:text-green-real p-4 text-sm text-center text-gray-600 space-y-2"
     >
       <p>
         No starred messages. Stars let you give messages a special status to

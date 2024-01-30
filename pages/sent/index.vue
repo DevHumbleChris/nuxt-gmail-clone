@@ -44,7 +44,7 @@ const emptySentMails = async () => {
   <section>
     <div
       v-if="mails.length > 0"
-      class="bg-[#f3f4f6] p-4 text-sm text-center text-gray-600"
+      class="bg-[#f3f4f6] dark:bg-green-dark-light dark:text-green-real p-4 text-sm text-center text-gray-600"
     >
       Overview Of Sent Mails.
       <span
@@ -53,7 +53,10 @@ const emptySentMails = async () => {
         >Empty Sent Mails Now</span
       >
     </div>
-    <div v-else class="bg-[#f3f4f6] p-4 text-sm text-center text-gray-600">
+    <div
+      v-else
+      class="bg-[#f3f4f6] dark:bg-green-dark-light dark:text-green-real p-4 text-sm text-center text-gray-600"
+    >
       No conversations in Sent.
     </div>
     <div>

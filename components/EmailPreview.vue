@@ -1,5 +1,19 @@
 <script setup>
 import { formatRelative } from "date-fns";
+import { Editor, EditorContent } from "@tiptap/vue-3";
+import StarterKit from "@tiptap/starter-kit";
+import Bold from "@tiptap/extension-bold";
+import Image from "@tiptap/extension-image";
+import Underline from "@tiptap/extension-underline";
+import ListItem from "@tiptap/extension-list-item";
+import BulletList from "@tiptap/extension-bullet-list";
+import OrderedList from "@tiptap/extension-ordered-list";
+import TextAlign from "@tiptap/extension-text-align";
+import Placeholder from "@tiptap/extension-placeholder";
+import Paragraph from "@tiptap/extension-paragraph";
+import Link from "@tiptap/extension-link";
+import Blockquote from "@tiptap/extension-blockquote";
+import { toast } from "vue-sonner";
 import { doc, updateDoc } from "firebase/firestore";
 import {
   HoverCard,
@@ -9,6 +23,71 @@ import {
 
 const db = useFirestore();
 const user = useCurrentUser();
+const composeStore = useComposeStore();
+
+const editor = useState("editor", () => null);
+const content = ref("");
+
+const emit = defineEmits(["update:modelValue"]);
+
+onMounted(() => {
+  editor.value = new Editor({
+    content: "",
+    extensions: [
+      Placeholder.configure({
+        placeholder: "Write something …",
+        emptyNodeClass: "text-gray-600 dark:text-gray-400",
+      }),
+      StarterKit,
+      Paragraph.configure({
+        HTMLAttributes: {
+          class: "text-gray-600 dark:text-gray-400",
+        },
+      }),
+      Bold.configure({
+        HTMLAttributes: {
+          class: "font-bold",
+        },
+      }),
+      Underline,
+      Link.configure({
+        HTMLAttributes: {
+          class:
+            "inline-flex items-center gap-x-1 text-blue-600 decoration-2 hover:underline font-medium dark:text-white",
+        },
+      }),
+      BulletList.configure({
+        HTMLAttributes: {
+          class: "list-disc list-inside text-gray-800 dark:text-white",
+        },
+      }),
+      OrderedList.configure({
+        HTMLAttributes: {
+          class: "list-decimal list-inside text-gray-800 dark:text-white",
+        },
+      }),
+      ListItem,
+      Blockquote.configure({
+        HTMLAttributes: {
+          class: "text-gray-800 sm:text-xl dark:text-white",
+        },
+      }),
+      TextAlign,
+      Image.configure({
+        HTMLAttributes: {
+          class: "max-w-[10rem] max-h-[10rem] object-cover",
+        },
+      }),
+    ],
+    onUpdate: () => {
+      // HTML
+      emit("update:modelValue", editor.value.getHTML());
+
+      // JSON
+      // emit('update:modelValue', editor.getJSON())
+    },
+  });
+});
 
 const props = defineProps({
   mail: Object,
@@ -42,15 +121,149 @@ onBeforeMount(async () => {
 const replyMail = () => {
   isReply.value = !isReply.value;
 };
+
+const setBold = () => {
+  editor.value.chain().focus().toggleBold().run();
+};
+
+const setStrikethrough = () => {
+  editor.value.chain().focus().toggleStrike().run();
+};
+
+const toggleItalic = () => {
+  editor.value.chain().focus().toggleItalic().run();
+};
+
+const toggleUnderline = () => {
+  editor.value.chain().focus().toggleUnderline().run();
+};
+
+const toggleBulletList = () => {
+  editor.value.chain().focus().toggleBulletList().run();
+};
+
+const toggleOrderedList = () => {
+  editor.value.chain().focus().toggleOrderedList().run();
+};
+
+onBeforeUnmount(() => {
+  editor.value.destroy();
+});
+
+const uploadedImgUrl = computed(() => {
+  return composeStore?.uploadedImgUrl;
+});
+
+const addImage = () => {
+  composeStore?.openAddImageModal();
+};
+
+watchEffect(() => {
+  if (uploadedImgUrl.value) {
+    editor.value.chain().focus().setImage({ src: uploadedImgUrl.value }).run();
+    composeStore?.setUploadedImgUrl("");
+  }
+});
+
+const addLink = () => {
+  composeStore?.openAddLinkModal();
+};
+
+const recipient = useState("recipient", () => "");
+const subject = useState("subject", () => "");
+
+const sendMail = async () => {
+  try {
+    const emailData = {
+      recipient: recipient.value,
+      subject: subject.value,
+      body: editor.value.getHTML(),
+      timestamp: serverTimestamp(),
+      sender: user.value.email,
+      senderName: user.value.displayName,
+      senderPhotoURL: user.value.photoURL,
+      important: false,
+      read: false,
+      snoozed: false,
+      starred: false,
+      trashed: false,
+    };
+
+    const senderDocRef = doc(db, "users", emailData.sender);
+    const recipientDocRef = doc(db, "users", emailData.recipient);
+
+    // Check if the recipient exists before proceeding with the transaction
+    const checkRecipient = async () => {
+      const recipientDoc = await getDoc(recipientDocRef);
+      return recipientDoc.exists();
+    };
+
+    // Perform the transaction only if the recipient exists
+    checkRecipient()
+      .then((recipientExists) => {
+        if (recipientExists) {
+          // Proceed with the transaction to send the email
+          const transaction = async (transaction) => {
+            // Fetch sender's sent data
+            const senderData = await getDoc(senderDocRef);
+            const senderSent = senderData.data().sent || [];
+
+            // Fetch recipient's inbox data
+            const recipientData = await getDoc(recipientDocRef);
+            const recipientInbox = recipientData.data().inbox || [];
+
+            // Add the email to sender's 'sent' and recipient's 'inbox'
+            const sentEmailId = addDoc(collection(senderDocRef, "sent"), {
+              ...emailData,
+              timestamp: serverTimestamp(),
+            });
+
+            const inboxEmailId = addDoc(collection(recipientDocRef, "inbox"), {
+              ...emailData,
+              timestamp: serverTimestamp(),
+            });
+
+            return {
+              sentEmailId: sentEmailId.id,
+              inboxEmailId: inboxEmailId.id,
+            };
+          };
+
+          runTransaction(db, transaction)
+            .then((result) => {
+              recipient.value = "";
+              subject.value = "";
+              editor.value.destroy();
+              composeStore?.composeMail();
+              toast.success("Email sent successfully.");
+            })
+            .catch((error) => {
+              toast.error("Error sending email: " + error.message);
+            });
+        } else {
+          toast.error("Recipient does not exist. Email not sent.");
+        }
+      })
+      .catch((error) => {
+        toast.error(
+          "Recipient does not exist. Email not sent: " + error.message
+        );
+      });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 </script>
 
 <template>
   <div class="w-full">
     <div class="p-5 sm:px-[68px] py-4 flex items-center gap-3">
-      <h1 class="text-3xl text-gray-600 font-medium">{{ mail?.subject }}</h1>
+      <h1 class="text-3xl text-gray-600 font-medium dark:text-green-real">
+        {{ mail?.subject }}
+      </h1>
       <Icon
         name="material-symbols:label-important-outline"
-        class="w-5 h-auto text-gray-400"
+        class="w-5 h-auto text-gray-400 dark:text-green-real"
       />
     </div>
     <div
@@ -65,17 +278,17 @@ const replyMail = () => {
         <div>
           <div class="text-sm flex flex-col sm:flex-row sm:items-center gap-1">
             <h2 class="font-semibold">{{ mail?.senderName }}</h2>
-            <p class="text-xs text-gray-600 font-medium">
+            <p class="text-xs text-gray-600 font-medium dark:text-green-real">
               &lt;{{ mail?.sender }}&gt;
             </p>
           </div>
           <div class="flex items-center gap-1 text-sm text-gray-500">
-            <p>to me</p>
+            <p class="dark:text-green-real">to me</p>
             <HoverCard>
               <HoverCardTrigger
                 ><Icon
                   name="material-symbols:arrow-drop-down"
-                  class="w-5 h-auto cursor-pointer"
+                  class="w-5 h-auto cursor-pointer dark:text-green-real"
               /></HoverCardTrigger>
               <HoverCardContent class="w-[22rem] text-sm">
                 <div>
@@ -110,19 +323,27 @@ const replyMail = () => {
         </div>
       </div>
       <div class="text-[13px] flex items-center gap-6 text-gray-600">
-        <p>{{ formatDateWithDateFNS(mail?.timestamp) }}</p>
-        <Icon name="material-symbols:star-outline-rounded" class="w-5 h-auto" />
+        <p class="dark:text-green-real">
+          {{ formatDateWithDateFNS(mail?.timestamp) }}
+        </p>
+        <Icon
+          name="material-symbols:star-outline-rounded"
+          class="w-5 h-auto dark:text-green-real"
+        />
         <div class="flex items-center gap-5">
           <Icon
             name="fluent:emoji-smile-slight-24-regular"
-            class="w-5 h-auto"
+            class="w-5 h-auto dark:text-green-real"
           />
-          <Icon name="material-symbols:reply" class="w-5 h-auto" />
-          <Icon name="uil:ellipsis-v" class="w-5 h-auto" />
+          <Icon
+            name="material-symbols:reply"
+            class="w-5 h-auto dark:text-green-real"
+          />
+          <Icon name="uil:ellipsis-v" class="w-5 h-auto dark:text-green-real" />
         </div>
       </div>
     </div>
-    <div class="px-5 sm:px-[70px] text-lg my-4">
+    <div class="px-5 sm:px-[70px] text-lg my-4 dark:text-gray-100">
       <div v-html="mail?.body"></div>
     </div>
 
@@ -149,24 +370,35 @@ const replyMail = () => {
         class="w-10 h-10 object-fit rounded-full hidden sm:block"
       />
       <div
-        class="w-full bg-white px-5 py-2 border shadow rounded-xl drop-shadow-md"
+        class="w-full bg-white dark:bg-green-dark px-5 py-2 border shadow rounded-xl drop-shadow-md"
       >
         <div class="space-y-4">
           <div class="flex items-center gap-4 text-gray-600">
             <div class="flex items-center">
               <button class="block">
-                <Icon name="material-symbols:reply" class="w-5 h-auto" />
+                <Icon
+                  name="material-symbols:reply"
+                  class="w-5 h-auto dark:text-green-real"
+                />
               </button>
               <button class="block">
                 <Icon
                   name="material-symbols:arrow-drop-down"
-                  class="w-5 h-auto"
+                  class="w-5 h-auto dark:text-green-real"
                 />
               </button>
             </div>
-            <p class="text-sm font-medium">totaljobs@totaljobsmail.com</p>
+            <p class="text-sm font-medium dark:text-green-real">
+              {{ mail?.sender }}
+            </p>
           </div>
-          <div class="text-sm text-gray-600 h-[7rem]">Write something</div>
+          <div class="text-sm text-gray-600 h-[7rem]">
+            <EditorContent
+              :editor="editor"
+              v-model="content"
+              data-hs-editor-field
+            />
+          </div>
         </div>
         <div class="w-full py-2">
           <div class="rounded-lg overflow-hidden">
