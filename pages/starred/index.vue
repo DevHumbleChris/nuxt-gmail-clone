@@ -9,16 +9,14 @@ const db = useFirestore();
 const user = useCurrentUser();
 const activeStore = useActiveStore();
 const inbox = useCollection(collection(db, "users", user.value.email, "inbox"));
-const sent = useCollection(collection(db, "users", user.value.email, "sent"));
 
 onBeforeMount(() => {
   activeStore?.setActiveRoute("starred");
 });
 
 const userMails = computed(() => {
-  const filteredInboxMails = inbox.value.filter((mail) => mail.starred);
-  const filteredSentMails = sent.value.filter((mail) => mail.starred);
-  return [...filteredInboxMails, ...filteredSentMails];
+  const filteredMails = inbox.value.filter((mail) => mail.starred);
+  return filteredMails;
 });
 </script>
 

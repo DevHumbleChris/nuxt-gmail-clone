@@ -53,6 +53,9 @@ const emptySentMails = async () => {
         >Empty Sent Mails Now</span
       >
     </div>
+    <div v-else class="bg-[#f3f4f6] p-4 text-sm text-center text-gray-600">
+      No conversations in Sent.
+    </div>
     <div>
       <LazySentMessage v-for="mail in mails" :key="mail.id" :mail="mail" />
     </div>
