@@ -231,8 +231,8 @@ onBeforeUnmount(() => {
       >
         <div class="flex gap-3">
           <img
-            :src="user.photoURL"
-            :alt="user.displayName"
+            :src="mail?.senderPhotoURL"
+            :alt="mail?.senderName"
             class="w-10 h-10 object-fit rounded-full"
           />
           <div>
@@ -347,8 +347,8 @@ onBeforeUnmount(() => {
 
     <div v-else class="px-5 mt-3 sm:mt-10 mb-4 flex sm:gap-2 w-full">
       <img
-        :src="user.photoURL"
-        :alt="user.displayName"
+        :src="mail?.senderPhotoURL"
+        :alt="mail?.senderName"
         class="w-10 h-10 object-fit rounded-full hidden sm:block"
       />
       <div

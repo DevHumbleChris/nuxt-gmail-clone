@@ -28,8 +28,8 @@ const logOut = () => {
       <div>
         <MenuButton class="mt-1.5">
           <img
-            src="https://lh3.googleusercontent.com/ogw/AOLn63FDwvpMYoohxMTsrPnCh-5UanYRmFplX0A9ld-H=s32-c-mo"
-            alt="the-coding-montana"
+            :src="user.photoURL"
+            :alt="user.displayName"
             class="w-6 h-6 object-fit rounded-full"
           />
         </MenuButton>
