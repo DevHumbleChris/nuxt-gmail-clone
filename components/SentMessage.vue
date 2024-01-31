@@ -165,7 +165,7 @@ const moveMailToTrash = async (mail) => {
             >
             <span class="hidden sm:block">-</span>
             <span
-              class="block truncate -mt-4 sm:-mt-0 dark:text-gray-300"
+              class="block truncate dark:text-gray-300"
               v-html="mail.body"
             ></span>
           </p>
