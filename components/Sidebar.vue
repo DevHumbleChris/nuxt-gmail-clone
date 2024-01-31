@@ -31,7 +31,9 @@ const isSidebarOpen = computed(() => {
 const inbox = useCollection(collection(db, "users", user.value.email, "inbox"));
 
 const noOfInboxMessagesUnread = computed(() => {
-  const unTrashedMessages = inbox.value.filter((mail) => !mail.trashed);
+  const unTrashedMessages = inbox.value.filter(
+    (mail) => !mail.trashed && !mail.read
+  );
   return unTrashedMessages.length;
 });
 

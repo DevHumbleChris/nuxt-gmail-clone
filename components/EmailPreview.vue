@@ -14,7 +14,16 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Link from "@tiptap/extension-link";
 import Blockquote from "@tiptap/extension-blockquote";
 import { toast } from "vue-sonner";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  arrayUnion,
+  collection,
+  doc,
+  getDoc,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import {
   HoverCard,
   HoverCardContent,
@@ -99,6 +108,8 @@ const mail = computed(() => {
   return props?.mail;
 });
 
+console.log(mail.value);
+
 const formatDateWithDateFNS = (date) => {
   let dateToConvert = date ? date.toDate() : new Date();
   return formatRelative(dateToConvert, new Date());
@@ -175,43 +186,84 @@ const sendMail = async () => {
     const emailData = {
       body: editor.value.getHTML(),
       repliedAt: new Date(),
+      senderPhotoURL: user.value.photoURL,
+      senderName: user.value.displayName,
+      sender: user.value.email,
+      recipient: mail?.value?.sender,
     };
 
-    const inboxDocRef = doc(
-      db,
-      "users",
-      user.value.email,
-      "inbox",
-      props?.mail?.id
-    );
-    const sentDocRef = doc(
-      db,
-      "users",
-      user.value.email,
-      "inbox",
-      props?.mail?.id
-    );
+    const initialEmailData = {
+      recipient: mail?.value?.sender,
+      subject: mail?.value.subject,
+      body: editor.value.getHTML(),
+      timestamp: serverTimestamp(),
+      sender: user.value.email,
+      senderName: user.value.displayName,
+      senderPhotoURL: user.value.photoURL,
+      important: false,
+      read: false,
+      snoozed: false,
+      starred: false,
+      trashed: false,
+      replies: [],
+    };
 
-    await updateDoc(inboxDocRef, {
-      replies: arrayUnion(emailData),
-    });
+    const recipientEmail = mail?.value?.sender;
+    const mailId = mail?.value?.id;
 
-    await updateDoc(sentDocRef, {
-      replies: arrayUnion(emailData),
-    });
+    // Check if recipient's inbox document exists
+    const inboxDocRef = doc(db, "users", recipientEmail, "inbox", mailId);
+    const inboxDocSnapshot = await getDoc(inboxDocRef);
+
+    if (inboxDocSnapshot.exists()) {
+      // Update recipient's inbox
+      await updateDoc(inboxDocRef, {
+        replies: arrayUnion(emailData),
+      });
+    } else {
+      // Create recipient's inbox
+      console.log(emailData);
+      await addDoc(collection(doc(db, "users", mail?.value?.sender), "inbox"), {
+        ...initialEmailData,
+        timestamp: serverTimestamp(),
+        replies: [emailData],
+      });
+      await updateDoc(
+        doc(db, "users", mail?.value?.recipient, "inbox", mailId),
+        {
+          replies: arrayUnion(emailData),
+        }
+      );
+
+      // /users/coderchris254@gmail.com/sent/m2q7sSxUIIbq26w9HSFR
+    }
+
+    // Check if sender's sent folder document exists
+    const sentDocRef = doc(db, "users", user.value.email, "sent", mailId);
+    const sentDocSnapshot = await getDoc(sentDocRef);
+    if (sentDocSnapshot.exists()) {
+      // Update sender's sent folder
+      await updateDoc(sentDocRef, {
+        replies: arrayUnion(emailData),
+      });
+    } else {
+      // Create sender's sent folder
+      await addDoc(collection(doc(db, "users", user.value.email), "sent"), {
+        ...initialEmailData,
+        timestamp: serverTimestamp(),
+        replies: [emailData],
+      });
+    }
 
     replyMail();
     isSendingMail.value = false;
-    toast.success("Mail Replied Successful!");
+    toast.success("Mail Replied Successfully!");
   } catch (error) {
     isSendingMail.value = false;
+    console.log(error);
     toast.error(error.message);
   }
 };
-
-onBeforeUnmount(() => {
-  editor.value.destroy();
-});
 </script>
 
 <template>
@@ -318,6 +370,85 @@ onBeforeUnmount(() => {
       :key="index"
       class="px-5 sm:px-[70px] space-y-1 my-3"
     >
+      <div
+        class="flex flex-col gap-3 sm:gap-0 sm:flex-row sm:items-center justify-between"
+      >
+        <div class="flex gap-3">
+          <img
+            :src="reply?.senderPhotoURL"
+            :alt="reply?.senderName"
+            class="w-10 h-10 object-fit rounded-full"
+          />
+          <div>
+            <div
+              class="text-sm flex flex-col sm:flex-row sm:items-center gap-1"
+            >
+              <h2 class="font-semibold">{{ reply?.senderName }}</h2>
+              <p class="text-xs text-gray-600 font-medium dark:text-green-real">
+                &lt;{{ reply?.sender }}&gt;
+              </p>
+            </div>
+            <div class="flex items-center gap-1 text-sm text-gray-500">
+              <p class="dark:text-green-real">to me</p>
+              <HoverCard>
+                <HoverCardTrigger
+                  ><Icon
+                    name="material-symbols:arrow-drop-down"
+                    class="w-5 h-auto cursor-pointer dark:text-green-real"
+                /></HoverCardTrigger>
+                <HoverCardContent class="w-[22rem] text-sm">
+                  <div>
+                    <p class="flex gap-2">
+                      <span class="block text-gray-500">from:</span>
+                      <span class="block text-gray-600 font-semibold">{{
+                        reply?.sender
+                      }}</span>
+                    </p>
+                    <p class="flex gap-2">
+                      <span class="block text-gray-500">to:</span>
+                      <span class="block text-gray-600 font-semibold">{{
+                        reply?.recipient
+                      }}</span>
+                    </p>
+                    <p class="flex gap-2">
+                      <span class="block text-gray-500">date:</span>
+                      <span class="block text-gray-600 font-semibold">{{
+                        formatDateWithDateFNS(reply?.repliedAt)
+                      }}</span>
+                    </p>
+                    <p class="flex gap-2">
+                      <span class="block text-gray-500">subject:</span>
+                      <span class="block text-gray-600 font-semibold">{{
+                        mail?.subject
+                      }}</span>
+                    </p>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+            </div>
+          </div>
+        </div>
+        <div class="text-[13px] flex items-center gap-6 text-gray-600">
+          <Icon
+            name="material-symbols:star-outline-rounded"
+            class="w-5 h-auto dark:text-green-real"
+          />
+          <div class="flex items-center gap-5">
+            <Icon
+              name="fluent:emoji-smile-slight-24-regular"
+              class="w-5 h-auto dark:text-green-real"
+            />
+            <Icon
+              name="material-symbols:reply"
+              class="w-5 h-auto dark:text-green-real"
+            />
+            <Icon
+              name="uil:ellipsis-v"
+              class="w-5 h-auto dark:text-green-real"
+            />
+          </div>
+        </div>
+      </div>
       <p class="dark:text-green-real text-sm">
         <span class="dark:text-gray-200">- Replied: </span
         >{{ formatDateWithDateFNS(mail?.repliedAt) }}
@@ -347,8 +478,8 @@ onBeforeUnmount(() => {
 
     <div v-else class="px-5 mt-3 sm:mt-10 mb-4 flex sm:gap-2 w-full">
       <img
-        :src="mail?.senderPhotoURL"
-        :alt="mail?.senderName"
+        :src="user.photoURL"
+        :alt="user.email"
         class="w-10 h-10 object-fit rounded-full hidden sm:block"
       />
       <div

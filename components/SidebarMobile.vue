@@ -11,7 +11,9 @@ const user = useCurrentUser();
 const inbox = useCollection(collection(db, "users", user.value.email, "inbox"));
 
 const noOfInboxMessagesUnread = computed(() => {
-  const unTrashedMessages = inbox.value.filter((mail) => !mail.trashed);
+  const unTrashedMessages = inbox.value.filter(
+    (mail) => !mail.trashed && !mail.read
+  );
   return unTrashedMessages.length;
 });
 
@@ -56,7 +58,7 @@ const closeLeftSidebarMenu = () => {
     :enter="{ opacity: 1, x: 0 }"
     :delay="200"
     :leave="{ opacity: 0, x: -100 }"
-    class="fixed shrink-0 top-0 left-0 w-[15rem] pr-3 bg-[#f7f8fc] dark:bg-green-dark h-screen py-3 rounded-r-2xl shadow-xl shadow-gray-800/10 dark:shadow-gray-300/10 group"
+    class="fixed shrink-0 top-0 left-0 w-[15rem] pr-3 bg-[#f7f8fc] dark:bg-green-dark h-screen py-3 rounded-r-2xl shadow-xl shadow-gray-800/10 dark:shadow-gray-300/10 group overflow-y-auto"
   >
     <Icon
       @click="closeLeftSidebarMenu"
