@@ -104,7 +104,7 @@ const expanded = useState("expanded", () => false);
 
       <section class="pt-5 bg-gray-50 dark:bg-transparent">
         <div class="mx-auto max-w-7xl">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mx-auto">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mx-auto">
             <div>
               <p
                 class="text-4xl font-bold leading-tight text-gray-900 sm:leading-tight sm:text-5xl lg:text-6xl lg:leading-tight dark:text-green-real"
